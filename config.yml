@@ -1,0 +1,24 @@
+Directory:
+ Input: ./src/
+ Output: ./dist/
+ Module: ./module/
+ Template: ./template/
+ Post: ./src/post
+ Archive: ./src/archive
+ Asset: ./template/asset
+
+Meta:
+ Author: 54wedge
+
+Ignore:   #ignore these pages when creating page
+ Archive: archive
+ Category: category
+ Tag: tag
+
+Time:
+ Sort_by: modify    # modify/create time
+ Style: '%B %d. %Y'
+
+Index:
+ Page_size: 3
+ Preview_line_count: 1
