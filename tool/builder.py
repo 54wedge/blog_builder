@@ -57,6 +57,11 @@ def in_to_out(path):
     new_path = path.replace(get_config('Directory','Input'),get_config('Directory','Output'))
     return new_path
 
+def absolute_path(path):
+    new_path = path.replace(get_config('Directory','Input'),get_config('Site','Prefix'))
+    new_path = path.replace(get_config('Directory','Output'),get_config('Site','Prefix'))
+    return new_path
+
 def get_list(option = None):
     if option == 'post':
         path = get_config('Directory','Post')
@@ -67,7 +72,7 @@ def get_list(option = None):
             if is_file(full_path):
                 if(i.split('.')[-1] == 'html'):
                     list.append(full_path)
-        list = sorted(list,key = lambda i:get_time(i,'modify'))
+        #list = sorted(list,key = lambda i:get_time(i,'modify'))
         return(list)
     elif option == 'page':
         path = get_config('Directory','Input')

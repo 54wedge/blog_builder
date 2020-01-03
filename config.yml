@@ -8,6 +8,7 @@ Directory:
  Asset: ./template/asset
 
 Site:
+ Prefix: ../
  Author: 54wedge
 
 Ignore:   #ignore these pages when creating page
@@ -18,6 +19,7 @@ Ignore:   #ignore these pages when creating page
 Config:
  Time_style: '%B %d. %Y'
  Hide_meta: True
+ Archive_group_by: 'month'
 
 Index:
  Page_size: 3

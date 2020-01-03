@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup as bs
 import tool.io as io
 import tool.builder as builder
-
+from itertools import groupby
 import yaml
 import maya
 
@@ -12,17 +12,10 @@ class _Page:
         self.name = builder.get_name(path)
         self.type = 'page'
         self.content = io.html_open(path)
-
         self.meta = self.get_meta()
-        #print(self.meta)
-        #print(self.content)
     def insert_body(self,template):
         soup = str_to_bs(self.content)
-        #print(soup)
         body = soup.body
-        #print(self.content)
-        #print(self.path)
-        #print(body)
         if builder.get_config('Config','Hide_meta'):
             try:
                 test = body.find_all('code','meta')[0].parent.decompose()
@@ -86,7 +79,7 @@ class _Page:
         return meta
 
     def print(self):
-        template = _Template(self.type).output()
+        template = _Template(self.type).print()
         self.insert_body(template)
         self.insert_meta()
         return self.content
@@ -117,13 +110,15 @@ class _Template():
             self.type = 'page.html'
         elif type == 'post':
             self.type = 'post.html'
+        elif type == 'archive':
+            self.type = 'archive.html'
         else:
             raise TypeError('Failed to initialize _Template class. Missing or incorrect option')
         path_header = builder.get_config('Directory','Template') + 'header.html'
         path_footer = builder.get_config('Directory','Template') + 'footer.html'
         path = builder.get_config('Directory','Template') + self.type
         self.content = io.html_open(path_header) + io.html_open(path) + io.html_open(path_footer)
-    def output(self):
+    def print(self):
         soup = str_to_bs('')
         new_a = a_href('Index','../index.html')
         new_nav = soup.new_tag('nav',id = 'nav-menu' )
@@ -140,6 +135,46 @@ class _Template():
 
 #def get_abstract(html):
 
+class _Archive():           ##maybe rewrite a bit
+    def __init__(self):
+        post_list = builder.get_list('post')
+        self.post_list = sorted(post_list,key = lambda i:_Post(i).date_epoch)
+        self.post_list.reverse()
+        self.month_list = []
+        for key,group in groupby(self.post_list, key = lambda i:time_group_standard(i)):
+            self.month_list.append(list(group))
+    def print(self):
+        soup = str_to_bs('')
+        new_div = soup.new_tag('div')
+        for month in self.month_list:
+            new_h2 = soup.new_tag('h2')
+            if builder.get_config('Config','Archive_group_by') == 'month':
+                new_h2.string = str(_Post(month[0]).maya.datetime().strftime('%B %Y'))
+            elif builder.get_config('Config','Archive_group_by') == 'year':
+                new_h2.string = str(_Post(month[0]).maya.datetime().strftime('%Y'))
+            new_div.append(new_h2)
+            new_ul = soup.new_tag('ul')
+            for post_path in month:
+                post = _Post(post_path)
+                new_a = a_href(post.title,builder.absolute_path(post.path_out))
+                new_li = soup.new_tag('li')
+                new_li.append(new_a)
+                new_ul.append(new_li)
+            new_div.append(new_ul)
+        archive = _Template('archive').print()
+        archive = archive.replace('%%Post_list%%',str(new_div))
+        return archive
+
+class _Tag():
+    pass
+
+class _Category:
+    def __init__(self):
+        pass
+
+class _Index:
+    pass
+
 def a_href(name,path):
     soup = bs('','html.parser')
     new_a = soup.new_tag('a',href = path)
@@ -152,3 +187,10 @@ def str_to_bs(html):
     else:
         soup = bs(html,'html.parser')
         return soup
+
+def time_group_standard(path):
+    if builder.get_config('Config','Archive_group_by') == 'month':
+        standard = _Post(path).maya.datetime().strftime('%m/01/%Y')
+    elif builder.get_config('Config','Archive_group_by') == 'year':
+        standard = _Post(path).maya.datetime().strftime('01/01/%Y')
+    return maya.parse(standard).epoch

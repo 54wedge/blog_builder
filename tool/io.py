@@ -13,7 +13,7 @@ def html_open(path,option = None):
         soup = bs(html,'html.parser')
         return soup
 
-def save(html,name,path,option = None):
+def save(html,path,option = None):
     if type(html) is bs:
         html = str(html)
     if option is None:
