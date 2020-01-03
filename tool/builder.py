@@ -3,6 +3,7 @@ import time
 import os
 import shutil
 import yaml
+import maya
 
 def get_name_index(path):
     if is_dir(path):
@@ -10,17 +11,16 @@ def get_name_index(path):
     elif is_file(path):
         return path.split('/')[-2]
 
-def get_name(path,option = None):
-    if option is None:
+def get_name(path):
+    try:
         name_index = get_name_index(path)
         pattern = '(.+)\_(\d+)'
         m = re.search(pattern,name_index)
         name = m.group(1)
-        return name
-    elif option == 'html':     #for non-page
-        name = path.split('/')[-1]
-        name = name[0:-5]      #remove .html
-        return name
+    except AttributeError:
+        name = name = path.split('/')[-1]
+        name = name[0:-5]         #remove .html
+    return name
 
 def get_index(path):
     name_index = get_name_index(path)
@@ -29,32 +29,15 @@ def get_index(path):
     index = m.group(2)
     return index
 
-def get_time(path,option=''):    ##revise wait for meta support
-    #print(get_config('Sort_by','Time'))
-    if get_config('Time','Sort_by') == 'modify':
-        #print('modify')
-        if option:
-            if option == 'day':
-                return time.gmtime(os.path.getmtime(path)).tm_mday
-            if option == 'month':
-                return time.gmtime(os.path.getmtime(path)).tm_mon
-            if option == 'year':
-                return time.gmtime(os.path.getmtime(path)).tm_year
-        else:
-            return os.path.getmtime(path)
-    if get_config('Time','Sort_by') == 'create':
-        #print('create')
-        if option:
-            if option == 'day':
-                return time.gmtime(os.path.getctime(path)).tm_mday
-            if option == 'month':
-                return time.gmtime(os.path.getctime(path)).tm_mon
-            if option == 'year':
-                return time.gmtime(os.path.getctime(path)).tm_year
-        else:
-            return os.path.getctime(path)
+def get_time(path,option = None):
+    if option == 'modify':
+        return os.path.getmtime(path)
+    elif option == 'create':
+        return os.path.getctime(path)
+    else:
+        raise TypeError('option for get_time() is missing or incorrect')
 
-def get_config(section,item = ''):     ##need more test
+def get_config(section,item = ''):
     with open('config.yml','r') as config:
         config = yaml.safe_load(config)
     if item:
@@ -62,11 +45,11 @@ def get_config(section,item = ''):     ##need more test
     else:
         return config[section]
 
-def append_html(path):      ##may not needed
+def append_html(path):
     new_path = os.path.join(path,'index.html')
     return new_path
 
-def remove_index(path):
+def remove_page_index(path):
     new_path = path.replace(get_name_index(path),get_name(path))
     return new_path
 
@@ -75,9 +58,7 @@ def in_to_out(path):
     return new_path
 
 def get_list(option = None):
-    if option is None:
-        print('need an option')
-    elif option == 'post':
+    if option == 'post':
         path = get_config('Directory','Post')
         post_names = os.listdir(path)
         list = []
@@ -86,7 +67,7 @@ def get_list(option = None):
             if is_file(full_path):
                 if(i.split('.')[-1] == 'html'):
                     list.append(full_path)
-        #list = sorted(list,key = lambda i:get_time(i))
+        list = sorted(list,key = lambda i:get_time(i,'modify'))
         return(list)
     elif option == 'page':
         path = get_config('Directory','Input')
@@ -100,6 +81,8 @@ def get_list(option = None):
                     list.append(full_path)
         list = sorted(list,key = lambda i:get_index(i))
         return list
+    else:
+        raise TypeError('option for get_list() is missing or incorrect')
 
 def is_file(path):
     if os.path.exists(path):
@@ -125,7 +108,7 @@ def is_dir(path):
         else:
             return False
 
-def is_ignore(path):
+def is_page_ignore(path):
     if is_dir(path):
         for i in get_config('Ignore'):
             if get_name(path).lower() == i.lower():
@@ -143,6 +126,5 @@ def initial():
     page_list = get_list('page')
     for page in page_list:
         page = in_to_out(page)
-        page = remove_index(page)
+        page = remove_page_index(page)
         os.mkdir(page)
-        #print(page)

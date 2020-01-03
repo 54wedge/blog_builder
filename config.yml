@@ -7,7 +7,7 @@ Directory:
  Archive: ./src/archive
  Asset: ./template/asset
 
-Meta:
+Site:
  Author: 54wedge
 
 Ignore:   #ignore these pages when creating page
@@ -15,9 +15,9 @@ Ignore:   #ignore these pages when creating page
  Category: category
  Tag: tag
 
-Time:
- Sort_by: modify    # modify/create time
- Style: '%B %d. %Y'
+Config:
+ Time_style: '%B %d. %Y'
+ Hide_meta: True
 
 Index:
  Page_size: 3
