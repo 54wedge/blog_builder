@@ -18,7 +18,7 @@ Ignore:   #ignore these pages when creating page
 
 Config:
  Time_style: '%B %d. %Y'
- Hide_meta: False
+ Hide_meta: True
  Archive_group_by: 'month'
 
 Index:

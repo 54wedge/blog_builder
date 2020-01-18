@@ -18,7 +18,7 @@ class _Page:
         body = soup.body
         if builder.get_config('Config','Hide_meta'):
             try:
-                test = body.find_all('code','meta')[0].parent.decompose()
+                body.find_all('code',class_ = 'meta')[0].parent.decompose()
             except IndexError:      #no meta data found
                 pass
         self.content = template.replace('%%Body%%',str(body))
@@ -31,17 +31,19 @@ class _Page:
                 self.content = self.content.replace('%%'+key+'%%', str(category_link))
             elif key == 'Tag':
                 soup = str_to_bs('')
+                new_span = soup.new_tag('span',id = 'tag')
                 for tag in self.meta[key]:
-                    new_span = soup.new_tag('span',id = 'tag')
-                    new_span.string = '#' + tag
-                    soup.append(new_span)
+                    tag_path = '../tag/' + tag + '/index.html'
+                    tag_link = a_href('#' + tag,tag_path)
+                    new_span.append(tag_link)
+                soup.append(new_span)
                 self.content = self.content.replace('%%'+key+'%%', str(soup))
             else:
                 self.content = self.content.replace('%%'+key+'%%', self.meta[key])
     def get_meta(self):        ##rewrite
         soup = str_to_bs(self.content)
         try:
-            raw_meta = soup.find_all('code','meta')[0].get_text()
+            raw_meta = soup.find_all('code',class_ = 'meta')[0].get_text()
             meta = yaml.safe_load(raw_meta)
         except IndexError:      #no meta data found
             meta = {}
@@ -79,6 +81,8 @@ class _Page:
         self.date_epoch = self.maya.epoch          #for data comparason
         self.date = self.maya.datetime().strftime(builder.get_config('Config','Time_style'))
         meta['Date'] = self.date
+        if 'Tag' in meta:
+            meta['Tag'].sort(key = str.lower)
         return meta
 
     def print(self):
@@ -119,6 +123,8 @@ class _Template():
             self.type = 'category.html'
         elif type == 'tag':
             self.type = 'tag.html'
+        elif type == 'index':
+            self.type = 'index.html'
         else:
             raise TypeError('Failed to initialize _Template class. Missing or incorrect option')
         path_header = builder.get_config('Directory','Template') + 'header.html'
@@ -142,8 +148,6 @@ class _Template():
             soup.nav.append(new_a)
         self.content = self.content.replace('%%Nav%%',str(soup))
         return self.content
-
-#def get_abstract(html):
 
 class _Archive():           ##maybe rewrite a bit
     def __init__(self):
@@ -238,7 +242,52 @@ class _Tag():
         return html_list
 
 class _Index:
-    pass
+    def __init__(self):
+        self.path_out = builder.get_config('Directory','Output') + '/index.html'
+        self.post_list = builder.get_list('post')
+        self.post_list.sort(key = lambda i:_Post(i).date_epoch, reverse = True)
+    def print(self):
+        soup = str_to_bs('')
+        index_page = _Template('index').print()
+        new_div = soup.new_tag('div')
+        page_size = builder.get_config('Index','Page_size')
+        if page_size > len(self.post_list):
+            page_size = len(self.post_list)
+        for i in range(0,page_size):
+            post = self.post_list[i]
+            new_a = a_href(_Post(post).title,builder.relative_path(_Post(post).path_out))
+            new_ul = soup.new_tag('ul')
+            new_li = soup.new_tag('li')
+            new_li.append(new_a)
+            new_div_2 = soup.new_tag('div')
+            new_div_2.string = self.get_abstract(post)
+            new_li.append(new_a)
+            new_li.append(new_div_2)
+            new_ul.append(new_li)
+            new_div.append(new_ul)
+        index_page = index_page.replace('%%Post_list%%',str(new_div))
+        index_page = index_page.replace('../','./')
+        return index_page
+    def get_abstract(self,path):
+        #print(path)
+        try:
+            abstract = _Post(path).meta['Abstract']
+        except KeyError:
+            html = io.html_open(path,'soup')
+            body = html.body
+            #print(body)
+            try:
+                body.find_all('code',class_ = 'meta')[0].parent.decompose()
+            except IndexError:      #no meta data found
+                pass
+            #body = body.get_text()
+            if '<!--more-->' in str(body):
+                abstract = str(body).split('<!--more-->')[0]
+                abstract = str_to_bs(abstract)
+                abstract = abstract.get_text()
+            else:
+                abstract = 'No abstract provided'
+        return abstract
 
 def a_href(name,path):
     soup = bs('','html.parser')

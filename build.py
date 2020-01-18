@@ -1,12 +1,16 @@
 import tool.builder as builder
 import tool.io as io
+import timeit
 
 from tool.modifier import _Page
 from tool.modifier import _Post
 from tool.modifier import _Template
+from tool.modifier import _Index
 from tool.modifier import _Archive
 from tool.modifier import _Category
 from tool.modifier import _Tag
+
+start = timeit.default_timer()
 
 builder.initial()
 
@@ -24,7 +28,7 @@ for post_path in builder.get_list('post'):
     io.save(post.print(),post.path_out,'prettify')
 
 #build index
-
+io.save(_Index().print(),_Index().path_out,'prettify')
 #build archive
 io.save(_Archive().print(),_Archive().path_out,'prettify')
 #build tag
@@ -48,3 +52,7 @@ for tag_name, tag_page in zip(name_list, _Tag().print()):
     builder.check_path(path_out)
     tag_page = tag_page.replace('../','../../')
     io.save(tag_page,path_out,'prettify')
+
+stop = timeit.default_timer()
+
+print('Time: ', stop - start)
