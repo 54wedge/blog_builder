@@ -4,6 +4,7 @@ import os
 import shutil
 import yaml
 import maya
+import pathlib
 
 def get_name_index(path):
     if is_dir(path):
@@ -57,9 +58,9 @@ def in_to_out(path):
     new_path = path.replace(get_config('Directory','Input'),get_config('Directory','Output'))
     return new_path
 
-def absolute_path(path):
-    new_path = path.replace(get_config('Directory','Input'),get_config('Site','Prefix'))
-    new_path = path.replace(get_config('Directory','Output'),get_config('Site','Prefix'))
+def relative_path(path):
+    #new_path = path.replace(get_config('Directory','Input'),get_config('Site','Prefix'))
+    new_path = path.replace(get_config('Directory','Output'),'../')
     return new_path
 
 def get_list(option = None):
@@ -89,7 +90,7 @@ def get_list(option = None):
     else:
         raise TypeError('option for get_list() is missing or incorrect')
 
-def is_file(path):
+def is_file(path):      ##Rewrite
     if os.path.exists(path):
         if os.path.isfile(path):
             return True
@@ -100,7 +101,7 @@ def is_file(path):
     else:
         return False
 
-def is_dir(path):
+def is_dir(path):        ##Rewrite
     if os.path.exists(path):
         if os.path.isdir(path):
             return True
@@ -121,15 +122,30 @@ def is_page_ignore(path):
     else:
         return None
 
+def check_path(path):
+    if is_dir(path):
+        if os.path.exists(path):
+            return True
+        else:
+            #print(path)
+            os.makedirs(path)
+    elif is_file(path):
+        new_path = path.rsplit('/',1)[0]
+        if os.path.exists(new_path):
+            return True
+        else:
+            #print(new_path)
+            os.makedirs(new_path)
+
 def initial():
     shutil.rmtree(get_config('Directory','Output'))
-    os.mkdir(get_config('Directory','Output'))
+    check_path(get_config('Directory','Output'))
     post_path = in_to_out(get_config('Directory','Post'))
-    os.mkdir(post_path)
+    check_path(post_path)
     asset_path = get_config('Directory','Asset')
     shutil.copytree(get_config('Directory','Asset'),get_config('Directory','Output')+'asset/')
     page_list = get_list('page')
     for page in page_list:
         page = in_to_out(page)
         page = remove_page_index(page)
-        os.mkdir(page)
+        check_path(page)

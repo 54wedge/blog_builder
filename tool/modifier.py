@@ -25,7 +25,10 @@ class _Page:
     def insert_meta(self):
         for key in self.meta:
             if key == 'Category':        ##for future
-                self.content = self.content.replace('%%'+key+'%%', self.meta[key])
+                soup = str_to_bs('')
+                category_path = '../category/' + self.meta[key] + '/index.html'
+                category_link = a_href(self.meta[key],category_path)
+                self.content = self.content.replace('%%'+key+'%%', str(category_link))
             elif key == 'Tag':
                 soup = str_to_bs('')
                 for tag in self.meta[key]:
@@ -112,12 +115,19 @@ class _Template():
             self.type = 'post.html'
         elif type == 'archive':
             self.type = 'archive.html'
+        elif type == 'category':
+            self.type = 'category.html'
+        elif type == 'tag':
+            self.type = 'tag.html'
         else:
             raise TypeError('Failed to initialize _Template class. Missing or incorrect option')
         path_header = builder.get_config('Directory','Template') + 'header.html'
         path_footer = builder.get_config('Directory','Template') + 'footer.html'
         path = builder.get_config('Directory','Template') + self.type
         self.content = io.html_open(path_header) + io.html_open(path) + io.html_open(path_footer)
+        soup = str_to_bs('')
+        new_base = soup.new_tag('base', href = builder.get_config('Site','Prefix'))
+        self.content = self.content.replace('%%Base%%', str(new_base))
     def print(self):
         soup = str_to_bs('')
         new_a = a_href('Index','../index.html')
@@ -137,16 +147,16 @@ class _Template():
 
 class _Archive():           ##maybe rewrite a bit
     def __init__(self):
-        post_list = builder.get_list('post')
-        self.post_list = sorted(post_list,key = lambda i:_Post(i).date_epoch)
-        self.post_list.reverse()
-        self.month_list = []
+        self.path_out = builder.get_config('Directory','Output') + 'Archive/index.html'
+        self.post_list = builder.get_list('post')
+        self.post_list.sort(key = lambda i:_Post(i).date_epoch, reverse = True)
+        self.month_group = []
         for key,group in groupby(self.post_list, key = lambda i:time_group_standard(i)):
-            self.month_list.append(list(group))
+            self.month_group.append(list(group))
     def print(self):
         soup = str_to_bs('')
         new_div = soup.new_tag('div')
-        for month in self.month_list:
+        for month in self.month_group:
             new_h2 = soup.new_tag('h2')
             if builder.get_config('Config','Archive_group_by') == 'month':
                 new_h2.string = str(_Post(month[0]).maya.datetime().strftime('%B %Y'))
@@ -156,21 +166,76 @@ class _Archive():           ##maybe rewrite a bit
             new_ul = soup.new_tag('ul')
             for post_path in month:
                 post = _Post(post_path)
-                new_a = a_href(post.title,builder.absolute_path(post.path_out))
+                new_a = a_href(post.title,builder.relative_path(post.path_out))
                 new_li = soup.new_tag('li')
                 new_li.append(new_a)
                 new_ul.append(new_li)
             new_div.append(new_ul)
-        archive = _Template('archive').print()
-        archive = archive.replace('%%Post_list%%',str(new_div))
-        return archive
-
-class _Tag():
-    pass
+        archive_page = _Template('archive').print()
+        archive_page = archive_page.replace('%%Post_list%%',str(new_div))
+        return archive_page
 
 class _Category:
     def __init__(self):
-        pass
+        self.post_list = builder.get_list('post')
+        self.post_list.sort(key = lambda i:_Post(i).date_epoch, reverse = True)
+        self.category_dict = {}
+        for post in self.post_list:
+            if _Post(post).category in self.category_dict:
+                self.category_dict[_Post(post).category].append(post)
+            else:
+                self.category_dict[_Post(post).category] = []
+                self.category_dict[_Post(post).category].append(post)
+    def print(self):
+        soup = str_to_bs('')
+        html_list = []
+        for category_name, category_list in self.category_dict.items():
+            new_div = soup.new_tag('div')
+            new_ul = soup.new_tag('ul')
+            for post_path in category_list:
+                new_a = a_href(_Post(post_path).title,builder.relative_path(_Post(post_path).path_out))
+                new_li = soup.new_tag('li')
+                new_li.append(new_a)
+                new_ul.append(new_li)
+            new_div.append(new_ul)
+            category_page = _Template('category').print()
+            ## need edit html <title>
+            category_page = category_page.replace('%%Category%%',category_name)
+            category_page = category_page.replace('%%Post_list%%',str(new_div))
+            html_list.append(category_page)
+        return html_list
+
+class _Tag():
+    def __init__(self):
+        self.post_list = builder.get_list('post')
+        self.post_list.sort(key = lambda i:_Post(i).date_epoch, reverse = True)
+        self.tag_dict = {}
+        for post in self.post_list:
+            for tag in _Post(post).tag:
+                if tag in self.tag_dict:
+                    self.tag_dict[tag].append(post)
+                else:
+                    self.tag_dict[tag] = []
+                    self.tag_dict[tag].append(post)
+        #print(self.tag_dict)
+    def print(self):
+        soup = str_to_bs('')
+        html_list = []
+        for tag_name, tag_list in self.tag_dict.items():
+            new_div = soup.new_tag('div')
+            new_ul = soup.new_tag('ul')
+            for post_path in tag_list:
+                new_a = a_href(_Post(post_path).title,builder.relative_path(_Post(post_path).path_out))
+                new_li = soup.new_tag('li')
+                new_li.append(new_a)
+                new_ul.append(new_li)
+            new_div.append(new_ul)
+            tag_page = _Template('tag').print()
+            ## need edit html <title>
+            tag_page = tag_page.replace('%%Tag%%',tag_name)
+            tag_page = tag_page.replace('%%Post_list%%',str(new_div))
+            html_list.append(tag_page)
+        return html_list
 
 class _Index:
     pass

@@ -8,17 +8,17 @@ Directory:
  Asset: ./template/asset
 
 Site:
- Prefix: ../
+ Prefix: ./
  Author: 54wedge
 
 Ignore:   #ignore these pages when creating page
  Archive: archive
- Category: category
- Tag: tag
+ #Category: category
+ #Tag: tag
 
 Config:
  Time_style: '%B %d. %Y'
- Hide_meta: True
+ Hide_meta: False
  Archive_group_by: 'month'
 
 Index:
