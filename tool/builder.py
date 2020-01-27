@@ -1,151 +1,63 @@
-import re
-import time
-import os
-import shutil
-import yaml
-import maya
-import pathlib
+from tool.page import _Page
+from tool.post import _Post
+from tool.index import _Index
+from tool.archive import _Archive
+from tool.category import _Category
+from tool.tag import _Tag
 
-def get_name_index(path):
-    if is_dir(path):
-        return path.split('/')[-1]
-    elif is_file(path):
-        return path.split('/')[-2]
+import tool.utils as utils
 
-def get_name(path):
-    try:
-        name_index = get_name_index(path)
-        pattern = '(.+)\_(\d+)'
-        m = re.search(pattern,name_index)
-        name = m.group(1)
-    except AttributeError:
-        name = name = path.split('/')[-1]
-        name = name[0:-5]         #remove .html
-    return name
+#scan post html
+class _Builder:
+    def __init__(self):
+        self.post_list = []
+        self.page_list = []
+        for page_path in utils.get_list('page'):
+            self.page_list.append(_Page(page_path))
+        for post_path in utils.get_list('post'):
+            self.post_list.append(_Post(post_path))
+        self.post_list.sort(key = lambda i:i.meta.date_epoch, reverse = True)
+        short_post_list = self.post_list[0:utils.get_config('Index','Page_size')]
+        #print(short_post_list)
+        self.index = _Index(short_post_list)
+        self.archive = _Archive(self.post_list)
+        self.category_dict = {}
+        self.tag_dict = {}
+        for post in self.post_list:
+            if post.meta.category in self.category_dict:
+                self.category_dict[post.meta.category].append(post)
+            else:
+                self.category_dict[post.meta.category] = []
+                self.category_dict[post.meta.category].append(post)
+            for meta_tag in post.meta.tag:
+                if meta_tag in self.tag_dict:
+                    self.tag_dict[meta_tag].append(post)
+                else:
+                    self.tag_dict[meta_tag] = []
+                    self.tag_dict[meta_tag].append(post)
+        for key in self.category_dict:
+            self.category_dict[key] = _Category(self.category_dict[key])
+        for key in self.tag_dict:
+            self.tag_dict[key] = _Tag(key,self.tag_dict[key])
 
-def get_index(path):
-    name_index = get_name_index(path)
-    pattern = '(.+)\_(\d+)'
-    m = re.search(pattern,name_index)
-    index = m.group(2)
-    return index
+    def build_page(self):
+        for page in self.page_list:
+            utils.save(page.print(),page.path_out,'prettify')
 
-def get_time(path,option = None):
-    if option == 'modify':
-        return os.path.getmtime(path)
-    elif option == 'create':
-        return os.path.getctime(path)
-    else:
-        raise TypeError('option for get_time() is missing or incorrect')
+    def build_post(self):
+        for post in self.post_list:
+            utils.save(post.print(),post.path_out,'prettify')
 
-def get_config(section,item = ''):
-    with open('config.yml','r') as config:
-        config = yaml.safe_load(config)
-    if item:
-        return config[section][item]
-    else:
-        return config[section]
+    def build_index(self):
+        utils.save(self.index.print(),self.index.path_out,'prettify')
 
-def append_html(path):
-    new_path = os.path.join(path,'index.html')
-    return new_path
+    def build_archive(self):
+        utils.save(self.archive.print(),self.archive.path_out,'prettify')
 
-def remove_page_index(path):
-    new_path = path.replace(get_name_index(path),get_name(path))
-    return new_path
+    def build_category(self):
+        for category in self.category_dict.values():
+            utils.save(category.print(),category.path_out,'prettify')
 
-def in_to_out(path):
-    new_path = path.replace(get_config('Directory','Input'),get_config('Directory','Output'))
-    return new_path
-
-def relative_path(path):
-    #new_path = path.replace(get_config('Directory','Input'),get_config('Site','Prefix'))
-    new_path = path.replace(get_config('Directory','Output'),'../')
-    return new_path
-
-def get_list(option = None):
-    if option == 'post':
-        path = get_config('Directory','Post')
-        post_names = os.listdir(path)
-        list = []
-        for i in post_names:
-            full_path = os.path.join(path,i)
-            if is_file(full_path):
-                if(i.split('.')[-1] == 'html'):
-                    list.append(full_path)
-        #list = sorted(list,key = lambda i:get_time(i,'modify'))
-        return(list)
-    elif option == 'page':
-        path = get_config('Directory','Input')
-        pattern = '(.+)_(\d+)'
-        dir_names = os.listdir(path)
-        list = []
-        for i in dir_names:
-            full_path = os.path.join(path,i)
-            if is_dir(full_path):
-                if re.search(pattern,full_path):
-                    list.append(full_path)
-        list = sorted(list,key = lambda i:get_index(i))
-        return list
-    else:
-        raise TypeError('option for get_list() is missing or incorrect')
-
-def is_file(path):      ##Rewrite
-    if os.path.exists(path):
-        if os.path.isfile(path):
-            return True
-        else:
-            return False
-    elif path.split('.')[-1] == 'html':
-        return True
-    else:
-        return False
-
-def is_dir(path):        ##Rewrite
-    if os.path.exists(path):
-        if os.path.isdir(path):
-            return True
-        else:
-            return False
-    else:
-        end = path.split('/')[-1]
-        if end == end.split('.')[-1]:
-            return True
-        else:
-            return False
-
-def is_page_ignore(path):
-    if is_dir(path):
-        for i in get_config('Ignore'):
-            if get_name(path).lower() == i.lower():
-                return True
-    else:
-        return None
-
-def check_path(path):
-    if is_dir(path):
-        if os.path.exists(path):
-            return True
-        else:
-            #print(path)
-            os.makedirs(path)
-    elif is_file(path):
-        new_path = path.rsplit('/',1)[0]
-        if os.path.exists(new_path):
-            return True
-        else:
-            #print(new_path)
-            os.makedirs(new_path)
-
-def initial():
-    shutil.rmtree(get_config('Directory','Output'))
-    check_path(get_config('Directory','Output'))
-    post_path = in_to_out(get_config('Directory','Post'))
-    check_path(post_path)
-    asset_path = get_config('Directory','Asset')
-    shutil.copytree(get_config('Directory','Asset'),get_config('Directory','Output')+'asset/')
-    page_list = get_list('page')
-    for page in page_list:
-        page = in_to_out(page)
-        page = remove_page_index(page)
-        check_path(page)
+    def build_tag(self):
+        for tag in self.tag_dict.values():
+            utils.save(tag.print(),tag.path_out,'prettify')

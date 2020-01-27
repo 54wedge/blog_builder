@@ -19,8 +19,14 @@ Ignore:   #ignore these pages when creating page
 Config:
  Time_style: '%B %d. %Y'
  Hide_meta: True
- Archive_group_by: 'month'
+ Archive_group_by: month
 
 Index:
  Page_size: 3
  Preview_line_count: 1
+
+Page:
+  - _Index
+  - Todo
+  - About
+  - _Archive
