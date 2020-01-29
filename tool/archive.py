@@ -1,11 +1,7 @@
 import tool.utils as utils
-from bs4 import BeautifulSoup as bs
 from itertools import groupby
-
 import maya
-
 from tool.template import _Template
-
 
 
 class _Archive():           ##maybe rewrite a bit
@@ -14,8 +10,9 @@ class _Archive():           ##maybe rewrite a bit
         for key,group in groupby(post_list, key = lambda i:time_group_standard(i)):
             self.month_group.append(list(group))
         self.path_out = utils.get_config('Directory','Output') + 'Archive/index.html'
-    def print(self):
-        soup = str_to_bs('')
+
+    def build(self):
+        soup = utils.str_to_bs('')
         new_div = soup.new_tag('div')
         for month in self.month_group:
             new_h2 = soup.new_tag('h2')
@@ -32,21 +29,11 @@ class _Archive():           ##maybe rewrite a bit
                 new_ul.append(new_li)
             new_div.append(new_ul)
         archive_page = _Template('archive').print()
-        archive_page = archive_page.replace('%%Post_list%%',str(new_div))
-        return archive_page
+        self.content = archive_page.replace('%%Post_list%%',str(new_div))
 
-def a_href(name,path):
-    soup = bs('','lxml')
-    new_a = soup.new_tag('a',href = path)
-    new_a.string = name
-    return new_a
-
-def str_to_bs(html):
-    if type(html) is bs:
-        return html
-    else:
-        soup = bs(html,'lxml')
-        return soup
+    def print(self):
+        self.build()
+        return self.content
 
 def time_group_standard(post):     ##need rewrite
     if utils.get_config('Config','Archive_group_by') == 'month':

@@ -2,6 +2,7 @@ import yaml
 import maya
 import tool.utils as utils
 
+
 class _Meta:
     def __init__(self,raw_meta,path):
         meta = yaml.safe_load(raw_meta)

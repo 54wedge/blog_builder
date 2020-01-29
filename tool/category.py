@@ -1,7 +1,4 @@
 import tool.utils as utils
-
-from bs4 import BeautifulSoup as bs
-
 from tool.template import _Template
 
 
@@ -11,8 +8,8 @@ class _Category:
         self.category_name = self.category_list[0].meta.category
         self.path_out = utils.get_config('Directory','Output') + 'category/' + self.category_name + '/index.html'
 
-    def print(self):
-        soup = str_to_bs('')
+    def build(self):
+        soup = utils.str_to_bs('')
         new_div = soup.new_tag('div')
         new_ul = soup.new_tag('ul')
         for post in self.category_list:
@@ -25,19 +22,8 @@ class _Category:
         ## need edit html <title>
         category_page = category_page.replace('%%Category%%',self.category_name)
         category_page = category_page.replace('%%Post_list%%',str(new_div))
-        category_page = category_page.replace('../','../../')
-        return category_page
+        self.content = category_page.replace('../','../../')
 
-
-def a_href(name,path):
-    soup = bs('','lxml')
-    new_a = soup.new_tag('a',href = path)
-    new_a.string = name
-    return new_a
-
-def str_to_bs(html):
-    if type(html) is bs:
-        return html
-    else:
-        soup = bs(html,'lxml')
-        return soup
+    def print(self):
+        self.build()
+        return self.content

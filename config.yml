@@ -11,11 +11,6 @@ Site:
  Prefix: ./
  Author: 54wedge
 
-Ignore:   #ignore these pages when creating page
- Archive: archive
- #Category: category
- #Tag: tag
-
 Config:
  Time_style: '%B %d. %Y'
  Hide_meta: True
