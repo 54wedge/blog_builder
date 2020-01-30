@@ -18,10 +18,9 @@ Config:
 
 Index:
  Page_size: 3
- Preview_line_count: 1
 
 Page:
-  - _Index
+  - _Home
   - Todo
-  - About
+  - Readme
   - _Archive

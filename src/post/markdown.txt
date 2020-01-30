@@ -1,0 +1,13 @@
+```meta
+Title: Why no markdown support?
+Date: 29/01/2020
+Author: 54wedge
+Abstract: So that your don't have to worry about different markdown syntax
+Tag:
+ - Markdown
+ - test
+Category: Markdown
+```
+
+## Why take html file instead of Markdown file and other blog builder?
+If you have tried some blog builder, you probably noticed that the supported markdown syntax is different in different blog builder. What if you don't like the supported syntax or find your favorite syntax is missing? Changing a blog builder is not as easy as changing a new markdown editor. Plus, most of people write markdown in a markdown editor and html export is one of the most basic function in markdown editor. In short, you  don't need to worry about if the specific syntax is supported by the blog builder what your markdown editor can do is what my blog builder can present.

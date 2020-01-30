@@ -1,19 +1,19 @@
-README
-### Introduction
+# README
+## Introduction
 A simple python script that copy the `body` tag in a html and paste it in template html then automatically generate navigation, archive and more.
-### Feature
+## Feature
 1. Take html file as input instead of Markdown file.
 2. Simple and straight-forward template system without learning new stuff like `Jinja`
 3. Build by amateur with the idea that even amateur should be able to understand what's going on during building
-### Dependency
+## Dependency
 1. `bs4` for html parse
 2. `maya` for time parse
 3. `PyYAML` for meta data
 4. `htmlmin` for minify html file
-### Get started
+## Get started
 1. `pip3 install bs4 maya PyYAML htmlmin`
 2. `python3 build.py`
-### meta data
+## meta data
 Create a code block and specify the language to `meta` in the markdown editor so that the meta data can be read by the script. The meta data block should follow be in `yaml` style and here is an example:
 ```
 Title: [the title you want]
