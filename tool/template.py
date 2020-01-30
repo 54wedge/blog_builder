@@ -33,7 +33,7 @@ class _Template():
         new_nav = soup.new_tag('nav',id = 'nav-menu' )
         soup.append(new_nav)
         for page_name in page_name_list:
-            if page_name == 'Index':
+            if page_name == 'Home':
                 path = '../index.html'
             else:
                 path = '../' + page_name + '/index.html'
