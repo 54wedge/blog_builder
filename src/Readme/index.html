@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>README</title>
+</head>
+<body>
+<h1>README</h1>
+
+<h2>Introduction</h2>
+
+<p>A simple python script that copy the <code>body</code> tag in a html and paste it in template html then automatically generate navigation, archive and more.</p>
+
+<h2>Feature</h2>
+
+<ol>
+<li>Take html file as input instead of Markdown file.</li>
+<li>Simple and straight-forward template system without learning new stuff like <code>Jinja</code></li>
+<li>Build by amateur with the idea that even amateur should be able to understand what's going on during building</li>
+</ol>
+
+<h2>Dependency</h2>
+
+<ol>
+<li><code>bs4</code> for html parse</li>
+<li><code>maya</code> for time parse</li>
+<li><code>PyYAML</code> for meta data</li>
+<li><code>htmlmin</code> for minify html file</li>
+</ol>
+
+<h2>Get started</h2>
+
+<ol>
+<li><code>pip3 install bs4 maya PyYAML htmlmin</code></li>
+<li><code>python3 build.py</code></li>
+</ol>
+
+<h2>meta data</h2>
+
+<p>Create a code block and specify the language to <code>meta</code> in the markdown editor so that the meta data can be read by the script. The meta data block should follow be in <code>yaml</code> style and here is an example:</p>
+
+<pre><code>Title: [the title you want]
+Date: [the date you want]
+Tag:
+ - [one blank space only]
+ - [second tag]
+More_meta: [more meta you need]
+</code></pre>
+
+<p>The supported meta are below</p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">name</th>
+	<th style="text-align:left;">type</th>
+	<th style="text-align:left;">optional</th>
+	<th style="text-align:left;">fallback</th>
+	<th style="text-align:left;">Note</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">Title</td>
+	<td style="text-align:left;">string</td>
+	<td style="text-align:left;">yes</td>
+	<td style="text-align:left;">1. <code>&lt;h1&gt;</code> tag in the html<br>2. Untitled</td>
+	<td style="text-align:left;">the <code>&lt;h1&gt;</code> tag will be removed is it is considered as title</td>
+</tr>
+<tr>
+	<td style="text-align:left;">Author</td>
+	<td style="text-align:left;">string</td>
+	<td style="text-align:left;">yes</td>
+	<td style="text-align:left;">Site-Author in config.yml</td>
+	<td style="text-align:left;"></td>
+</tr>
+<tr>
+	<td style="text-align:left;">Date</td>
+	<td style="text-align:left;">string</td>
+	<td style="text-align:left;">yes</td>
+	<td style="text-align:left;"></td>
+	<td style="text-align:left;">Common styles of date string should be accepted.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">Tag</td>
+	<td style="text-align:left;">list</td>
+	<td style="text-align:left;">yes</td>
+	<td style="text-align:left;"></td>
+	<td style="text-align:left;"></td>
+</tr>
+<tr>
+	<td style="text-align:left;">Category</td>
+	<td style="text-align:left;">string</td>
+	<td style="text-align:left;">yes</td>
+	<td style="text-align:left;">Default</td>
+	<td style="text-align:left;"></td>
+</tr>
+<tr>
+	<td style="text-align:left;">Custom_name</td>
+	<td style="text-align:left;">string</td>
+	<td style="text-align:left;">yes</td>
+	<td style="text-align:left;"></td>
+	<td style="text-align:left;">replace strings in the html braced with <code>%%</code> like %%Custom_name%%</td>
+</tr>
+<tr>
+	<td style="text-align:left;">Abstract</td>
+	<td style="text-align:left;">string</td>
+	<td style="text-align:left;">yes</td>
+	<td style="text-align:left;">1.strings before <code>&lt;!--more--&gt;</code><br>2. No Abstract</td>
+	<td style="text-align:left;">the function is within index.py</td>
+</tr>
+</tbody>
+</table>
+
+<p>Note: missing the meta data block will give you a warning while missing meta data will not give you a warning </p>
+</body>
+</html>

@@ -1,0 +1,19 @@
+container1 {display:block;text-align:center}
+#logo {font-size:250%}
+.night-mode #logo {color:#b3b3b3;font-size:250%}
+#description{font-size:105%;font-style:italic;text-align:center;display:block;}
+.night-mode #description{color:#ccc;}
+
+container2 {text-align:center}
+#nav-menu a{display:inline-block;padding:0 2% 0 2%;width:auto;height:32px;line-height:32px;}
+#nav-menu a{font-size:115%;text-decoration:none;}
+.night-mode #nav-menu a{color:#b3b3b3;}
+#nav-menu a{font-family: Helvetica, Arial, sans-serif; font-weight: bolder;}
+#nav-menu a:hover,#nav-menu .current{text-decoration: underline;}
+.night-mode #nav-menu a:hover,#nav-menu .current{background:#7d7d7d;}
+
+container4 {text-align:center}
+
+.meta{
+  border-bottom: 1px solid #eaecef;
+}

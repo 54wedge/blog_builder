@@ -1,0 +1,8 @@
+```meta
+Title: Welcome to 54wedge's blog builder
+Author: 54wedge
+Date: 28/01/2020
+```
+This is a blog builder still in development, but you are welcomed to try it out!
+<!--more-->
+The final name remains uncertain and suggestions are welcomed. :)
