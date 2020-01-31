@@ -67,8 +67,14 @@ def check_parent_path(path):
             return True
         else:
             os.makedirs(new_path)
+    else:
+        if os.path.exists(path):
+            return True
+        else:
+            os.makedirs(path)
 
 def initial():
+    check_parent_path(get_config('Directory','Output'))
     shutil.rmtree(get_config('Directory','Output'))
     asset_path = get_config('Directory','Asset')
     shutil.copytree(get_config('Directory','Asset'),get_config('Directory','Output')+'asset/')
