@@ -13,7 +13,7 @@ class _Page:
             raw_meta = html_soup.find_all('code',class_ = 'meta')[0].get_text()
             html_soup.find_all('code',class_ = 'meta')[0].parent.decompose()
         except IndexError:      #no meta data found
-            print('No raw meta found in %s' %path)
+            print(utils.style(' **No raw meta found in ' + path, 'yellow', 'bold'))
             raw_meta = ''
         self.content_soup = html_soup.body
         self.meta = _Meta(raw_meta,path)

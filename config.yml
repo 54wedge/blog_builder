@@ -16,7 +16,7 @@ Config:
  Hide_meta: True
  Archive_group_by: month
 
-Index:
+Home:
  Page_size: 3
 
 Page:

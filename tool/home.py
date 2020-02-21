@@ -2,10 +2,10 @@ import tool.utils as utils
 from tool.template import _Template
 
 
-class _Index:
+class _Home:
     def __init__(self,post_list):
         self.post_list = post_list
-        self.path_out = utils.get_config('Directory','Output') + '/index.html'
+        self.path_out = utils.get_config('Directory','Output') + 'index.html'
 
     def get_abstract(self,post):
         try:
@@ -22,7 +22,7 @@ class _Index:
 
     def build(self):
         soup = utils.str_to_bs('')
-        index_page = _Template('index').print()
+        home_page = _Template('home').print()
         new_div = soup.new_tag('div')
         for post in self.post_list:
             new_a = post.link
@@ -35,8 +35,8 @@ class _Index:
             new_li.append(new_div_2)
             new_ul.append(new_li)
             new_div.append(new_ul)
-        index_page = index_page.replace('%%Post_list%%',str(new_div))
-        self.content = index_page.replace('../','./')
+        home_page = home_page.replace('%%Post_list%%',str(new_div))
+        self.content = home_page.replace('../','./')
 
     def print(self):
         self.build()

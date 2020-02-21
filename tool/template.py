@@ -13,7 +13,7 @@ class _Template():
             self.type = 'category.html'
         elif type == 'tag':
             self.type = 'tag.html'
-        elif type == 'index':
+        elif type == 'home':
             self.type = 'index.html'
         else:
             raise TypeError('Failed to initialize _Template class. Missing or incorrect option')

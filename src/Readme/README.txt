@@ -1,19 +1,50 @@
-# README
-## Introduction
-A simple python script that copy the `body` tag in a html and paste it in template html then automatically generate navigation, archive and more.
-## Feature
+README
+### Introduction
+A simple python script that copy the `<body>` tag in a html file and paste it into template html file then automatically generate navigation, archive and more.
+
+### Feature
 1. Take html file as input instead of Markdown file.
 2. Simple and straight-forward template system without learning new stuff like `Jinja`
 3. Build by amateur with the idea that even amateur should be able to understand what's going on during building
-## Dependency
+
+### Dependency
 1. `bs4` for html parse
 2. `maya` for time parse
 3. `PyYAML` for meta data
 4. `htmlmin` for minify html file
-## Get started
+
+### Get started
 1. `pip3 install bs4 maya PyYAML htmlmin`
 2. `python3 build.py`
-## meta data
+
+### Pages
+- Register `[Page_name]` in `config.yml` when adding a new page
+- Name rendered html as `index.html` and put it in a folder with `[Page_name]` folder
+- Put the `[Page_name]` folder in `/[Source_folder]`
+- There are two buildin page `_Home` and `_Archive`
+- Sort pages in `config.yml`
+- Case matters
+- Include meta data in page
+
+### Posts
+- Put rendered html file in `/[Source_folder]/post`
+- `[html_name]` will be part of the permalink to the post
+- Include meta data in post
+
+### Sample file tree for source folder
+```
+/source folder
+  |- /post
+       |- post_1.html
+       |- post_2.html
+  |- /page_1
+       |- index.html
+  |- /page_2
+       |- index.html
+
+```
+
+### Meta data
 Create a code block and specify the language to `meta` in the markdown editor so that the meta data can be read by the script. The meta data block should follow be in `yaml` style and here is an example:
 ```
 Title: [the title you want]
@@ -33,6 +64,9 @@ The supported meta are below
 | Tag      | list   | yes      |  |  |
 | Category | string | yes      | Default |  |
 | Custom_name   | string | yes      |  | replace strings in the html braced with `%%` like %%Custom_name%% |
-| Abstract      | string   | yes      | 1.strings before `<!--more-->`<br>2. No Abstract | the function is within index.py |
+| Abstract      | string   | yes      | 1.strings before `<!--more-->`<br>2. "No Abstract" | the function is within index.py |
 
-Note: missing the meta data block will give you a warning while missing meta data will not give you a warning 
+Note: missing the meta data block will give you a warning while missing meta data will not give you a warning
+
+### Template
+Working
