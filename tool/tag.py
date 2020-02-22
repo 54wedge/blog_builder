@@ -18,12 +18,13 @@ class _Tag:
             new_li.append(new_a)
             new_ul.append(new_li)
         new_div.append(new_ul)
-        tag_page = _Template('tag').print()
+        tag_page = _Template('tag')
         ## need edit html <title>
-        tag_page = tag_page.replace('%%Tag%%',self.tag_name)
-        tag_page = tag_page.replace('%%Post_list%%',str(new_div))
-        self.content = tag_page.replace('../','../../')
+        tag_page.replace('%%Tag%%',self.tag_name)
+        tag_page.replace('%%Post_list%%',str(new_div))
+        tag_page.replace('../','../../')
+        self.content = tag_page
 
     def print(self):
         self.build()
-        return self.content
+        return self.content.print()

@@ -28,12 +28,13 @@ class _Archive():           ##maybe rewrite a bit
                 new_li.append(new_a)
                 new_ul.append(new_li)
             new_div.append(new_ul)
-        archive_page = _Template('archive').print()
-        self.content = archive_page.replace('%%Post_list%%',str(new_div))
+        archive_page = _Template('archive')
+        archive_page.replace('%%Post_list%%',str(new_div))
+        self.content = archive_page
 
     def print(self):
         self.build()
-        return self.content
+        return self.content.print()
 
 def time_group_standard(post):     ##need rewrite
     if utils.get_config('Config','Archive_group_by') == 'month':

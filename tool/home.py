@@ -22,7 +22,7 @@ class _Home:
 
     def build(self):
         soup = utils.str_to_bs('')
-        home_page = _Template('home').print()
+        home_page = _Template('home')
         new_div = soup.new_tag('div')
         for post in self.post_list:
             new_a = post.link
@@ -35,9 +35,10 @@ class _Home:
             new_li.append(new_div_2)
             new_ul.append(new_li)
             new_div.append(new_ul)
-        home_page = home_page.replace('%%Post_list%%',str(new_div))
-        self.content = home_page.replace('../','./')
+        home_page.replace('%%Post_list%%',str(new_div))
+        home_page.replace('../','./')
+        self.content = home_page
 
     def print(self):
         self.build()
-        return self.content
+        return self.content.print()

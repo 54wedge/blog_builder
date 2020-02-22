@@ -18,12 +18,13 @@ class _Category:
             new_li.append(new_a)
             new_ul.append(new_li)
         new_div.append(new_ul)
-        category_page = _Template('category').print()
+        category_page = _Template('category')
         ## need edit html <title>
-        category_page = category_page.replace('%%Category%%',self.category_name)
-        category_page = category_page.replace('%%Post_list%%',str(new_div))
-        self.content = category_page.replace('../','../../')
+        category_page.replace('%%Category%%',self.category_name)
+        category_page.replace('%%Post_list%%',str(new_div))
+        category_page.replace('../','../../')
+        self.content = category_page
 
     def print(self):
         self.build()
-        return self.content
+        return self.content.print()
