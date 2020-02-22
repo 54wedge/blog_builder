@@ -4,34 +4,25 @@ Author: 54wedge
 # Todo
 - [ ] clean up code
 	- [ ] under 80 per line
-	- [ ] look into `safe_save` performance
-		- [ ] related to prettify option
-	- [ ] look into bs4 `__init__` performance
 	- [ ] test image support
 	- [ ] test case sensitive
 
 - [ ] document
-	- [ ] README 25%
+	- [ ] README 50%
 	- [ ] How to create a theme
-	- [ ] What is going on in code
+	- [ ] Comment in code
 
 
 - [ ] Improvement
 	- [ ] console log
 		- [ ] log warning
-		- [ ] log generated file
+		- [x] log generated file
 		- [ ] log how much time spent
-		- [ ] color
-	- [ ] dev mode
-	- [ ] search post
-		- [ ] javascript in theme
-		- [ ] python generate index file
+		- [x] color
+	- [ ] Index post and page content
 	- [ ] Site map
-	- [ ] More meta option
-	  - [ ] status?
-	  - [ ] perm-link?
 	- [ ] RSS
-	- [ ] SEO
+	- [ ] Build modified/new page only
 
 
 - [ ] find a name for the blog builder
@@ -40,5 +31,3 @@ Author: 54wedge
 - [ ] theme
 	- [ ] side widget
 	- [ ] 404 page
-
-

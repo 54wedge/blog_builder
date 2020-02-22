@@ -7,11 +7,11 @@
 <body>
 <h1>README</h1>
 
-<h2>Introduction</h2>
+<h3>Introduction</h3>
 
-<p>A simple python script that copy the <code>body</code> tag in a html and paste it in template html then automatically generate navigation, archive and more.</p>
+<p>A simple python script that copy the <code>&lt;body&gt;</code> tag in a html file and paste it into template html file then automatically generate navigation, archive and more.</p>
 
-<h2>Feature</h2>
+<h3>Feature</h3>
 
 <ol>
 <li>Take html file as input instead of Markdown file.</li>
@@ -19,7 +19,7 @@
 <li>Build by amateur with the idea that even amateur should be able to understand what's going on during building</li>
 </ol>
 
-<h2>Dependency</h2>
+<h3>Dependency</h3>
 
 <ol>
 <li><code>bs4</code> for html parse</li>
@@ -28,14 +28,47 @@
 <li><code>htmlmin</code> for minify html file</li>
 </ol>
 
-<h2>Get started</h2>
+<h3>Get started</h3>
 
 <ol>
 <li><code>pip3 install bs4 maya PyYAML htmlmin</code></li>
 <li><code>python3 build.py</code></li>
 </ol>
 
-<h2>meta data</h2>
+<h3>Pages</h3>
+
+<ul>
+<li>Register <code>[Page_name]</code> in <code>config.yml</code> when adding a new page</li>
+<li>Name rendered html as <code>index.html</code> and put it in a folder with <code>[Page_name]</code> folder</li>
+<li>Put the <code>[Page_name]</code> folder in <code>/[Source_folder]</code></li>
+<li>There are two buildin page <code>_Home</code> and <code>_Archive</code></li>
+<li>Sort pages in <code>config.yml</code></li>
+<li>Case matters</li>
+<li>Include meta data in page</li>
+</ul>
+
+<h3>Posts</h3>
+
+<ul>
+<li>Put rendered html file in <code>/[Source_folder]/post</code></li>
+<li><code>[html_name]</code> will be part of the permalink to the post</li>
+<li>Include meta data in post</li>
+</ul>
+
+<h3>Sample file tree for source folder</h3>
+
+<pre><code>/source folder
+  |- /post
+       |- post_1.html
+       |- post_2.html
+  |- /page_1
+       |- index.html
+  |- /page_2
+       |- index.html
+
+</code></pre>
+
+<h3>Meta data</h3>
 
 <p>Create a code block and specify the language to <code>meta</code> in the markdown editor so that the meta data can be read by the script. The meta data block should follow be in <code>yaml</code> style and here is an example:</p>
 
@@ -115,12 +148,16 @@ More_meta: [more meta you need]
 	<td style="text-align:left;">Abstract</td>
 	<td style="text-align:left;">string</td>
 	<td style="text-align:left;">yes</td>
-	<td style="text-align:left;">1.strings before <code>&lt;!--more--&gt;</code><br>2. No Abstract</td>
+	<td style="text-align:left;">1.strings before <code>&lt;!--more--&gt;</code><br>2. &quot;No Abstract&quot;</td>
 	<td style="text-align:left;">the function is within index.py</td>
 </tr>
 </tbody>
 </table>
 
-<p>Note: missing the meta data block will give you a warning while missing meta data will not give you a warning </p>
+<p>Note: missing the meta data block will give you a warning while missing meta data will not give you a warning</p>
+
+<h3>Template</h3>
+
+<p>Working</p>
 </body>
 </html>

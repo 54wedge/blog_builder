@@ -2,10 +2,10 @@ import tool.utils as utils
 from tool.template import _Template
 
 
-class _Index:
+class _Home:
     def __init__(self,post_list):
         self.post_list = post_list
-        self.path_out = utils.get_config('Directory','Output') + '/index.html'
+        self.path_out = utils.join_path(utils.get_config('Directory','Output'), 'index.html')
 
     def get_abstract(self,post):
         try:
@@ -21,23 +21,26 @@ class _Index:
         return abstract
 
     def build(self):
-        soup = utils.str_to_bs('')
-        index_page = _Template('index').print()
-        new_div = soup.new_tag('div')
+        new_div = utils.empty_soup.new_tag('div')
         for post in self.post_list:
             new_a = post.link
-            new_ul = soup.new_tag('ul')
-            new_li = soup.new_tag('li')
+            new_ul = utils.empty_soup.new_tag('ul')
+            new_li = utils.empty_soup.new_tag('li')
             new_li.append(new_a)
-            new_div_2 = soup.new_tag('div')
+            new_div_2 = utils.empty_soup.new_tag('div')
             new_div_2.string = self.get_abstract(post)
             new_li.append(new_a)
             new_li.append(new_div_2)
             new_ul.append(new_li)
             new_div.append(new_ul)
-        index_page = index_page.replace('%%Post_list%%',str(new_div))
-        self.content = index_page.replace('../','./')
+        new_title = utils.empty_soup.new_tag('title')
+        new_title.string = 'Home'
+        home_page = _Template('home')
+        home_page.replace('%%Page_Title%%', str(new_title))
+        home_page.replace('%%Post_list%%',str(new_div))
+        home_page.replace('../','./')
+        self.content = home_page
 
     def print(self):
         self.build()
-        return self.content
+        return self.content.print()

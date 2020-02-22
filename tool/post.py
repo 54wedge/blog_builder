@@ -18,10 +18,5 @@ class _Post(_Page):
 
     def build(self):
         _Page.build(self)
-        self.content = self.content.replace('%%Prev-post%%',self.prev_post_link)
-        self.content = self.content.replace('%%Next-post%%',self.next_post_link)
-
-    #def print(self):
-    #    self.build()
-    #    return self.content
-        #print(self.content)
+        #self.content = self.content.replace('%%Prev-post%%',self.prev_post_link)
+        #self.content = self.content.replace('%%Next-post%%',self.next_post_link)

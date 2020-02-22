@@ -1,11 +1,7 @@
 Directory:
- Input: ./src/
- Output: ./dist/
- Module: ./module/
- Template: ./template/
- Post: ./src/post
- Archive: ./src/archive
- Asset: ./template/asset
+ Input: ./src
+ Output: ./dist
+ Template: ./template
 
 Site:
  Prefix: ./
@@ -16,7 +12,7 @@ Config:
  Hide_meta: True
  Archive_group_by: month
 
-Index:
+Home:
  Page_size: 3
 
 Page:

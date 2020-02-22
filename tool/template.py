@@ -1,5 +1,24 @@
 import tool.utils as utils
 
+template_path = utils.join_path(utils.get_config('Directory','Template'), 'template.html')
+template = utils.html_open(template_path)
+
+page_name_list = utils.get_config('Page')
+new_nav = utils.empty_soup.new_tag('nav',id = 'nav-menu' )
+for page_name in page_name_list:
+    if page_name == '_Home':
+        page_name = 'Home'
+        path = '../index.html'
+    elif page_name == '_Archive':
+        page_name = 'Archive'
+        path = utils.join_path('../', page_name, 'index.html')
+    else:
+        path = utils.join_path('../', page_name, 'index.html')
+    new_a = utils.a_href(page_name,path)
+    new_nav.append(new_a)
+template = template.replace('%%Nav%%', str(new_nav))
+new_base = utils.empty_soup.new_tag('base', href = utils.get_config('Site','Prefix'))
+template = template.replace('%%Base%%', str(new_base))
 
 class _Template():
     def __init__(self,type = None):
@@ -13,34 +32,22 @@ class _Template():
             self.type = 'category.html'
         elif type == 'tag':
             self.type = 'tag.html'
-        elif type == 'index':
+        elif type == 'home':
             self.type = 'index.html'
         else:
             raise TypeError('Failed to initialize _Template class. Missing or incorrect option')
-        path_header = utils.get_config('Directory','Template') + 'header.html'
-        path_footer = utils.get_config('Directory','Template') + 'footer.html'
-        path = utils.get_config('Directory','Template') + self.type
-        self.content = utils.html_open(path_header) + utils.html_open(path) + utils.html_open(path_footer)
-        soup = utils.str_to_bs('')
-        new_base = soup.new_tag('base', href = utils.get_config('Site','Prefix'))
-        self.content = self.content.replace('%%Base%%', str(new_base))
+        content_path = utils.join_path(utils.get_config('Directory','Template'), self.type)
+        self.content = utils.html_open(content_path)
+        self.template = template
 
-    def build(self):
-        soup = utils.str_to_bs('')
-        page_name_list = utils.get_config('Page')
-        page_name_list[:] = [page_name.replace('_','') for page_name in page_name_list]
-        #print(page_name_list)
-        new_nav = soup.new_tag('nav',id = 'nav-menu' )
-        soup.append(new_nav)
-        for page_name in page_name_list:
-            if page_name == 'Home':
-                path = '../index.html'
-            else:
-                path = '../' + page_name + '/index.html'
-            new_a = utils.a_href(page_name,path)
-            soup.nav.append(new_a)
-        self.content = self.content.replace('%%Nav%%',str(soup))
+    def replace(self, placeholder, string):
+        if placeholder in self.content:
+            self.content = self.content.replace(placeholder, string)
+        if placeholder in self.template:
+            self.template = self.template.replace(placeholder, string)
+        #else:
+        #    print(utils.style(' **' + placeholder + ' is not found in template html','yellow','bold'))
 
     def print(self):
-        self.build()
-        return self.content
+        self.replace('%%Content%%', self.content)
+        return self.template
