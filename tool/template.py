@@ -33,7 +33,7 @@ class _Template():
         elif type == 'tag':
             self.type = 'tag.html'
         elif type == 'home':
-            self.type = 'index.html'
+            self.type = 'home.html'
         else:
             raise TypeError('Failed to initialize _Template class. Missing or incorrect option')
         content_path = utils.join_path(utils.get_config('Directory','Template'), self.type)
