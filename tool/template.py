@@ -3,9 +3,8 @@ import tool.utils as utils
 template_path = utils.join_path(utils.get_config('Directory','Template'), 'template.html')
 template = utils.html_open(template_path)
 
-soup = utils.str_to_bs('')
 page_name_list = utils.get_config('Page')
-new_nav = soup.new_tag('nav',id = 'nav-menu' )
+new_nav = utils.empty_soup.new_tag('nav',id = 'nav-menu' )
 for page_name in page_name_list:
     if page_name == '_Home':
         page_name = 'Home'
@@ -18,7 +17,7 @@ for page_name in page_name_list:
     new_a = utils.a_href(page_name,path)
     new_nav.append(new_a)
 template = template.replace('%%Nav%%', str(new_nav))
-new_base = soup.new_tag('base', href = utils.get_config('Site','Prefix'))
+new_base = utils.empty_soup.new_tag('base', href = utils.get_config('Site','Prefix'))
 template = template.replace('%%Base%%', str(new_base))
 
 class _Template():

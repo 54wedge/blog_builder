@@ -21,20 +21,22 @@ class _Home:
         return abstract
 
     def build(self):
-        soup = utils.str_to_bs('')
-        home_page = _Template('home')
-        new_div = soup.new_tag('div')
+        new_div = utils.empty_soup.new_tag('div')
         for post in self.post_list:
             new_a = post.link
-            new_ul = soup.new_tag('ul')
-            new_li = soup.new_tag('li')
+            new_ul = utils.empty_soup.new_tag('ul')
+            new_li = utils.empty_soup.new_tag('li')
             new_li.append(new_a)
-            new_div_2 = soup.new_tag('div')
+            new_div_2 = utils.empty_soup.new_tag('div')
             new_div_2.string = self.get_abstract(post)
             new_li.append(new_a)
             new_li.append(new_div_2)
             new_ul.append(new_li)
             new_div.append(new_ul)
+        new_title = utils.empty_soup.new_tag('title')
+        new_title.string = 'Home'
+        home_page = _Template('home')
+        home_page.replace('%%Page_Title%%', str(new_title))
         home_page.replace('%%Post_list%%',str(new_div))
         home_page.replace('../','./')
         self.content = home_page

@@ -132,6 +132,8 @@ def str_to_bs(html):
     soup = bs(html,'lxml')
     return soup
 
+empty_soup = str_to_bs('')
+
 def a_href(name,path):
     soup = bs('','lxml')
     new_a = soup.new_tag('a',href = path)
