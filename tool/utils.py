@@ -40,7 +40,7 @@ def in_to_out(path):
     return new_path
 
 def relative_path(path):
-    new_path = path.replace(get_config('Directory','Output'),'../')
+    new_path = path.replace(get_config('Directory','Output'),'..')
     return new_path
 
 def join_path(path, *args):
