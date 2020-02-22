@@ -3,9 +3,6 @@ Directory:
  Output: ./dist/
  Module: ./module/
  Template: ./template/
- Post: ./src/post
- Archive: ./src/archive
- Asset: ./template/asset
 
 Site:
  Prefix: ./

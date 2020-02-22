@@ -13,7 +13,6 @@ class _Builder:
         self.post_list = []
         self.page_list = []
         for page_path in utils.get_list('page'):
-            print(page_path)
             self.page_list.append(_Page(page_path))
         for post_path in utils.get_list('post'):
             self.post_list.append(_Post(post_path))

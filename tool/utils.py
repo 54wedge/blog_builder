@@ -45,7 +45,7 @@ def relative_path(path):
 
 def get_list(option = None):
     if option == 'post':
-        path = get_config('Directory','Post')
+        path = os.path.join(get_config('Directory','Input'), 'post')
         post_names = os.listdir(path)
         list = []
         for i in post_names:
@@ -57,12 +57,15 @@ def get_list(option = None):
         path = get_config('Directory','Input')
         page_list = get_config('Page')
         list = []
-        dir_names = os.listdir(path)
         for page_name in page_list:
-            if page_name in dir_names:
-                full_path = os.path.join(path,page_name)
-                full_path = os.path.join(full_path,'index.html')
+            if page_name[0] is '_':
+                continue
+            full_path = os.path.join(path,page_name)
+            full_path = os.path.join(full_path,'index.html')
+            if os.path.exists(full_path):
                 list.append(full_path)
+            else:
+                print(style(' !!Page ' + full_path + ' does not exist', 'red','bold'))
         return list
     else:
         raise TypeError('option for get_list() is missing or incorrect')
@@ -89,8 +92,8 @@ def check_parent_path(path):
 def initial():
     check_parent_path(get_config('Directory','Output'))
     shutil.rmtree(get_config('Directory','Output'))
-    asset_path = get_config('Directory','Asset')
-    shutil.copytree(get_config('Directory','Asset'),get_config('Directory','Output')+'asset/')
+    asset_path = os.path.join(get_config('Directory','Template'), 'asset')
+    shutil.copytree(asset_path,os.path.join(get_config('Directory','Output'), 'asset/'))
 
 def html_open(path,option = None):
     with open(path,'r') as html:
