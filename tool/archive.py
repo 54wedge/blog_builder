@@ -9,7 +9,7 @@ class _Archive():           ##maybe rewrite a bit
         self.month_group = []
         for key,group in groupby(post_list, key = lambda i:time_group_standard(i)):
             self.month_group.append(list(group))
-        self.path_out = utils.get_config('Directory','Output') + 'Archive/index.html'
+        self.path_out = utils.join_path(utils.get_config('Directory','Output'), 'Archive/index.html')
 
     def build(self):
         soup = utils.str_to_bs('')

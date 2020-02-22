@@ -24,14 +24,14 @@ class _Page:
         template.replace('%%Body%%',str(self.content_soup))
         for key in self.meta.dict:
             if key == 'Category':        ##for future
-                category_path = '../category/' + self.meta.dict[key] + '/index.html'
+                category_path = utils.join_path('../category', self.meta.dict[key], 'index.html')
                 category_link = utils.a_href(self.meta.dict[key],category_path)
                 template.replace('%%'+key+'%%', str(category_link))
             elif key == 'Tag':
                 soup = utils.str_to_bs('')
                 new_span = soup.new_tag('span',id = 'tag')
                 for tag in self.meta.dict['Tag']:
-                    tag_path = '../tag/' + tag + '/index.html'
+                    tag_path = utils.join_path('../tag', tag, 'index.html')
                     tag_link = utils.a_href('#' + tag,tag_path)
                     new_span.append(tag_link)
                 soup.append(new_span)

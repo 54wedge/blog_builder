@@ -1,8 +1,7 @@
 Directory:
- Input: ./src/
- Output: ./dist/
- Module: ./module/
- Template: ./template/
+ Input: ./src
+ Output: ./dist
+ Template: ./template
 
 Site:
  Prefix: ./

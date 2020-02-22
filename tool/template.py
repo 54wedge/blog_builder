@@ -1,6 +1,6 @@
 import tool.utils as utils
 
-template_path = utils.get_config('Directory','Template') + 'template.html'
+template_path = utils.join_path(utils.get_config('Directory','Template'), 'template.html')
 template = utils.html_open(template_path)
 
 soup = utils.str_to_bs('')
@@ -12,9 +12,9 @@ for page_name in page_name_list:
         path = '../index.html'
     elif page_name == '_Archive':
         page_name = 'Archive'
-        path = '../' + page_name + '/index.html'
+        path = utils.join_path('../', page_name, 'index.html')
     else:
-        path = '../' + page_name + '/index.html'
+        path = utils.join_path('../', page_name, 'index.html')
     new_a = utils.a_href(page_name,path)
     new_nav.append(new_a)
 template = template.replace('%%Nav%%', str(new_nav))
@@ -37,7 +37,7 @@ class _Template():
             self.type = 'index.html'
         else:
             raise TypeError('Failed to initialize _Template class. Missing or incorrect option')
-        content_path = utils.get_config('Directory','Template') + self.type
+        content_path = utils.join_path(utils.get_config('Directory','Template'), self.type)
         self.content = utils.html_open(content_path)
         self.template = template
 

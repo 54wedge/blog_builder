@@ -6,7 +6,7 @@ class _Tag:
     def __init__(self,tag_name,tag_list):
         self.tag_list = tag_list
         self.tag_name = tag_name
-        self.path_out = utils.get_config('Directory','Output') + 'tag/' + self.tag_name + '/index.html'
+        self.path_out = utils.join_path(utils.get_config('Directory','Output'), 'tag', self.tag_name, 'index.html')
 
     def build(self):
         soup = utils.str_to_bs('')

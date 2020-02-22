@@ -43,6 +43,11 @@ def relative_path(path):
     new_path = path.replace(get_config('Directory','Output'),'../')
     return new_path
 
+def join_path(path, *args):
+    for arg in args:
+        path = os.path.join(path,arg)
+    return path
+
 def get_list(option = None):
     if option == 'post':
         path = os.path.join(get_config('Directory','Input'), 'post')
