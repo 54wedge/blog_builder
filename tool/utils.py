@@ -77,7 +77,7 @@ def check_parent_path(path):
 def initial():
     if os.path.exists(config['Directory']['Output']):
         shutil.rmtree(config['Directory']['Output'])
-    shutil.copytree(config['Directory']['Input'], config['Directory']['Output'], ignore=shutil.ignore_patterns('*.md', '*.txt'))
+    shutil.copytree(config['Directory']['Input'], config['Directory']['Output'], ignore=shutil.ignore_patterns('*.md', '*.txt', '*_ignore*', '.DS_Store'))
     asset_path = os.path.join(config['Directory']['Template'], 'asset')
     shutil.copytree(asset_path,os.path.join(config['Directory']['Output'], 'asset'))
 
