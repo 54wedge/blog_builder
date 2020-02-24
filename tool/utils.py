@@ -29,10 +29,6 @@ def get_time(path,option = None):
     else:
         raise TypeError('option for get_time() is missing or incorrect')
 
-def in_to_out(path):
-    new_path = path.replace(config['Directory']['Input'],config['Directory']['Output'])
-    return new_path
-
 def relative_path(path):
     new_path = path.replace(config['Directory']['Output'],'..')
     return new_path
@@ -44,7 +40,7 @@ def join_path(path, *args):
 
 def get_list(option = None):
     if option == 'post':
-        path = os.path.join(config['Directory']['Input'], 'post')
+        path = os.path.join(config['Directory']['Output'], 'post')
         post_names = os.listdir(path)
         list = []
         for i in post_names:
@@ -53,7 +49,7 @@ def get_list(option = None):
                 list.append(full_path)
         return(list)
     elif option == 'page':
-        path = config['Directory']['Input']
+        path = config['Directory']['Output']
         page_list = config['Page']
         list = []
         for page_name in page_list:

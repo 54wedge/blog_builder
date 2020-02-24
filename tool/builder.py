@@ -23,14 +23,14 @@ class _Builder:
     def build_page(self):
         print('Building pages......')
         for page in self.page_list:
-            utils.safe_save(page.print(), page.path_out, self.save_style)
-            print(' --page '+ utils.style(page.path_out,'green') + ' is built')
+            utils.safe_save(page.print(), page.path, self.save_style)
+            print(' --page '+ utils.style(page.path,'green') + ' is built')
 
     def build_post(self):
         print('Building posts......')
         for post in self.post_list:
-            utils.safe_save(post.print(), post.path_out, self.save_style)
-            print(' --post ' + utils.style(post.path_out,'green') + ' is built')
+            utils.safe_save(post.print(), post.path, self.save_style)
+            print(' --post ' + utils.style(post.path,'green') + ' is built')
 
     def build_home(self):
         print('Building Home page......')

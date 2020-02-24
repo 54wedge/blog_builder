@@ -7,7 +7,6 @@ from tool.utils import config
 class _Page:
     def __init__(self,path):
         self.path = path
-        self.path_out = utils.in_to_out(path)
         self.type = 'page'
         html_soup = utils.html_open(path,'soup')
         try:
@@ -23,7 +22,7 @@ class _Page:
             self.content_soup.h1.decompose()
         except AttributeError:
             pass
-        self.link = utils.a_href(self.meta.title,utils.relative_path(self.path_out))
+        self.link = utils.a_href(self.meta.title,utils.relative_path(self.path))
 
     def build(self):
         new_title = utils.empty_soup.new_tag('title')
