@@ -1,11 +1,12 @@
 import tool.utils as utils
 from tool.template import _Template
+from tool.utils import config
 
 
 class _Home:
     def __init__(self,post_list):
         self.post_list = post_list
-        self.path_out = utils.join_path(utils.get_config('Directory','Output'), 'index.html')
+        self.path_out = utils.join_path(config['Directory']['Output'], 'index.html')
 
     def get_abstract(self,post):
         try:

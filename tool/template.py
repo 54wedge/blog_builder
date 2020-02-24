@@ -1,9 +1,10 @@
 import tool.utils as utils
+from tool.utils import config
 
-template_path = utils.join_path(utils.get_config('Directory','Template'), 'template.html')
+template_path = utils.join_path(config['Directory']['Template'], 'template.html')
 template = utils.html_open(template_path)
 
-page_name_list = utils.get_config('Page')
+page_name_list = config['Page']
 new_nav = utils.empty_soup.new_tag('nav',id = 'nav-menu' )
 for page_name in page_name_list:
     if page_name == '_Home':
@@ -17,7 +18,7 @@ for page_name in page_name_list:
     new_a = utils.a_href(page_name,path)
     new_nav.append(new_a)
 template = template.replace('%%Nav%%', str(new_nav))
-new_base = utils.empty_soup.new_tag('base', href = utils.get_config('Site','Prefix'))
+new_base = utils.empty_soup.new_tag('base', href = config['Site']['Prefix'])
 template = template.replace('%%Base%%', str(new_base))
 
 class _Template():
@@ -36,7 +37,7 @@ class _Template():
             self.type = 'home.html'
         else:
             raise TypeError('Failed to initialize _Template class. Missing or incorrect option')
-        content_path = utils.join_path(utils.get_config('Directory','Template'), self.type)
+        content_path = utils.join_path(config['Directory']['Template'], self.type)
         self.content = utils.html_open(content_path)
         self.template = template
 

@@ -6,6 +6,7 @@ from tool.category import _Category
 from tool.tag import _Tag
 
 import tool.utils as utils
+from tool.utils import config
 
 
 class _Builder:
@@ -17,7 +18,7 @@ class _Builder:
         for post_path in utils.get_list('post'):
             self.post_list.append(_Post(post_path))
         self.post_list.sort(key = lambda i:i.meta.date_epoch, reverse = True)
-        self.save_style = utils.get_config('Config','Save_style')
+        self.save_style = config['Config']['Save_style']
 
     def build_page(self):
         print('Building pages......')
@@ -33,7 +34,7 @@ class _Builder:
 
     def build_home(self):
         print('Building Home page......')
-        short_post_list = self.post_list[0:utils.get_config('Home','Page_size')]
+        short_post_list = self.post_list[0:config['Home']['Page_size']]
         self.home = _Home(short_post_list)
         utils.safe_save(self.home.print(),self.home.path_out,self.save_style)
         print(' --Home page ' + utils.style(self.home.path_out,'green') + ' is built')

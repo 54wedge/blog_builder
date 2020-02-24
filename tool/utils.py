@@ -29,18 +29,12 @@ def get_time(path,option = None):
     else:
         raise TypeError('option for get_time() is missing or incorrect')
 
-def get_config(section,item = ''):
-    if item:
-        return config[section][item]
-    else:
-        return config[section]
-
 def in_to_out(path):
-    new_path = path.replace(get_config('Directory','Input'),get_config('Directory','Output'))
+    new_path = path.replace(config['Directory']['Input'],config['Directory']['Output'])
     return new_path
 
 def relative_path(path):
-    new_path = path.replace(get_config('Directory','Output'),'..')
+    new_path = path.replace(config['Directory']['Output'],'..')
     return new_path
 
 def join_path(path, *args):
@@ -50,7 +44,7 @@ def join_path(path, *args):
 
 def get_list(option = None):
     if option == 'post':
-        path = os.path.join(get_config('Directory','Input'), 'post')
+        path = os.path.join(config['Directory']['Input'], 'post')
         post_names = os.listdir(path)
         list = []
         for i in post_names:
@@ -59,8 +53,8 @@ def get_list(option = None):
                 list.append(full_path)
         return(list)
     elif option == 'page':
-        path = get_config('Directory','Input')
-        page_list = get_config('Page')
+        path = config['Directory']['Input']
+        page_list = config['Page']
         list = []
         for page_name in page_list:
             if page_name[0] is '_':
@@ -89,11 +83,11 @@ def check_parent_path(path):
             os.makedirs(path)
 
 def initial():
-    if os.path.exists(get_config('Directory','Output')):
-        shutil.rmtree(get_config('Directory','Output'))
-    shutil.copytree(get_config('Directory','Input'), get_config('Directory','Output'), ignore=shutil.ignore_patterns('*.md', '*.txt'))
-    asset_path = os.path.join(get_config('Directory','Template'), 'asset')
-    shutil.copytree(asset_path,os.path.join(get_config('Directory','Output'), 'asset'))
+    if os.path.exists(config['Directory']['Output']):
+        shutil.rmtree(config['Directory']['Output'])
+    shutil.copytree(config['Directory']['Input'], config['Directory']['Output'], ignore=shutil.ignore_patterns('*.md', '*.txt'))
+    asset_path = os.path.join(config['Directory']['Template'], 'asset')
+    shutil.copytree(asset_path,os.path.join(config['Directory']['Output'], 'asset'))
 
 def html_open(path,option = None):
     with open(path,'r') as html:

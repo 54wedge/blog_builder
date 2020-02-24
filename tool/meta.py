@@ -1,6 +1,7 @@
 import yaml
 import maya
 import tool.utils as utils
+from tool.utils import config
 
 
 class _Meta:
@@ -21,14 +22,14 @@ class _Meta:
         if 'Author' in meta:
             self.author = meta['Author']
         else:
-            self.author = utils.get_config('Site','Author')
+            self.author = config['Site']['Author']
             meta['Author'] = self.author
         if 'Date' in meta:
             self.maya = maya.parse(meta['Date'])
         else:
             self.maya = maya.MayaDT(utils.get_time(path,'modify'))
         self.date_epoch = self.maya.epoch          #for data comparason
-        self.date_human = self.maya.datetime().strftime(utils.get_config('Config','Time_style'))
+        self.date_human = self.maya.datetime().strftime(config['Config']['Time_style'])
         meta['Date'] = self.date_human
         if 'Category' in meta:
             self.category = meta['Category']
