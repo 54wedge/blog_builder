@@ -29,10 +29,6 @@ def get_time(path,option = None):
     else:
         raise TypeError('option for get_time() is missing or incorrect')
 
-def relative_path(path):
-    new_path = path.replace(config['Directory']['Output'],'..')
-    return new_path
-
 def join_path(path, *args):
     for arg in args:
         path = os.path.join(path,arg)

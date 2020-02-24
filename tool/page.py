@@ -22,7 +22,7 @@ class _Page:
             self.content_soup.h1.decompose()
         except AttributeError:
             pass
-        self.link = utils.a_href(self.meta.title,utils.relative_path(self.path))
+        self.link = utils.a_href(self.meta.title,self.path.replace(config['Directory']['Output'],'..'))
 
     def build(self):
         new_title = utils.empty_soup.new_tag('title')
