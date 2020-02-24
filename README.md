@@ -70,3 +70,7 @@ Note: Missing the meta data block will give you a warning while missing meta dat
 
 ### Template
 Working
+
+### Performance
+time spent:
+doing nothing while saving(100%) < minify(~300%) < prettify(~400%)
