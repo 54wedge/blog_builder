@@ -6,6 +6,7 @@ from tool.category import _Category
 from tool.tag import _Tag
 
 import tool.utils as utils
+from tool.utils import config
 
 
 class _Builder:
@@ -17,30 +18,31 @@ class _Builder:
         for post_path in utils.get_list('post'):
             self.post_list.append(_Post(post_path))
         self.post_list.sort(key = lambda i:i.meta.date_epoch, reverse = True)
+        self.save_style = config['Config']['Save_style']
 
     def build_page(self):
         print('Building pages......')
         for page in self.page_list:
-            utils.safe_save(page.print(),page.path_out,'prettify')
-            print(' --page '+ utils.style(page.path_out,'green') + ' is built')
+            utils.safe_save(page.print(), page.path, self.save_style)
+            print(' --page '+ utils.style(page.path,'green') + ' is built')
 
     def build_post(self):
         print('Building posts......')
         for post in self.post_list:
-            utils.safe_save(post.print(),post.path_out,'prettify')
-            print(' --post ' + utils.style(post.path_out,'green') + ' is built')
+            utils.safe_save(post.print(), post.path, self.save_style)
+            print(' --post ' + utils.style(post.path,'green') + ' is built')
 
     def build_home(self):
         print('Building Home page......')
-        short_post_list = self.post_list[0:utils.get_config('Home','Page_size')]
+        short_post_list = self.post_list[0:config['Home']['Page_size']]
         self.home = _Home(short_post_list)
-        utils.safe_save(self.home.print(),self.home.path_out,'prettify')
+        utils.safe_save(self.home.print(),self.home.path_out,self.save_style)
         print(' --Home page ' + utils.style(self.home.path_out,'green') + ' is built')
 
     def build_archive(self):
         print('Building Archive page......')
         self.archive = _Archive(self.post_list)
-        utils.safe_save(self.archive.print(),self.archive.path_out,'prettify')
+        utils.safe_save(self.archive.print(), self.archive.path_out, self.save_style)
         print(' --Archive page ' + utils.style(self.archive.path_out,'green') + ' is built')
 
     def build_category(self):
@@ -55,7 +57,7 @@ class _Builder:
         for key in self.category_dict:
             self.category_dict[key] = _Category(self.category_dict[key])
         for category in self.category_dict.values():
-            utils.safe_save(category.print(),category.path_out,'prettify')
+            utils.safe_save(category.print(), category.path_out, self.save_style)
             print(' --Category page ' + utils.style(category.path_out,'green') + ' is built')
 
     def build_tag(self):
@@ -71,5 +73,5 @@ class _Builder:
         for key in self.tag_dict:
             self.tag_dict[key] = _Tag(key,self.tag_dict[key])
         for tag in self.tag_dict.values():
-            utils.safe_save(tag.print(),tag.path_out,'prettify')
+            utils.safe_save(tag.print(), tag.path_out, self.save_style)
             print(' --Tag page ' + utils.style(tag.path_out,'green') + ' is built')

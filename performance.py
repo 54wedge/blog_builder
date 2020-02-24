@@ -2,16 +2,17 @@ import cProfile
 import pstats
 from pstats import SortKey
 import timeit
+import os
 
 CRED = '\033[91m'
 CEND = '\033[0m'
 
 class method():
-    def __add__(self, other):
+    def __add__(self, other):    ## +
         t_test(other)
-    def __sub__(self,other):
+    def __sub__(self,other):     ## -
         p_test(other)
-    def __mul__(self,other):
+    def __mul__(self,other):     ## *
         t_test(other)
         p_test(other)
 
@@ -24,8 +25,17 @@ def t_test(func):
 def p_test(func):
     profile = cProfile.Profile()
     profile.runcall(func)
+    if not os.path.exists('./performance'):
+        os.mkdir('./performance')
     with open('./performance/'+func.__name__+'.txt','w') as txt:
         ps = pstats.Stats(profile,stream = txt).sort_stats(SortKey.CUMULATIVE)
         ps.print_stats(20)
     print(CRED + func.__name__ + '() performance file generated at ' +'./performance/'+func.__name__+'.txt' + CEND)
     #ps.print_stats()
+
+''' how to use
+from performance import method
+t = method()
+t+builder.build_page
+...
+'''

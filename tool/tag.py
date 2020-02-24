@@ -1,12 +1,13 @@
 import tool.utils as utils
 from tool.template import _Template
+from tool.utils import config
 
 
 class _Tag:
     def __init__(self,tag_name,tag_list):
         self.tag_list = tag_list
         self.tag_name = tag_name
-        self.path_out = utils.join_path(utils.get_config('Directory','Output'), 'tag', self.tag_name, 'index.html')
+        self.path_out = utils.join_path(config['Directory']['Output'], 'tag', self.tag_name, 'index.html')
 
     def build(self):
         new_div = utils.empty_soup.new_tag('div')

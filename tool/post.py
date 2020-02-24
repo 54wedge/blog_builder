@@ -5,7 +5,6 @@ from tool.page import _Page
 class _Post(_Page):
     def __init__(self,path,prev_post=None,next_post=None):
         _Page.__init__(self,path)
-        self.path_out = utils.in_to_out(self.path)
         self.type = 'post'
         if prev_post is None:
             self.prev_post_link = ''

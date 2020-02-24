@@ -29,20 +29,6 @@ def get_time(path,option = None):
     else:
         raise TypeError('option for get_time() is missing or incorrect')
 
-def get_config(section,item = ''):
-    if item:
-        return config[section][item]
-    else:
-        return config[section]
-
-def in_to_out(path):
-    new_path = path.replace(get_config('Directory','Input'),get_config('Directory','Output'))
-    return new_path
-
-def relative_path(path):
-    new_path = path.replace(get_config('Directory','Output'),'..')
-    return new_path
-
 def join_path(path, *args):
     for arg in args:
         path = os.path.join(path,arg)
@@ -50,17 +36,17 @@ def join_path(path, *args):
 
 def get_list(option = None):
     if option == 'post':
-        path = os.path.join(get_config('Directory','Input'), 'post')
+        path = os.path.join(config['Directory']['Output'], 'post')
         post_names = os.listdir(path)
         list = []
         for i in post_names:
             full_path = os.path.join(path,i)
-            if is_html(full_path):
+            if full_path.split('.')[-1] == 'html':
                 list.append(full_path)
         return(list)
     elif option == 'page':
-        path = get_config('Directory','Input')
-        page_list = get_config('Page')
+        path = config['Directory']['Output']
+        page_list = config['Page']
         list = []
         for page_name in page_list:
             if page_name[0] is '_':
@@ -75,14 +61,8 @@ def get_list(option = None):
     else:
         raise TypeError('option for get_list() is missing or incorrect')
 
-def is_html(path):
-    if path.split('.')[-1] == 'html':
-        return True
-    else:
-        return False
-
 def check_parent_path(path):
-    if is_html(path):
+    if path.split('.')[-1] == 'html':
         new_path = path.rsplit('/',1)[0]
         if os.path.exists(new_path):
             return True
@@ -95,10 +75,11 @@ def check_parent_path(path):
             os.makedirs(path)
 
 def initial():
-    check_parent_path(get_config('Directory','Output'))
-    shutil.rmtree(get_config('Directory','Output'))
-    asset_path = os.path.join(get_config('Directory','Template'), 'asset')
-    shutil.copytree(asset_path,os.path.join(get_config('Directory','Output'), 'asset/'))
+    if os.path.exists(config['Directory']['Output']):
+        shutil.rmtree(config['Directory']['Output'])
+    shutil.copytree(config['Directory']['Input'], config['Directory']['Output'], ignore=shutil.ignore_patterns('*.md', '*.txt', '*_ignore*', '.DS_Store'))
+    asset_path = os.path.join(config['Directory']['Template'], 'asset')
+    shutil.copytree(asset_path,os.path.join(config['Directory']['Output'], 'asset'))
 
 def html_open(path,option = None):
     with open(path,'r') as html:
@@ -132,10 +113,9 @@ def str_to_bs(html):
     soup = bs(html,'lxml')
     return soup
 
-empty_soup = str_to_bs('')
+empty_soup = bs('','lxml')
 
 def a_href(name,path):
-    soup = bs('','lxml')
-    new_a = soup.new_tag('a',href = path)
+    new_a = empty_soup.new_tag('a',href = path)
     new_a.string = name
     return new_a
