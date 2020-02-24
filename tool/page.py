@@ -11,7 +11,8 @@ class _Page:
         html_soup = utils.html_open(path,'soup')
         try:
             raw_meta = html_soup.find_all('code',class_ = 'meta')[0].get_text()
-            html_soup.find_all('code',class_ = 'meta')[0].parent.decompose()
+            if utils.get_config('Config', 'Hide_meta'):
+                html_soup.find_all('code',class_ = 'meta')[0].parent.decompose()
         except IndexError:      #no meta data found
             print(utils.style(' **No raw meta found in ' + path, 'yellow', 'bold'))
             raw_meta = ''
