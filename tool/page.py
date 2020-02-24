@@ -18,6 +18,10 @@ class _Page:
             raw_meta = ''
         self.content_soup = html_soup.body
         self.meta = _Meta(raw_meta,path)
+        try:
+            self.content_soup.h1.decompose()
+        except AttributeError:
+            pass
         self.link = utils.a_href(self.meta.title,utils.relative_path(self.path_out))
 
     def build(self):

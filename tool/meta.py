@@ -15,7 +15,6 @@ class _Meta:
             try:
                 self.title = soup.h1.get_text()
                 meta['Title'] = self.title
-                soup.h1.decompose()
             except AttributeError:
                 self.title = 'Untitled'
                 meta['Title'] = self.title
