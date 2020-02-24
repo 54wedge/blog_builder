@@ -55,7 +55,7 @@ def get_list(option = None):
         list = []
         for i in post_names:
             full_path = os.path.join(path,i)
-            if is_html(full_path):
+            if full_path.split('.')[-1] == 'html':
                 list.append(full_path)
         return(list)
     elif option == 'page':
@@ -75,14 +75,8 @@ def get_list(option = None):
     else:
         raise TypeError('option for get_list() is missing or incorrect')
 
-def is_html(path):
-    if path.split('.')[-1] == 'html':
-        return True
-    else:
-        return False
-
 def check_parent_path(path):
-    if is_html(path):
+    if path.split('.')[-1] == 'html':
         new_path = path.rsplit('/',1)[0]
         if os.path.exists(new_path):
             return True
@@ -95,10 +89,11 @@ def check_parent_path(path):
             os.makedirs(path)
 
 def initial():
-    check_parent_path(get_config('Directory','Output'))
-    shutil.rmtree(get_config('Directory','Output'))
+    if os.path.exists(get_config('Directory','Output')):
+        shutil.rmtree(get_config('Directory','Output'))
+    shutil.copytree(get_config('Directory','Input'), get_config('Directory','Output'), ignore=shutil.ignore_patterns('*.md', '*.txt'))
     asset_path = os.path.join(get_config('Directory','Template'), 'asset')
-    shutil.copytree(asset_path,os.path.join(get_config('Directory','Output'), 'asset/'))
+    shutil.copytree(asset_path,os.path.join(get_config('Directory','Output'), 'asset'))
 
 def html_open(path,option = None):
     with open(path,'r') as html:

@@ -41,8 +41,8 @@ A simple python script that copy the `<body>` tag in a html file and paste it in
        |- index.html
   |- /page_2
        |- index.html
-
 ```
+Note: You can put your local images anywhere inside `/[Source_folder]` as long as they are accessible by source html file. (You can see the image when you open the source html file)
 
 ### Meta data
 Create a code block and specify the language to `meta` in the markdown editor so that the meta data can be read by the script. The meta data block should follow be in `yaml` style and here is an example:
@@ -66,7 +66,7 @@ The supported meta are below
 | Custom_name   | string | yes      |  | replace strings in the html braced with `%%` like %%Custom_name%% |
 | Abstract      | string   | yes      | 1.strings before `<!--more-->`<br>2. "No Abstract" | the function is within index.py |
 
-Note: missing the meta data block will give you a warning while missing meta data will not give you a warning
+Note: Missing the meta data block will give you a warning while missing meta data will not give you a warning
 
 ### Template
 Working
