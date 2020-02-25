@@ -1,19 +1,83 @@
-container1 {display:block;text-align:center}
-#logo {font-size:250%}
-.night-mode #logo {color:#b3b3b3;font-size:250%}
-#description{font-size:105%;font-style:italic;text-align:center;display:block;}
-.night-mode #description{color:#ccc;}
+@import 'github-markdown.css';
+@import 'github-markdown-night-mode.css';
 
-container2 {text-align:center}
-#nav-menu a{display:inline-block;padding:0 2% 0 2%;width:auto;height:32px;line-height:32px;}
-#nav-menu a{font-size:115%;text-decoration:none;}
-.night-mode #nav-menu a{color:#b3b3b3;}
-#nav-menu a{font-family: Helvetica, Arial, sans-serif; font-weight: bolder;}
-#nav-menu a:hover,#nav-menu .current{text-decoration: underline;}
-.night-mode #nav-menu a:hover,#nav-menu .current{background:#7d7d7d;}
-
-container4 {text-align:center}
-
-.meta{
-  border-bottom: 1px solid #eaecef;
+#header{
+  display:block;
+  text-align:center
 }
+
+#logo{
+  font-size:250%
+}
+
+.night-mode #logo{
+  color:#b3b3b3;
+  font-size:250%
+}
+
+#description{
+  font-size:105%;
+  font-style:italic;
+  text-align:center;
+  display:block
+}
+
+.night-mode #description{
+  color:#ccc
+}
+
+nav{
+  text-align:center
+}
+
+nav a{
+  display:inline-block;
+  padding:0 2% 0 2%;
+  width:auto;
+  height:32px;
+  line-height:32px;
+  font-size:115%;
+  text-decoration:none;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: bolder;
+}
+
+.night-mode nav a{
+  color:#b3b3b3
+}
+
+nav a:hover,nav .current{
+  text-decoration: underline
+}
+
+.night-mode nav a:hover,nav .current{
+  background:#7d7d7d
+}
+
+#footer {text-align:center}
+
+body{
+  box-sizing: border-box;
+  margin: 0 auto;
+  /*border: 0 5%;*/
+  padding: 0 5%;
+  min-width: 200px;
+  max-width: 1030px
+}
+
+.markdown-body {
+		box-sizing: border-box;
+		min-width: 200px;
+		max-width: 980px;
+		margin: 0 auto;
+		padding: 20px 45px;
+	}
+
+	@media (max-width: 767px) {
+		.markdown-body {
+			padding: 15px;
+		}
+	}
+/*.meta{
+  border-bottom: 1px solid #eaecef;
+}*/

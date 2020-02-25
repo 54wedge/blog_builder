@@ -79,7 +79,7 @@ def initial():
         shutil.rmtree(config['Directory']['Output'])
     shutil.copytree(config['Directory']['Input'], config['Directory']['Output'], ignore=shutil.ignore_patterns('*.md', '*.txt', '*_ignore*', '.DS_Store'))
     asset_path = os.path.join(config['Directory']['Template'], 'asset')
-    shutil.copytree(asset_path,os.path.join(config['Directory']['Output'], 'asset'))
+    shutil.copytree(asset_path,os.path.join(config['Directory']['Output'], 'asset'),  ignore=shutil.ignore_patterns('*.md', '*.txt', '.DS_Store'))
 
 def html_open(path,option = None):
     with open(path,'r') as html:

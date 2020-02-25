@@ -2,12 +2,10 @@
 <html class = "night-mode">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="renderer" content="webkit">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	%%Page_Title%%
 	%%Base%%
-	<link href="../asset/github.css" rel="stylesheet"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../asset/style.css">
 	<!-- highlight.js-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/atom-one-dark-reasonable.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
@@ -21,18 +19,16 @@
   	onload="renderMathInElement(document.body);"></script>
 </head>
 <body>
-	<container1>
+	<div id="header">
 		<a id = "logo" href = '../index.html'>Blog Builder</a>
 		<p id = "description">build with 54wedge's blog builder</p>
-	</container1>
-	<container2>
+	</div>
 		%%Nav%%
-	</container2>
   <hr>
   %%Content%%
   <hr>
-  <container4>
+  <div id="footer">
     <p>The blog builder is still in development.</p>
-  </container4>
+  </div>
 </body>
 </html>
