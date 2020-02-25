@@ -97,7 +97,7 @@ def safe_save(html,path,option = None):
     check_parent_path(path)
     if type(html) is bs:
         html = str(html)
-    if option is None:
+    if option == 'str':
         with open(path,'w') as output:
             output.write(html)
     elif option == 'minify':
@@ -108,6 +108,8 @@ def safe_save(html,path,option = None):
         soup = bs(html,'lxml')
         with open(path,'w') as output:
             output.write(soup.prettify())
+    else:
+        raise TypeError('option for safe_save() is missing or incorrect')
 
 def str_to_bs(html):
     soup = bs(html,'lxml')

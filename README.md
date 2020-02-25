@@ -74,3 +74,6 @@ Working
 ### Performance
 time spent:
 doing nothing while saving(100%) < minify(~300%) < prettify(~400%)
+
+### Known issue
+1. save prettified html will add extra blankspace in `<code>` tag. Use prettify option for debug.

@@ -11,7 +11,7 @@ Config:
  Time_style: '%B %d. %Y'
  Hide_meta: True
  Archive_group_by: month        # month / year
- Save_style: prettify           # prettify / minify/''
+ Save_style: str           # prettify / minify / str
 
 Home:
  Page_size: 3
