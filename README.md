@@ -72,8 +72,12 @@ Note: Missing the meta data block will give you a warning while missing meta dat
 Working
 
 ### Performance
-time spent:
-doing nothing while saving(100%) < minify(~300%) < prettify(~400%)
+different option in safe_saving() and time spent:
+str(100%) < minify(~300%) < prettify(~400%)
 
 ### Known issue
 1. save prettified html will add extra blankspace in `<code>` tag. Use prettify option for debug.
+
+### Credit
+- The github flavor markdown stylesheet is obtained from [github-markdown-css](https://github.com/sindresorhus/github-markdown-css)
+- The nightmode of the github flavor markdown stylesheet is obtained from [iA-Writer-Templates](https://github.com/iainc/iA-Writer-Templates/blob/master/GitHub.iatemplate/Contents/Resources/github-markdown-night-mode.css) with modify
