@@ -45,7 +45,7 @@
   background-color: #101010;
 }
 
-.night-mode .markdown-body table, .night-mode .markdown-body th, .night-mode .markdown-body td {
+.night-mode .night-mode .markdown-body th, .night-mode .markdown-body td {
   border:1px solid #ddd;
 }
 
