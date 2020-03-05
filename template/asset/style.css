@@ -57,27 +57,21 @@ nav a:hover,nav .current{
 #footer {text-align:center}
 
 body{
-  box-sizing: border-box;
-  margin: 0 auto;
-  /*border: 0 5%;*/
-  padding: 0 5%;
+  margin: 0;
+  width: 90vw;
+  padding: 0 4vw;
   min-width: 200px;
-  max-width: 1030px
 }
 
 .markdown-body {
 		box-sizing: border-box;
+    width: 95%;
 		min-width: 200px;
-		max-width: 980px;
 		margin: 0 auto;
-		padding: 20px 45px;
-	}
-
-	@media (max-width: 767px) {
+		padding: 10px auto;
+}
+@media (max-width: 767px) {
 		.markdown-body {
-			padding: 15px;
+			padding: 10px 15px;
 		}
-	}
-/*.meta{
-  border-bottom: 1px solid #eaecef;
-}*/
+}
