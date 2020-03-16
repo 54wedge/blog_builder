@@ -23,7 +23,7 @@ class _Meta:
             try:
                 self.title = html_soup.h1.get_text()
                 meta['Title'] = self.title
-                self.content_soup.h1.decompose()
+                html_soup.h1.decompose()
             except AttributeError:
                 self.title = 'Untitled'
                 meta['Title'] = self.title
