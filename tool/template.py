@@ -47,7 +47,7 @@ class _Template():
         if placeholder in self.template:
             self.template = self.template.replace(placeholder, string)
         #else:
-        #    print(utils.style(' **' + placeholder + ' is not found in template html','yellow','bold'))
+        #    print(utils.print_style(' **' + placeholder + ' is not found in template html','yellow','bold'))
 
     def print(self):
         self.replace('%%Content%%', self.content)

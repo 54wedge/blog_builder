@@ -23,26 +23,26 @@ class _Builder:
         print('Building pages......')
         for page in self.page_list:
             utils.safe_save(page.print(), page.path, self.save_style)
-            print(' --page '+ utils.style(page.path,'green') + ' is built')
+            print(' --page '+ utils.print_style(page.path,'green') + ' is built')
 
     def build_post(self):
         print('Building posts......')
         for post in self.post_list:
             utils.safe_save(post.print(), post.path, self.save_style)
-            print(' --post ' + utils.style(post.path,'green') + ' is built')
+            print(' --post ' + utils.print_style(post.path,'green') + ' is built')
 
     def build_home(self):
         print('Building Home page......')
         short_post_list = self.post_list[0:config['Home']['Page_size']]
         self.home = _Home(short_post_list)
         utils.safe_save(self.home.print(),self.home.path_out,self.save_style)
-        print(' --Home page ' + utils.style(self.home.path_out,'green') + ' is built')
+        print(' --Home page ' + utils.print_style(self.home.path_out,'green') + ' is built')
 
     def build_archive(self):
         print('Building Archive page......')
         self.archive = _Archive(self.post_list)
         utils.safe_save(self.archive.print(), self.archive.path_out, self.save_style)
-        print(' --Archive page ' + utils.style(self.archive.path_out,'green') + ' is built')
+        print(' --Archive page ' + utils.print_style(self.archive.path_out,'green') + ' is built')
 
     def build_category(self):
         print('Building Category pages......')
@@ -57,7 +57,7 @@ class _Builder:
             self.category_dict[key] = _Category(self.category_dict[key])
         for category in self.category_dict.values():
             utils.safe_save(category.print(), category.path_out, self.save_style)
-            print(' --Category page ' + utils.style(category.path_out,'green') + ' is built')
+            print(' --Category page ' + utils.print_style(category.path_out,'green') + ' is built')
 
     def build_tag(self):
         print('Building Tag pages......')
@@ -73,4 +73,4 @@ class _Builder:
             self.tag_dict[key] = _Tag(key,self.tag_dict[key])
         for tag in self.tag_dict.values():
             utils.safe_save(tag.print(), tag.path_out, self.save_style)
-            print(' --Tag page ' + utils.style(tag.path_out,'green') + ' is built')
+            print(' --Tag page ' + utils.print_style(tag.path_out,'green') + ' is built')
