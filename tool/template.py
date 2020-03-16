@@ -1,23 +1,12 @@
 import tool.utils as utils
 from tool.utils import config
+import tool.gen_list as gen_list
 
 template_path = utils.join_path(config['Directory']['Template'], 'template.html')
 template = utils.html_open(template_path)
 
-page_name_list = config['Page']
-new_nav = utils.empty_soup.new_tag('nav',id = 'nav-menu' )
-for page_name in page_name_list:
-    if page_name == '_Home':
-        page_name = 'Home'
-        path = '../index.html'
-    elif page_name == '_Archive':
-        page_name = 'Archive'
-        path = utils.join_path('../', page_name, 'index.html')
-    else:
-        path = utils.join_path('../', page_name, 'index.html')
-    new_a = utils.a_href(page_name,path)
-    new_nav.append(new_a)
-template = template.replace('{&Nav&}', str(new_nav))
+list_nav = gen_list.nav()
+template = template.replace('{&Nav&}', str(list_nav))
 new_base = utils.empty_soup.new_tag('base', href = config['Site']['Prefix'])
 template = template.replace('{&Base&}', str(new_base))
 

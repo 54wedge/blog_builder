@@ -3,36 +3,21 @@ from itertools import groupby
 import maya
 from tool.template import _Template
 from tool.utils import config
+import tool.gen_list as gen_list
 
 
 class _Archive():
     def __init__(self,post_list):
-        self.month_group = []
-        for key,group in groupby(post_list, key = lambda i:self.group_standard(i)):
-            self.month_group.append(list(group))
+        self.post_list = post_list
         self.path_out = utils.join_path(config['Directory']['Output'], 'Archive/index.html')
 
     def build(self):
-        new_div = utils.empty_soup.new_tag('div')
-        for month in self.month_group:
-            new_h2 = utils.empty_soup.new_tag('h2')
-            if config['Config']['Archive_group_by'] == 'month':
-                new_h2.string = str(month[0].meta.maya.datetime().strftime('%B %Y'))
-            elif config['Config']['Archive_group_by'] == 'year':
-                new_h2.string = str(month[0].meta.maya.datetime().strftime('%Y'))
-            new_div.append(new_h2)
-            new_ul = utils.empty_soup.new_tag('ul')
-            for post in month:
-                new_a = post.link
-                new_li = utils.empty_soup.new_tag('li')
-                new_li.append(new_a)
-                new_ul.append(new_li)
-            new_div.append(new_ul)
+        list_archive = gen_list.archive(self.post_list)
         new_title = utils.empty_soup.new_tag('title')
         new_title.string = 'Archive'
         archive_page = _Template('archive')
         archive_page.replace('{&Page_Title&}',str(new_title))
-        archive_page.replace('{&Post_list&}',str(new_div))
+        archive_page.replace('{&Post_list&}',str(list_archive))
         self.content = archive_page
 
     def group_standard(self, post):

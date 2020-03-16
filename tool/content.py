@@ -2,6 +2,7 @@ import tool.utils as utils
 from tool.template import _Template
 from tool.meta import _Meta
 from tool.utils import config
+import tool.gen_list as gen_list
 
 
 class _Content:
@@ -23,12 +24,8 @@ class _Content:
                 category_link = utils.a_href(self.meta.dict[key],category_path)
                 template.replace('{&'+key+'&}', str(category_link))
             elif key == 'Tag':
-                new_span = utils.empty_soup.new_tag('span',id = 'tag')
-                for tag in self.meta.dict['Tag']:
-                    tag_path = utils.join_path('../tag', tag, 'index.html')
-                    tag_link = utils.a_href('#' + tag,tag_path)
-                    new_span.append(tag_link)
-                template.replace('{&'+key+'&}', str(new_span))
+                span_tag = gen_list.tag_span(self.meta.dict['Tag'])
+                template.replace('{&'+key+'&}', str(span_tag))
             else:
                 template.replace('{$'+key+'$}', self.meta.dict[key])
         self.content = template
