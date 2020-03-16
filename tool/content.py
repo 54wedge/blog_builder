@@ -4,10 +4,10 @@ from tool.meta import _Meta
 from tool.utils import config
 
 
-class _Page:
-    def __init__(self,path):
+class _Content:
+    def __init__(self,path,type):
         self.path = path
-        self.type = 'page'
+        self.type = type
         html_soup = utils.html_open(path,'soup')
         try:
             raw_meta = html_soup.find_all('code',class_ = 'meta')[0].get_text()

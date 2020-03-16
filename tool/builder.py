@@ -1,5 +1,4 @@
-from tool.page import _Page
-from tool.post import _Post
+from tool.content import _Content
 from tool.home import _Home
 from tool.archive import _Archive
 from tool.category import _Category
@@ -14,9 +13,9 @@ class _Builder:
         self.post_list = []
         self.page_list = []
         for page_path in utils.get_list('page'):
-            self.page_list.append(_Page(page_path))
+            self.page_list.append(_Content(page_path,'page'))
         for post_path in utils.get_list('post'):
-            self.post_list.append(_Post(post_path))
+            self.post_list.append(_Content(post_path,'post'))
         self.post_list.sort(key = lambda i:i.meta.date_epoch, reverse = True)
         self.save_style = config['Config']['Save_style']
 
