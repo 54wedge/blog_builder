@@ -63,7 +63,7 @@ The supported meta are below
 | Date     | string | yes      | | Common styles of date string should be accepted.|
 | Tag      | list   | yes      |  |  |
 | Category | string | yes      | Default |  |
-| Custom_name   | string | yes      |  | replace strings in the html braced with `%%` like %%Custom_name%% |
+| Custom_name   | string | yes      |  | replace strings in the html like {$Custom_name$} |
 | Abstract      | string   | yes      | 1.strings before `<!--more-->`<br>2. "No Abstract" | the function is within index.py |
 
 Note: Missing the meta data block will give you a warning while missing meta data will not give you a warning
