@@ -17,9 +17,9 @@ for page_name in page_name_list:
         path = utils.join_path('../', page_name, 'index.html')
     new_a = utils.a_href(page_name,path)
     new_nav.append(new_a)
-template = template.replace('%%Nav%%', str(new_nav))
+template = template.replace('{&Nav&}', str(new_nav))
 new_base = utils.empty_soup.new_tag('base', href = config['Site']['Prefix'])
-template = template.replace('%%Base%%', str(new_base))
+template = template.replace('{&Base&}', str(new_base))
 
 class _Template():
     def __init__(self,type = None):
@@ -50,5 +50,5 @@ class _Template():
         #    print(utils.print_style(' **' + placeholder + ' is not found in template html','yellow','bold'))
 
     def print(self):
-        self.replace('%%Content%%', self.content)
+        self.replace('{&Content&}', self.content)
         return self.template

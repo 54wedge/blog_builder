@@ -21,9 +21,9 @@ class _Tag:
         new_title = utils.empty_soup.new_tag('title')
         new_title.string = '#' + self.tag_name
         tag_page = _Template('tag')
-        tag_page.replace('%%Page_Title%%', str(new_title))
-        tag_page.replace('%%Tag%%',self.tag_name)
-        tag_page.replace('%%Post_list%%',str(new_div))
+        tag_page.replace('{&Page_Title&}', str(new_title))
+        tag_page.replace('{$Tag$}',self.tag_name)
+        tag_page.replace('{&Post_list&}',str(new_div))
         tag_page.replace('../','../../')
         self.content = tag_page
 

@@ -31,8 +31,8 @@ class _Archive():           ##maybe rewrite a bit
         new_title = utils.empty_soup.new_tag('title')
         new_title.string = 'Archive'
         archive_page = _Template('archive')
-        archive_page.replace('%%Page_Title%%',str(new_title))
-        archive_page.replace('%%Post_list%%',str(new_div))
+        archive_page.replace('{&Page_Title&}',str(new_title))
+        archive_page.replace('{&Post_list&}',str(new_div))
         self.content = archive_page
 
     def print(self):

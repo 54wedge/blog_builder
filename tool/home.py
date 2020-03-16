@@ -37,8 +37,8 @@ class _Home:
         new_title = utils.empty_soup.new_tag('title')
         new_title.string = 'Home'
         home_page = _Template('home')
-        home_page.replace('%%Page_Title%%', str(new_title))
-        home_page.replace('%%Post_list%%',str(new_div))
+        home_page.replace('{&Page_Title&}', str(new_title))
+        home_page.replace('{&Post_list&}',str(new_div))
         home_page.replace('../','./')
         self.content = home_page
 
