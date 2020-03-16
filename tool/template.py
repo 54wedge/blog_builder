@@ -38,17 +38,12 @@ class _Template():
         else:
             raise TypeError('Failed to initialize _Template class. Missing or incorrect option')
         content_path = utils.join_path(config['Directory']['Template'], self.type)
-        self.content = utils.html_open(content_path)
-        self.template = template
+        content = utils.html_open(content_path)
+        self.template = template.replace('{&Content&}',str(content))
 
     def replace(self, placeholder, string):
-        if placeholder in self.content:
-            self.content = self.content.replace(placeholder, string)
         if placeholder in self.template:
             self.template = self.template.replace(placeholder, string)
-        #else:
-        #    print(utils.print_style(' **' + placeholder + ' is not found in template html','yellow','bold'))
 
     def print(self):
-        self.replace('{&Content&}', self.content)
         return self.template
