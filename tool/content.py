@@ -8,20 +8,7 @@ class _Content:
     def __init__(self,path,type):
         self.path = path
         self.type = type
-        html_soup = utils.html_open(path,'soup')
-        try:
-            raw_meta = html_soup.find_all('code',class_ = 'meta')[0].get_text()
-            if config['Config']['Hide_meta']:
-                html_soup.find_all('code',class_ = 'meta')[0].parent.decompose()
-        except IndexError:      #no meta data found
-            print(utils.style(' **No raw meta found in ' + path, 'yellow', 'bold'))
-            raw_meta = ''
-        self.content_soup = html_soup.body
-        self.meta = _Meta(raw_meta,path)
-        try:
-            self.content_soup.h1.decompose()
-        except AttributeError:
-            pass
+        self.meta = _Meta(path)
         self.link = utils.a_href(self.meta.title,self.path.replace(config['Directory']['Output'],'..'))
 
     def build(self):
@@ -29,7 +16,7 @@ class _Content:
         new_title.string = self.meta.title
         template = _Template(self.type)
         template.replace('%%Page_Title%%', str(new_title))
-        template.replace('%%Body%%',str(self.content_soup))
+        template.replace('%%Body%%',str(self.meta.content))
         for key in self.meta.dict:
             if key == 'Category':
                 category_path = utils.join_path('../category', self.meta.dict[key], 'index.html')

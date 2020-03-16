@@ -5,17 +5,25 @@ from tool.utils import config
 
 
 class _Meta:
-    def __init__(self,raw_meta,path):
-        meta = yaml.safe_load(raw_meta)
+    def __init__(self,path):
+        html_soup = utils.html_open(path,'soup')
+        try:
+            self.raw_meta = html_soup.find_all('code',class_ = 'meta')[0].get_text()
+            if config['Config']['Hide_meta']:
+                html_soup.find_all('code',class_ = 'meta')[0].parent.decompose()
+        except IndexError:      #no meta data found
+            print(utils.style(' **No raw meta found in ' + path, 'yellow', 'bold'))
+            self.raw_meta = ''
+        meta = yaml.safe_load(self.raw_meta)
         if meta is None:
             meta = {}
         if 'Title' in meta:
             self.title = meta['Title']
         else:
-            soup = utils.html_open(path,'soup')
             try:
-                self.title = soup.h1.get_text()
+                self.title = html_soup.h1.get_text()
                 meta['Title'] = self.title
+                self.content_soup.h1.decompose()
             except AttributeError:
                 self.title = 'Untitled'
                 meta['Title'] = self.title
@@ -43,3 +51,4 @@ class _Meta:
             self.tag = []
             meta['Tag'] = self.tag
         self.dict = meta
+        self.content = html_soup.body

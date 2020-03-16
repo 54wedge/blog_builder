@@ -12,7 +12,7 @@ class _Home:
         try:
             abstract = post.meta.dict['Abstract']
         except KeyError:
-            body = post.content_soup
+            body = post.meta.content
             if '<!--more-->' in str(body):
                 abstract = str(body).split('<!--more-->')[0]
                 abstract = utils.str_to_bs(abstract)
