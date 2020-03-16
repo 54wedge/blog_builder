@@ -5,10 +5,10 @@ from tool.template import _Template
 from tool.utils import config
 
 
-class _Archive():           ##maybe rewrite a bit
+class _Archive():
     def __init__(self,post_list):
         self.month_group = []
-        for key,group in groupby(post_list, key = lambda i:time_group_standard(i)):
+        for key,group in groupby(post_list, key = lambda i:self.group_standard(i)):
             self.month_group.append(list(group))
         self.path_out = utils.join_path(config['Directory']['Output'], 'Archive/index.html')
 
@@ -16,7 +16,7 @@ class _Archive():           ##maybe rewrite a bit
         new_div = utils.empty_soup.new_tag('div')
         for month in self.month_group:
             new_h2 = utils.empty_soup.new_tag('h2')
-            if config['Config']['Archive_group_by'] == 'month':      ##need rewrite
+            if config['Config']['Archive_group_by'] == 'month':
                 new_h2.string = str(month[0].meta.maya.datetime().strftime('%B %Y'))
             elif config['Config']['Archive_group_by'] == 'year':
                 new_h2.string = str(month[0].meta.maya.datetime().strftime('%Y'))
@@ -35,13 +35,13 @@ class _Archive():           ##maybe rewrite a bit
         archive_page.replace('{&Post_list&}',str(new_div))
         self.content = archive_page
 
+    def group_standard(self, post):
+        if config['Config']['Archive_group_by'] == 'month':
+            standard = post.meta.maya.datetime().strftime('%m/01/%Y')
+        elif config['Config']['Archive_group_by'] == 'year':
+            standard = post.meta.maya.datetime().strftime('01/01/%Y')
+        return maya.parse(standard).epoch
+
     def print(self):
         self.build()
         return self.content.print()
-
-def time_group_standard(post):     ##need rewrite
-    if config['Config']['Archive_group_by'] == 'month':
-        standard = post.meta.maya.datetime().strftime('%m/01/%Y')
-    elif config['Config']['Archive_group_by'] == 'year':
-        standard = post.meta.maya.datetime().strftime('01/01/%Y')
-    return maya.parse(standard).epoch
