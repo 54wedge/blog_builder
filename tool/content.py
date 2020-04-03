@@ -2,7 +2,7 @@ import tool.utils as utils
 from tool.template import _Template
 from tool.meta import _Meta
 from tool.utils import config
-import tool.gen_list as gen_list
+import tool.module as module
 
 
 class _Content:
@@ -24,7 +24,7 @@ class _Content:
                 category_link = utils.a_href(self.meta.dict[key],category_path)
                 template.replace('{&'+key+'&}', str(category_link))
             elif key == 'Tag':
-                span_tag = gen_list.tag_span(self.meta.dict['Tag'])
+                span_tag = module.tag_span(self.meta.dict['Tag'])
                 template.replace('{&'+key+'&}', str(span_tag))
             else:
                 template.replace('{$'+key+'$}', self.meta.dict[key])

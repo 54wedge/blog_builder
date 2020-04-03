@@ -1,7 +1,7 @@
 import tool.utils as utils
 from tool.template import _Template
 from tool.utils import config
-import tool.gen_list as gen_list
+import tool.module as module
 
 
 class _Home:
@@ -10,7 +10,7 @@ class _Home:
         self.path_out = utils.join_path(config['Directory']['Output'], 'index.html')
 
     def build(self):
-        list_home = gen_list.home(self.post_list)
+        list_home = module.home(self.post_list)
         new_title = utils.empty_soup.new_tag('title')
         new_title.string = 'Home'
         home_page = _Template('home')

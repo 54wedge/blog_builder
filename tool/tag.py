@@ -1,7 +1,7 @@
 import tool.utils as utils
 from tool.template import _Template
 from tool.utils import config
-import tool.gen_list as gen_list
+import tool.module as module
 
 
 class _Tag:
@@ -11,7 +11,7 @@ class _Tag:
         self.path_out = utils.join_path(config['Directory']['Output'], 'tag', self.tag_name, 'index.html')
 
     def build(self):
-        list_tag = gen_list.tag(self.tag_list)
+        list_tag = module.tag(self.tag_list)
         new_title = utils.empty_soup.new_tag('title')
         new_title.string = '#' + self.tag_name
         tag_page = _Template('tag')

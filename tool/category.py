@@ -1,7 +1,7 @@
 import tool.utils as utils
 from tool.template import _Template
 from tool.utils import config
-import tool.gen_list as gen_list
+import tool.module as module
 
 
 class _Category:
@@ -11,7 +11,7 @@ class _Category:
         self.path_out = utils.join_path(config['Directory']['Output'], 'category', self.category_name, 'index.html')
 
     def build(self):
-        list_category = gen_list.category(self.category_list)
+        list_category = module.category(self.category_list)
         new_title = utils.empty_soup.new_tag('title')
         new_title.string = self.category_name
         category_page = _Template('category')

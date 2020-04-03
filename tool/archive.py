@@ -3,7 +3,7 @@ from itertools import groupby
 import maya
 from tool.template import _Template
 from tool.utils import config
-import tool.gen_list as gen_list
+import tool.module as module
 
 
 class _Archive():
@@ -12,7 +12,7 @@ class _Archive():
         self.path_out = utils.join_path(config['Directory']['Output'], 'Archive/index.html')
 
     def build(self):
-        list_archive = gen_list.archive(self.post_list)
+        list_archive = module.archive(self.post_list)
         new_title = utils.empty_soup.new_tag('title')
         new_title.string = 'Archive'
         archive_page = _Template('archive')
