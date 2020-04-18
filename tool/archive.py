@@ -12,7 +12,7 @@ class _Archive():
         self.path_out = utils.join_path(config['Directory']['Output'], 'Archive/index.html')
 
     def build(self):
-        list_archive = module.archive(self.post_list)
+        list_archive = module.archive_list(self.post_list)
         new_title = utils.empty_soup.new_tag('title')
         new_title.string = 'Archive'
         archive_page = _Template('archive')

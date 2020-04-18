@@ -5,7 +5,7 @@ import tool.module as module
 template_path = utils.join_path(config['Directory']['Template'], 'template.html')
 template = utils.html_open(template_path)
 
-list_nav = module.nav()
+list_nav = module.nav_list()
 template = template.replace('{&Nav&}', str(list_nav))
 new_base = utils.empty_soup.new_tag('base', href = config['Site']['Prefix'])
 template = template.replace('{&Base&}', str(new_base))

@@ -11,7 +11,7 @@ class _Tag:
         self.path_out = utils.join_path(config['Directory']['Output'], 'tag', self.tag_name, 'index.html')
 
     def build(self):
-        list_tag = module.tag(self.tag_list)
+        list_tag = module.post_list(self.tag_list)
         new_title = utils.empty_soup.new_tag('title')
         new_title.string = '#' + self.tag_name
         tag_page = _Template('tag')

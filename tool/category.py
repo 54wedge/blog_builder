@@ -11,7 +11,7 @@ class _Category:
         self.path_out = utils.join_path(config['Directory']['Output'], 'category', self.category_name, 'index.html')
 
     def build(self):
-        list_category = module.category(self.category_list)
+        list_category = module.post_list(self.category_list)
         new_title = utils.empty_soup.new_tag('title')
         new_title.string = self.category_name
         category_page = _Template('category')

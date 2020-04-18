@@ -4,7 +4,7 @@ from itertools import groupby
 import maya
 
 
-def archive(post_list):
+def archive_list(post_list):
     month_group = []
     for key,group in groupby(post_list, key = lambda i:group_standard(i)):
         month_group.append(list(group))
@@ -26,7 +26,7 @@ def archive(post_list):
         new_div.append(new_ul)
     return new_div
 
-def tag(post_list):
+def post_list(post_list):
     new_div = utils.empty_soup.new_tag('div')
     new_ul = utils.empty_soup.new_tag('ul')
     for post in post_list:
@@ -37,18 +37,7 @@ def tag(post_list):
     new_div.append(new_ul)
     return new_div
 
-def category(post_list):
-    new_div = utils.empty_soup.new_tag('div')
-    new_ul = utils.empty_soup.new_tag('ul')
-    for post in post_list:
-        new_a = post.link
-        new_li = utils.empty_soup.new_tag('li')
-        new_li.append(new_a)
-        new_ul.append(new_li)
-    new_div.append(new_ul)
-    return new_div
-
-def home(post_list):
+def home_list(post_list):
     new_div = utils.empty_soup.new_tag('div')
     for post in post_list:
         new_a = post.link
@@ -63,7 +52,7 @@ def home(post_list):
         new_div.append(new_ul)
     return new_div
 
-def nav():
+def nav_list():
     page_name_list = config['Page']
     new_nav = utils.empty_soup.new_tag('nav',id = 'nav-menu' )
     for page_name in page_name_list:
