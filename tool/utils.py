@@ -5,6 +5,11 @@ from pathlib import Path as _Path
 import htmlmin
 from bs4 import BeautifulSoup as bs
 
+class content_path:
+    def __init__(self, content, path):
+        self.content = content
+        self.path = path
+
 def print_style(string, *args):
     style_dict = {'reset':'\033[00m', 'bold':'\033[01m', 'disable':'\033[02m',
         'underline':'\033[04m', 'reverse':'\033[07m', 'strikethrough':'\033[09m',

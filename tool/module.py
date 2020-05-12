@@ -88,7 +88,7 @@ def get_abstract(post):
     try:
         abstract = post.meta.dict['Abstract']
     except KeyError:
-        body = post.meta.content
+        body = post.meta.body
         if '<!--more-->' in str(body):
             abstract = str(body).split('<!--more-->')[0]
             abstract = utils.str_to_bs(abstract)

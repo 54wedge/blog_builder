@@ -51,4 +51,4 @@ class _Meta:
             self.tag = []
             meta['Tag'] = self.tag
         self.dict = meta
-        self.content = html_soup.body
+        self.body = html_soup.body

@@ -12,21 +12,11 @@ template = template.replace('{&Base&}', str(new_base))
 
 class _Template():
     def __init__(self,type = None):
-        if type == 'page':
-            self.type = 'page.html'
-        elif type == 'post':
-            self.type = 'post.html'
-        elif type == 'archive':
-            self.type = 'archive.html'
-        elif type == 'category':
-            self.type = 'category.html'
-        elif type == 'tag':
-            self.type = 'tag.html'
-        elif type == 'home':
-            self.type = 'home.html'
+        self.type = type
+        if type == 'page' or 'post' or 'archive' or 'category' or 'tag' or 'home':
+            content_path = utils.join_path(config['Directory']['Template'], self.type + '.html')
         else:
             raise TypeError('Failed to initialize _Template class. Missing or incorrect option')
-        content_path = utils.join_path(config['Directory']['Template'], self.type)
         content = utils.html_open(content_path)
         self.template = template.replace('{&Content&}',str(content))
 
@@ -34,5 +24,5 @@ class _Template():
         if placeholder in self.template:
             self.template = self.template.replace(placeholder, string)
 
-    def print(self):
+    def str(self):
         return self.template
