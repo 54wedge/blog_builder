@@ -61,7 +61,7 @@ def get_list(option = None):
             if os.path.exists(full_path):
                 list.append(full_path)
             else:
-                print(style(' !!Page ' + full_path + ' does not exist', 'red','bold'))
+                print(print_style(' !!Page ' + full_path + ' does not exist', 'red','bold'))
         return list
     else:
         raise TypeError('option for get_list() is missing or incorrect')
