@@ -20,7 +20,7 @@ class _Home:
         self.struct = content_path(self.content, self.path)
 
     def build(self):
-        list_home = module.home_list(self.post_list)
+        list_home = module.home_module(self.post_list)
         new_title = utils.empty_soup.new_tag('title')
         new_title.string = 'Home'
         home_page = _Template('home')
@@ -37,7 +37,7 @@ class _Archive():
         self.struct = content_path(self.content, self.path)
 
     def build(self):
-        list_archive = module.archive_list(self.post_list)
+        list_archive = module.archive_module(self.post_list)
         new_title = utils.empty_soup.new_tag('title')
         new_title.string = 'Archive'
         archive_page = _Template('archive')
@@ -63,7 +63,7 @@ class _Category:
                 self.category_dict[post.meta.category].append(post)
 
     def build(self, category_list, category_name):
-        list_category = module.post_list(category_list)
+        list_category = module.post_module(category_list)
         new_title = utils.empty_soup.new_tag('title')
         new_title.string = category_name
         category_page = _Template('category')
@@ -95,7 +95,7 @@ class _Tag:
                     self.tag_dict[meta_tag].append(post)
 
     def build(self, tag_list, tag_name):
-        list_tag = module.post_list(tag_list)
+        list_tag = module.post_module(tag_list)
         new_title = utils.empty_soup.new_tag('title')
         new_title.string = '#' + tag_name
         tag_page = _Template('tag')
