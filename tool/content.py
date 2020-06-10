@@ -31,12 +31,18 @@ class _Content:
         template.replace('{&Body&}',str(self.meta.body))
         for key in self.meta.dict:
             if key == 'Category':
-                category_path = utils.join_path('../category', self.meta.dict[key], 'index.html')
-                category_link = utils.a_href(self.meta.dict[key],category_path)
-                template.replace('{&'+key+'&}', str(category_link))
+                if self.type == 'page':
+                    pass
+                else:
+                    category_path = utils.join_path('../category', self.meta.dict[key], 'index.html')
+                    category_link = utils.a_href(self.meta.dict[key],category_path)
+                    template.replace('{&'+key+'&}', str(category_link))
             elif key == 'Tag':
-                span_tag = module.tag_span(self.meta.dict['Tag'])
-                template.replace('{&'+key+'&}', str(span_tag))
+                if self.type == 'page':
+                    pass
+                else:
+                    span_tag = module.tag_span(self.meta.dict['Tag'])
+                    template.replace('{&'+key+'&}', str(span_tag))
             else:
                 template.replace('{$'+key+'$}', self.meta.dict[key])
         return template.str()
