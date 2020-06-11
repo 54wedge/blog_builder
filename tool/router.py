@@ -21,10 +21,7 @@ class _Home:
 
     def build(self):
         list_home = module.home_module(self.post_list)
-        #new_title = utils.empty_soup.new_tag('title')
-        #new_title.string = 'Home'
         home_page = _Template('home')
-        #print(str(new_title))
         home_page.replace('{$Page_Title$}', 'Home')
         home_page.replace('{&Home_module&}',str(list_home))
         home_page.replace('../','./')
@@ -39,8 +36,6 @@ class _Archive():
 
     def build(self):
         list_archive = module.archive_module(self.post_list)
-        #new_title = utils.empty_soup.new_tag('title')
-        #new_title.string = 'Archive'
         archive_page = _Template('archive')
         archive_page.replace('{$Page_Title$}', 'Archive')
         archive_page.replace('{&Archive_module&}',str(list_archive))
@@ -65,8 +60,6 @@ class _Category:
 
     def build(self, category_list, category_name):
         list_category = module.post_module(category_list)
-        #new_title = utils.empty_soup.new_tag('title')
-        #new_title.string = category_name
         category_page = _Template('category')
         category_page.replace('{$Page_Title$}', category_name)
         category_page.replace('{$Category$}', category_name)
@@ -97,8 +90,6 @@ class _Tag:
 
     def build(self, tag_list, tag_name):
         list_tag = module.post_module(tag_list)
-        #new_title = utils.empty_soup.new_tag('title')
-        #new_title.string = '#' + tag_name
         tag_page = _Template('tag')
         tag_page.replace('{$Page_Title$}', '#' + tag_name)
         tag_page.replace('{$Tag$}', tag_name)
