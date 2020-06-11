@@ -24,10 +24,10 @@ class _Content:
         self.struct = content_path(self.content, self.path)
 
     def build(self):
-        new_title = utils.empty_soup.new_tag('title')
-        new_title.string = self.meta.title
+        #new_title = utils.empty_soup.new_tag('title')
+        #new_title.string = self.meta.title
         template = _Template(self.type)
-        template.replace('{&Page_Title&}', str(new_title))
+        template.replace('{$Page_Title$}', self.meta.title)
         template.replace('{&Body&}',str(self.meta.body))
         for key in self.meta.dict:
             if key == 'Category':
