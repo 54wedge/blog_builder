@@ -69,7 +69,40 @@ The supported meta are below
 Note: Missing the meta data block will give you a warning while missing meta data will not give you a warning
 
 ### Template
-Working
+#### Template related
+Can be found in `template.html`, `archive.html`, `category.html`, `home.html` and `tag.html`
+
+| Variable | Usage | Optional |
+|:--|:--|:--|
+| {$Page_Title$} | The title of the page | NO |
+| {$Base$} | Site prefix | NO |
+
+| Module | Usage | Optional |
+|:--|:--|:--|
+| {&Content&} | Use for user content | NO |
+| {&Nav_module&} | Use for navigation | NO |
+| {&Post_module&} | Use for list of posts | NO |
+| {&Home_module&} | Use for list of posts for home page | NO |
+| {&Archive_module&} | Use for list of posts for archive page | NO |
+
+#### User content related
+Can be found in `post.html` and `page.html`.
+These variables are defined in meta data
+
+| Variable | Usage | Optional |
+|:--|:--|:--|
+| {$Title$} | Title | Yes |
+| {$Author$} | Author | Yes |
+| {$Date$} | Date | Yes |
+| {$Category$} | Category | Yes |
+| {$Tag$} | Tag | Yes |
+| {$Variable$} | Variable | Yes |
+
+| Module | Usage | Optional |
+|:--|:--|:--|
+| {&Body&} | User content | NO |
+| {&Category&} | A link to Category page | Yes |
+| {&Tag&} | Links to Tag pages | Yes |
 
 ### Performance
 different option in safe_saving() and time spent:
