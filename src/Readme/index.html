@@ -65,8 +65,9 @@
        |- index.html
   |- /page_2
        |- index.html
-
 </code></pre>
+
+<p>Note: You can put your local images anywhere inside <code>/[Source_folder]</code> as long as they are accessible by source html file. (You can see the image when you open the source html file)</p>
 
 <h3>Meta data</h3>
 
@@ -142,7 +143,7 @@ More_meta: [more meta you need]
 	<td style="text-align:left;">string</td>
 	<td style="text-align:left;">yes</td>
 	<td style="text-align:left;"></td>
-	<td style="text-align:left;">replace strings in the html braced with <code>%%</code> like %%Custom_name%%</td>
+	<td style="text-align:left;">replace strings in the html like {$Custom_name$}</td>
 </tr>
 <tr>
 	<td style="text-align:left;">Abstract</td>
@@ -154,10 +155,193 @@ More_meta: [more meta you need]
 </tbody>
 </table>
 
-<p>Note: missing the meta data block will give you a warning while missing meta data will not give you a warning</p>
+<p>Note: Missing the meta data block will give you a warning while missing meta data will not give you a warning</p>
 
 <h3>Template</h3>
 
-<p>Working</p>
+<h4>Template related</h4>
+
+<p>Can be found in <code>template.html</code>, <code>archive.html</code>, <code>category.html</code>, <code>home.html</code> and <code>tag.html</code></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Variable</th>
+	<th style="text-align:left;">Usage</th>
+	<th style="text-align:left;">Optional</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">{$Page_Title$}</td>
+	<td style="text-align:left;">The title of the page</td>
+	<td style="text-align:left;">NO</td>
+</tr>
+<tr>
+	<td style="text-align:left;">{$Base$}</td>
+	<td style="text-align:left;">Site prefix</td>
+	<td style="text-align:left;">NO</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Module</th>
+	<th style="text-align:left;">Usage</th>
+	<th style="text-align:left;">Optional</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">{&amp;Content&amp;}</td>
+	<td style="text-align:left;">Use for user content</td>
+	<td style="text-align:left;">NO</td>
+</tr>
+<tr>
+	<td style="text-align:left;">{&amp;Nav_module&amp;}</td>
+	<td style="text-align:left;">Use for navigation</td>
+	<td style="text-align:left;">NO</td>
+</tr>
+<tr>
+	<td style="text-align:left;">{&amp;Post_module&amp;}</td>
+	<td style="text-align:left;">Use for list of posts</td>
+	<td style="text-align:left;">NO</td>
+</tr>
+<tr>
+	<td style="text-align:left;">{&amp;Home_module&amp;}</td>
+	<td style="text-align:left;">Use for list of posts for home page</td>
+	<td style="text-align:left;">NO</td>
+</tr>
+<tr>
+	<td style="text-align:left;">{&amp;Archive_module&amp;}</td>
+	<td style="text-align:left;">Use for list of posts for archive page</td>
+	<td style="text-align:left;">NO</td>
+</tr>
+</tbody>
+</table>
+
+<h4>User content related</h4>
+
+<p>Can be found in <code>post.html</code> and <code>page.html</code>.</p>
+
+<p>These variables are defined in meta data</p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Variable</th>
+	<th style="text-align:left;">Usage</th>
+	<th style="text-align:left;">Optional</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">{$Title$}</td>
+	<td style="text-align:left;">Title</td>
+	<td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+	<td style="text-align:left;">{$Author$}</td>
+	<td style="text-align:left;">Author</td>
+	<td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+	<td style="text-align:left;">{$Date$}</td>
+	<td style="text-align:left;">Date</td>
+	<td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+	<td style="text-align:left;">{$Category$}</td>
+	<td style="text-align:left;">Category</td>
+	<td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+	<td style="text-align:left;">{$Tag$}</td>
+	<td style="text-align:left;">Tag</td>
+	<td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+	<td style="text-align:left;">{$Variable$}</td>
+	<td style="text-align:left;">Variable</td>
+	<td style="text-align:left;">Yes</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Module</th>
+	<th style="text-align:left;">Usage</th>
+	<th style="text-align:left;">Optional</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">{&amp;Body&amp;}</td>
+	<td style="text-align:left;">User content</td>
+	<td style="text-align:left;">NO</td>
+</tr>
+<tr>
+	<td style="text-align:left;">{&amp;Category&amp;}</td>
+	<td style="text-align:left;">A link to Category page</td>
+	<td style="text-align:left;">Yes</td>
+</tr>
+<tr>
+	<td style="text-align:left;">{&amp;Tag&amp;}</td>
+	<td style="text-align:left;">Links to Tag pages</td>
+	<td style="text-align:left;">Yes</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Performance</h3>
+
+<p>different option in safe_saving() and time spent:</p>
+
+<p>str(100%) &lt; minify(~300%) &lt; prettify(~400%)</p>
+
+<h3>Known issue</h3>
+
+<ol>
+<li>save prettified html will add extra blankspace in <code>&lt;code&gt;</code> tag. Use prettify option for debug.</li>
+</ol>
+
+<h3>Credit</h3>
+
+<ul>
+<li>The github flavor markdown stylesheet is obtained from <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a></li>
+<li>The nightmode of the github flavor markdown stylesheet is obtained from <a href="https://github.com/iainc/iA-Writer-Templates/blob/master/GitHub.iatemplate/Contents/Resources/github-markdown-night-mode.css">iA-Writer-Templates</a> with modify</li>
+</ul>
 </body>
 </html>
