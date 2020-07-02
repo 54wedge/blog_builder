@@ -23,6 +23,7 @@ class _Builder:
             print(' --post ' + utils.print_style(post.path,'green') + ' is built')
 
     def build_router(self):
+        print('Building router......')
         utils.safe_save(self.router.home.content, self.router.home.path)
         print(' --Home page ' + utils.print_style(self.router.home.path,'green') + ' is built')
         utils.safe_save(self.router.archive.content, self.router.archive.path,)

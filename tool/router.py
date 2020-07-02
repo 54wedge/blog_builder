@@ -39,13 +39,6 @@ class _Archive():
         archive_page.replace('{&Archive_module&}',str(list_archive))
         return archive_page.str()
 
-    def group_standard(self, post):
-        if config['Site']['Archive_group_by'] == 'month':
-            standard = post.meta.maya.datetime().strftime('%m/01/%Y')
-        elif config['Site']['Archive_group_by'] == 'year':
-            standard = post.meta.maya.datetime().strftime('01/01/%Y')
-        return post.meta.maya.parse(standard).epoch
-
 class _Category:
     def __init__(self,post_list):
         self.category_dict = {}
