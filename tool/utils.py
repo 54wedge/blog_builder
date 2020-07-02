@@ -5,7 +5,12 @@ from pathlib import Path as _Path
 import htmlmin
 from bs4 import BeautifulSoup as bs
 
-def style(string, *args):
+class content_path:
+    def __init__(self, content, path):
+        self.content = content
+        self.path = path
+
+def print_style(string, *args):
     style_dict = {'reset':'\033[00m', 'bold':'\033[01m', 'disable':'\033[02m',
         'underline':'\033[04m', 'reverse':'\033[07m', 'strikethrough':'\033[09m',
         'invisible':'\033[08m', 'black':'\033[30m', 'red':'\033[31m',
@@ -56,7 +61,7 @@ def get_list(option = None):
             if os.path.exists(full_path):
                 list.append(full_path)
             else:
-                print(style(' !!Page ' + full_path + ' does not exist', 'red','bold'))
+                print(print_style(' !!Page ' + full_path + ' does not exist', 'red','bold'))
         return list
     else:
         raise TypeError('option for get_list() is missing or incorrect')
@@ -79,7 +84,7 @@ def initial():
         shutil.rmtree(config['Directory']['Output'])
     shutil.copytree(config['Directory']['Input'], config['Directory']['Output'], ignore=shutil.ignore_patterns('*.md', '*.txt', '*_ignore*', '.DS_Store'))
     asset_path = os.path.join(config['Directory']['Template'], 'asset')
-    shutil.copytree(asset_path,os.path.join(config['Directory']['Output'], 'asset'))
+    shutil.copytree(asset_path,os.path.join(config['Directory']['Output'], 'asset'),  ignore=shutil.ignore_patterns('*.md', '*.txt', '.DS_Store'))
 
 def html_open(path,option = None):
     with open(path,'r') as html:
@@ -97,7 +102,7 @@ def safe_save(html,path,option = None):
     check_parent_path(path)
     if type(html) is bs:
         html = str(html)
-    if option is None:
+    if option == 'str':
         with open(path,'w') as output:
             output.write(html)
     elif option == 'minify':
@@ -108,6 +113,8 @@ def safe_save(html,path,option = None):
         soup = bs(html,'lxml')
         with open(path,'w') as output:
             output.write(soup.prettify())
+    else:
+        raise TypeError('option for safe_save() is missing or incorrect')
 
 def str_to_bs(html):
     soup = bs(html,'lxml')

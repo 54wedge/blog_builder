@@ -1,25 +1,23 @@
-	<container3 class = "markdown-body">
-		<article>
+	<div class = "markdown-body">
 		<h1 class = "title">
-			%%Title%%
+			{$Title$}
 		</h1>
 		<span class = "meta">
 			Created by
 			<span id = "author">
-				%%Author%%
+				{$Author$}
 			</span> | Date:
 			<time>
-				%%Date%%
+				{$Date$}
 			</time> | Category:
 			<span id = "category">
-				%%Category%%
+				{&Category&}
 				</span>
 		</span>
-		<div class = "content">
-		%%Body%%
+		<article>
+		{&Body&}
+		</article>
+	<div> Tag:
+		{&Tag&}
 	</div>
-	</article>
-	<div> Tag: 
-		%%Tag%%
 	</div>
-	</container3>

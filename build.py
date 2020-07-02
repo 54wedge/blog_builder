@@ -8,7 +8,4 @@ builder = _Builder()    #for the sake of speed
 
 builder.build_page()
 builder.build_post()
-builder.build_home()
-builder.build_archive()
-builder.build_category()
-builder.build_tag()
+builder.build_router()
