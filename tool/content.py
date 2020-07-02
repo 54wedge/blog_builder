@@ -2,7 +2,6 @@ import tool.utils as utils
 from tool.template import _Template
 from tool.meta import _Meta
 from tool.utils import config
-from tool.utils import content_path
 import tool.module as module
 
 def read_source(type = None):
@@ -21,7 +20,6 @@ class _Content:
         self.meta = _Meta(path)
         self.link = utils.a_href(self.meta.title,self.path.replace(config['Directory']['Output'],'..'))
         self.content = self.build()
-        self.struct = content_path(self.content, self.path)
 
     def build(self):
         template = _Template(self.type)

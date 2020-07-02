@@ -17,7 +17,6 @@ class _Home:
         self.post_list = post_list[0:config['Home']['Page_size']]
         self.path = utils.join_path(config['Directory']['Output'], 'index.html')
         self.content = self.build()
-        self.struct = content_path(self.content, self.path)
 
     def build(self):
         list_home = module.home_module(self.post_list)
@@ -32,7 +31,6 @@ class _Archive():
         self.post_list = post_list
         self.path = utils.join_path(config['Directory']['Output'], 'Archive/index.html')
         self.content = self.build()
-        self.struct = content_path(self.content, self.path)
 
     def build(self):
         list_archive = module.archive_module(self.post_list)
