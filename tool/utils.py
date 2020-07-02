@@ -78,9 +78,6 @@ def html_open(path,option = None):
         html = html.read()
     if option is None:
         return html
-    elif option == 'minify':
-        mini_html = htmlmin.minify(html)
-        return mini_html
     elif option == 'soup':
         soup = bs(html,'lxml')
         return soup
