@@ -15,7 +15,7 @@ def read_source(type = None):
 
 class _Content:
     def __init__(self,path,type):
-        self.path = path
+        self.path = path.replace(config['Directory']['Input'],config['Directory']['Output'])
         self.type = type
         self.meta = _Meta(path)
         self.link = utils.a_href(self.meta.title,self.path.replace(config['Directory']['Output'],'..'))

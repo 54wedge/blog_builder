@@ -41,7 +41,7 @@ def join_path(path, *args):
 
 def get_list(option = None):
     if option == 'post':
-        path = os.path.join(config['Directory']['Output'], 'post')
+        path = os.path.join(config['Directory']['Input'], 'post')
         post_names = os.listdir(path)
         list = []
         for i in post_names:
@@ -50,7 +50,7 @@ def get_list(option = None):
                 list.append(full_path)
         return(list)
     elif option == 'page':
-        path = config['Directory']['Output']
+        path = config['Directory']['Input']
         page_list = config['Page']
         list = []
         for page_name in page_list:
