@@ -37,7 +37,7 @@ class _Meta:
         else:
             self.maya = maya.MayaDT(utils.get_time(path,'modify'))
         self.date_epoch = self.maya.epoch          #for data comparason
-        self.date_human = self.maya.datetime().strftime(config['Config']['Time_style'])
+        self.date_human = self.maya.datetime().strftime(config['Site']['Time_style'])
         meta['Date'] = self.date_human
         if 'Category' in meta:
             self.category = meta['Category']

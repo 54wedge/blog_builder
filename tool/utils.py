@@ -41,7 +41,7 @@ def join_path(path, *args):
 
 def get_list(option = None):
     if option == 'post':
-        path = os.path.join(config['Directory']['Output'], 'post')
+        path = os.path.join(config['Directory']['Input'], 'post')
         post_names = os.listdir(path)
         list = []
         for i in post_names:
@@ -50,7 +50,7 @@ def get_list(option = None):
                 list.append(full_path)
         return(list)
     elif option == 'page':
-        path = config['Directory']['Output']
+        path = config['Directory']['Input']
         page_list = config['Page']
         list = []
         for page_name in page_list:
@@ -66,19 +66,6 @@ def get_list(option = None):
     else:
         raise TypeError('option for get_list() is missing or incorrect')
 
-def check_parent_path(path):
-    if path.split('.')[-1] == 'html':
-        new_path = path.rsplit('/',1)[0]
-        if os.path.exists(new_path):
-            return True
-        else:
-            os.makedirs(new_path)
-    else:
-        if os.path.exists(path):
-            return True
-        else:
-            os.makedirs(path)
-
 def initial():
     if os.path.exists(config['Directory']['Output']):
         shutil.rmtree(config['Directory']['Output'])
@@ -91,15 +78,14 @@ def html_open(path,option = None):
         html = html.read()
     if option is None:
         return html
-    elif option == 'minify':
-        mini_html = htmlmin.minify(html)
-        return mini_html
     elif option == 'soup':
         soup = bs(html,'lxml')
         return soup
 
-def safe_save(html,path,option = None):
-    check_parent_path(path)
+def safe_save(html,path,option = 'str'):
+    dir_path = path.rsplit('/',1)[0]
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
     if type(html) is bs:
         html = str(html)
     if option == 'str':
@@ -113,8 +99,6 @@ def safe_save(html,path,option = None):
         soup = bs(html,'lxml')
         with open(path,'w') as output:
             output.write(soup.prettify())
-    else:
-        raise TypeError('option for safe_save() is missing or incorrect')
 
 def str_to_bs(html):
     soup = bs(html,'lxml')

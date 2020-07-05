@@ -12,9 +12,9 @@ def archive_module(post_list):
     new_div = utils.empty_soup.new_tag('div')
     for month in month_group:
         new_h2 = utils.empty_soup.new_tag('h2')
-        if config['Config']['Archive_group_by'] == 'month':
+        if config['Site']['Archive_group_by'] == 'month':
             new_h2.string = str(month[0].meta.maya.datetime().strftime('%B %Y'))
-        elif config['Config']['Archive_group_by'] == 'year':
+        elif config['Site']['Archive_group_by'] == 'year':
             new_h2.string = str(month[0].meta.maya.datetime().strftime('%Y'))
         new_div.append(new_h2)
         new_ul = utils.empty_soup.new_tag('ul')
@@ -77,9 +77,9 @@ def tag_span(tag_list):
     return new_span
 
 def group_standard(post):
-    if config['Config']['Archive_group_by'] == 'month':
+    if config['Site']['Archive_group_by'] == 'month':
         standard = post.meta.maya.datetime().strftime('%m/01/%Y')
-    elif config['Config']['Archive_group_by'] == 'year':
+    elif config['Site']['Archive_group_by'] == 'year':
         standard = post.meta.maya.datetime().strftime('01/01/%Y')
     return maya.parse(standard).epoch
 

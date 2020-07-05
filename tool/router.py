@@ -14,10 +14,9 @@ class _Router():
 
 class _Home:
     def __init__(self,post_list):
-        self.post_list = post_list[0:config['Home']['Page_size']]
+        self.post_list = post_list[0:config['Site']['Home_Page_Items']]
         self.path = utils.join_path(config['Directory']['Output'], 'index.html')
         self.content = self.build()
-        self.struct = content_path(self.content, self.path)
 
     def build(self):
         list_home = module.home_module(self.post_list)
@@ -32,7 +31,6 @@ class _Archive():
         self.post_list = post_list
         self.path = utils.join_path(config['Directory']['Output'], 'Archive/index.html')
         self.content = self.build()
-        self.struct = content_path(self.content, self.path)
 
     def build(self):
         list_archive = module.archive_module(self.post_list)
@@ -40,13 +38,6 @@ class _Archive():
         archive_page.replace('{$Page_Title$}', 'Archive')
         archive_page.replace('{&Archive_module&}',str(list_archive))
         return archive_page.str()
-
-    def group_standard(self, post):
-        if config['Config']['Archive_group_by'] == 'month':
-            standard = post.meta.maya.datetime().strftime('%m/01/%Y')
-        elif config['Config']['Archive_group_by'] == 'year':
-            standard = post.meta.maya.datetime().strftime('01/01/%Y')
-        return post.meta.maya.parse(standard).epoch
 
 class _Category:
     def __init__(self,post_list):

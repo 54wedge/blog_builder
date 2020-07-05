@@ -6,15 +6,13 @@ Directory:
 Site:
  Prefix: ./
  Author: 54wedge
+ Home_Page_Items: 3
+ Time_style: '%B %d. %Y'
+ Archive_group_by: month        # month / year
 
 Config:
- Time_style: '%B %d. %Y'
  Hide_meta: True
- Archive_group_by: month        # month / year
  Save_style: str           # prettify / minify / str
-
-Home:
- Page_size: 3
 
 Page:
   - _Home
