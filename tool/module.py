@@ -3,22 +3,18 @@ from tool.utils import config
 from itertools import groupby
 import maya
 
-
 def archive_module(post_list):
-    month_group = []
-    for key,group in groupby(post_list, key = lambda i:group_standard(i)):
-        month_group.append(list(group))
-
+    if config['Site']['Archive_group_by'] == 'month':
+        style_key = '%B %Y'
+    elif config['Site']['Archive_group_by'] == 'year':
+        style_key = '%Y'
     new_div = utils.empty_soup.new_tag('div')
-    for month in month_group:
+    for key,group in groupby(post_list, key = lambda i:i.meta.maya.datetime().strftime(style_key)):
         new_h2 = utils.empty_soup.new_tag('h2')
-        if config['Site']['Archive_group_by'] == 'month':
-            new_h2.string = str(month[0].meta.maya.datetime().strftime('%B %Y'))
-        elif config['Site']['Archive_group_by'] == 'year':
-            new_h2.string = str(month[0].meta.maya.datetime().strftime('%Y'))
+        new_h2.string = key
         new_div.append(new_h2)
         new_ul = utils.empty_soup.new_tag('ul')
-        for post in month:
+        for post in list(group):
             new_a = post.link
             new_li = utils.empty_soup.new_tag('li')
             new_li.append(new_a)
@@ -75,13 +71,6 @@ def tag_span(tag_list):
         new_span.append(tag_link)
         new_span.append(' ')
     return new_span
-
-def group_standard(post):
-    if config['Site']['Archive_group_by'] == 'month':
-        standard = post.meta.maya.datetime().strftime('%m/01/%Y')
-    elif config['Site']['Archive_group_by'] == 'year':
-        standard = post.meta.maya.datetime().strftime('01/01/%Y')
-    return maya.parse(standard).epoch
 
 def get_abstract(post):
     try:
