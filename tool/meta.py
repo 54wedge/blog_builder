@@ -40,12 +40,14 @@ class _Meta:
         self.date_human = self.maya.datetime().strftime(config['Site']['Time_style'])
         meta['Date'] = self.date_human
         if 'Category' in meta:
-            self.category = meta['Category']
+            self.category = meta['Category'].capitalize()
         else:
             self.category = 'Default'
             meta['Category'] = self.category
         if 'Tag' in meta:
             meta['Tag'].sort(key = str.lower)
+            for i in range(len(meta['Tag'])):
+                meta['Tag'][i] = meta['Tag'][i].capitalize()
             self.tag = meta['Tag']
         else:
             self.tag = []
