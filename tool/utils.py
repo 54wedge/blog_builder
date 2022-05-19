@@ -1,7 +1,6 @@
 import os
 import shutil
 import yaml
-from pathlib import Path as _Path
 import htmlmin
 from bs4 import BeautifulSoup as bs
 
@@ -22,6 +21,9 @@ def print_style(string, *args):
     for arg in args:
         string = style_dict[arg] + string
     return string + style_dict['reset']
+
+abspath = os.path.abspath(__file__ + "/../../")       #The parent directory of /tool/utils.py -> where build.py is
+os.chdir(abspath)
 
 with open('config.yml','r') as config:
     config = yaml.safe_load(config)
@@ -54,7 +56,7 @@ def get_list(option = None):
         page_list = config['Page']
         list = []
         for page_name in page_list:
-            if page_name[0] is '_':
+            if page_name[0] == '_':
                 continue
             full_path = os.path.join(path,page_name)
             full_path = os.path.join(full_path,'index.html')
@@ -92,9 +94,9 @@ def safe_save(html,path,option = 'str'):
         with open(path,'w') as output:
             output.write(html)
     elif option == 'minify':
-        mini_html = htmlmin.minify(html)
-        with open(path,'w') as output:
-            output.write(mini_html)
+       mini_html = htmlmin.minify(html)
+       with open(path,'w') as output:
+           output.write(mini_html)
     elif option == 'prettify':
         soup = bs(html,'lxml')
         with open(path,'w') as output:
