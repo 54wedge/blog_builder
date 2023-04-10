@@ -3,6 +3,7 @@ import shutil
 import yaml
 import htmlmin
 from bs4 import BeautifulSoup as bs
+import sys
 
 class content_path:
     def __init__(self, content, path):
@@ -25,7 +26,13 @@ def print_style(string, *args):
 abspath = os.path.abspath(__file__ + "/../../")       #The parent directory of /tool/utils.py -> where build.py is
 os.chdir(abspath)
 
-with open('config.yml','r') as config:
+if "-c" in sys.argv:
+    config_path = sys.argv[sys.argv.index("-c")+1]
+else:
+    config_path = "./config.yml"
+
+print(config_path)
+with open(config_path, 'r') as config:
     config = yaml.safe_load(config)
 
 def get_time(path,option = None):
