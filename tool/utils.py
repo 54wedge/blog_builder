@@ -23,18 +23,6 @@ def print_style(string, *args):
         string = style_dict[arg] + string
     return string + style_dict['reset']
 
-abspath = os.path.abspath(__file__ + "/../../")       #The parent directory of /tool/utils.py -> where build.py is
-os.chdir(abspath)
-
-if "-c" in sys.argv:
-    config_path = sys.argv[sys.argv.index("-c")+1]
-else:
-    config_path = "./config.yml"
-
-print(config_path)
-with open(config_path, 'r') as config:
-    config = yaml.safe_load(config)
-
 def get_time(path,option = None):
     if option == 'modify':
         return os.path.getmtime(path)
@@ -47,40 +35,6 @@ def join_path(path, *args):
     for arg in args:
         path = os.path.join(path,arg)
     return path
-
-def get_list(option = None):
-    if option == 'post':
-        path = os.path.join(config['Directory']['Input'], 'post')
-        post_names = os.listdir(path)
-        list = []
-        for i in post_names:
-            full_path = os.path.join(path,i)
-            if full_path.split('.')[-1] == 'html':
-                list.append(full_path)
-        return(list)
-    elif option == 'page':
-        path = config['Directory']['Input']
-        page_list = config['Page']
-        list = []
-        for page_name in page_list:
-            if page_name[0] == '_':
-                continue
-            full_path = os.path.join(path,page_name)
-            full_path = os.path.join(full_path,'index.html')
-            if os.path.exists(full_path):
-                list.append(full_path)
-            else:
-                print(print_style(' !!Page ' + full_path + ' does not exist', 'red','bold'))
-        return list
-    else:
-        raise TypeError('option for get_list() is missing or incorrect')
-
-def initial():
-    if os.path.exists(config['Directory']['Output']):
-        shutil.rmtree(config['Directory']['Output'])
-    shutil.copytree(config['Directory']['Input'], config['Directory']['Output'], ignore=shutil.ignore_patterns('*.md', '*.txt', '*_ignore*', '.DS_Store'))
-    asset_path = os.path.join(config['Directory']['Template'], 'asset')
-    shutil.copytree(asset_path,os.path.join(config['Directory']['Output'], 'asset'),  ignore=shutil.ignore_patterns('*.md', '*.txt', '.DS_Store'))
 
 def html_open(path,option = None):
     with open(path,'r') as html:

@@ -1,12 +1,11 @@
 import tool.utils as utils
-from tool.utils import config
 from itertools import groupby
 import maya
 
-def archive_module(post_list):
-    if config['Site']['Archive_group_by'] == 'month':
+def archive_module(group_by, post_list):
+    if group_by == 'month':
         style_key = '%B %Y'
-    elif config['Site']['Archive_group_by'] == 'year':
+    elif group_by == 'year':
         style_key = '%Y'
     new_div = utils.empty_soup.new_tag('div')
     for key,group in groupby(post_list, key = lambda i:i.meta.maya.datetime().strftime(style_key)):
@@ -47,8 +46,7 @@ def home_module(post_list):
         new_div.append(new_ul)
     return new_div
 
-def nav_module():
-    page_name_list = config['Page']
+def nav_module(page_name_list):
     new_nav = utils.empty_soup.new_tag('nav',id = 'nav-menu' )
     for page_name in page_name_list:
         if page_name == '_Home':

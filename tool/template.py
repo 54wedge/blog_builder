@@ -1,17 +1,19 @@
 import tool.utils as utils
-from tool.utils import config
 import tool.module as module
 
-template_path = utils.join_path(config['Directory']['Template'], 'template.html')
-template = utils.html_open(template_path)
-
-list_nav = module.nav_module()
-template = template.replace('{&Nav_module&}', str(list_nav))
-template = template.replace('{$Base$}', config['Site']['Prefix'])
-
 class _Template():
-    def __init__(self,type = None):
+    def __init__(self, config, type = None):
+        self.config = config
         self.type = type
+        self.page_name_list = config['Page']
+
+        template_path = utils.join_path(config['Directory']['Template'], 'template.html')
+        template = utils.html_open(template_path)
+
+        list_nav = module.nav_module(self.page_name_list)
+        template = template.replace('{&Nav_module&}', str(list_nav))
+        template = template.replace('{$Base$}', config['Site']['Prefix'])
+
         if type == 'page' or 'post' or 'archive' or 'category' or 'tag' or 'home':
             path = utils.join_path(config['Directory']['Template'], self.type + '.html')
         else:

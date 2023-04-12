@@ -1,11 +1,10 @@
 import yaml
 import maya
 import tool.utils as utils
-from tool.utils import config
 
 
 class _Meta:
-    def __init__(self,path):
+    def __init__(self, config, path):
         html_soup = utils.html_open(path,'soup')
         try:
             self.raw_meta = html_soup.find_all('code',class_ = 'meta')[0].get_text()
