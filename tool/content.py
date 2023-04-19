@@ -3,6 +3,7 @@ from tool.template import _Template
 from tool.meta import _Meta
 import tool.module as module
 import os
+import tool.utils as utils
 
 def read_source(type = None):
     path_list = utils.get_list(type)
@@ -14,17 +15,16 @@ def read_source(type = None):
     return content_list
 
 class _Content:
-    def __init__(self, config, path, type):
-        self.config = config
+    def __init__(self, path, type):
         self.path = path
         self.type = type
-        self.meta = _Meta(config, path)
+        self.meta = _Meta(path)
         self.link = utils.a_href(self.meta.title, \
                                  os.path.join("..", path.split("/")[-2], path.split("/")[-1]))
         self.content = self.build()
 
     def build(self):
-        template = _Template(self.config, self.type)
+        template = _Template(self.type)
         template.replace('{$Page_Title$}', self.meta.title)
         template.replace('{&Body&}',str(self.meta.body))
         for key in self.meta.dict:

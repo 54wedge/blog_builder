@@ -1,20 +1,20 @@
-Directory:
- Input: ./src
- Output: ./dist
- Template: ./template
+Path:
+  Input: ./src
+  Output: ./dist
+  Template: ./template
 
 Site:
- Prefix: ./
- Author: 54wedge
- Home_Page_Items: 3
- Time_style: '%B %d. %Y'
- Archive_group_by: month        # month / year
+  Prefix: ./
+  Author: 54wedge
+  Home_size: 3
+  Time_style: '%B %d. %Y'
+  Archive_group_by: month        # month / year
 
-Config:
- Hide_meta: True
- Save_style: str           # prettify / minify / str
+Content:
+  Hide_meta: True
+  Save_style: str           # prettify / minify / str
 
-Page:
+Page_list:
   - _Home
   - Readme
   - _Archive

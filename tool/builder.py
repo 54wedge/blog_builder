@@ -5,27 +5,23 @@ import sys
 import os
 import yaml
 import shutil
-
+from tool.config import config
 
 class _Builder:
     def __init__(self, path):
-        self.root = path
-        self.config = self.set_config(path)
-        self.output_path = self.config['Directory']['Output']
-        self.input_path = self.config['Directory']['Input']
-        self.template_path = self.config['Directory']['Template']
         self.initial()
-        self.page_list = self.set_content_list(type = 'page')
-        self.post_list = self.set_content_list(type = 'post')
-        self.router = _Router(self.config, self.post_list)
+        self.post_path_list = self.get_post_path_list()
+        self.router = _Router(self.post_path_list)
+        self.page_list = self.page_list()
+        self.post_list = self.post_list()
 
     def initial(self):
-        if os.path.exists(self.output_path):
-            shutil.rmtree(self.output_path)
-        shutil.copytree(self.input_path, self.output_path, \
+        if os.path.exists(config.output_path):
+            shutil.rmtree(config.output_path)
+        shutil.copytree(config.input_path, config.output_path, \
                         ignore=shutil.ignore_patterns('*.md', '*.txt', '*_ignore*', '.DS_Store'))
-        asset_path = os.path.join(self.template_path, 'asset')
-        shutil.copytree(asset_path,os.path.join(self.output_path, 'asset'),  \
+        asset_path = os.path.join(config.template_path, 'asset')
+        shutil.copytree(asset_path,os.path.join(config.output_path, 'asset'),  \
                         ignore=shutil.ignore_patterns('*.md', '*.txt', '.DS_Store'))
 
     def build_page(self):
@@ -52,52 +48,46 @@ class _Builder:
         for tag in self.router.tag_list:
             utils.safe_save(tag.content, tag.path)
             print(' --Tag page ' + utils.print_style(tag.path,'green') + ' is built')
-
-    def set_content_list(self, type = None):
-        path_list = self.content_list(type)
+    
+    def page_list(self):
+        path_list = self.get_page_path_list()
         content_list = []
         for path in path_list:
-            content = _Content(self.config, path, type)
+            content = _Content(path, "page")
             content_list.append(content)
         content_list.sort(key = lambda i:i.meta.date_epoch, reverse = True)
         return content_list
     
-    def set_config(self, path):
-        if "-c" in sys.argv:
-            config_path = sys.argv[sys.argv.index("-c")+1]
-        else:
-            config_path = os.path.join(path,"./config.yml")
-        utils.print_style(config_path,'green')
-        with open(config_path, 'r') as config:
-            config = yaml.safe_load(config)
-            return config
-        
-    def get_config(self):
-        return self.config
+    def post_list(self):
+        path_list = self.get_post_path_list()
+        content_list = []
+        for path in path_list:
+            content = _Content(path, "post")
+            content_list.append(content)
+        content_list.sort(key = lambda i:i.meta.date_epoch, reverse = True)
+        return content_list
     
-    def content_list(self, option = None):
-        if option == 'post':
-            path = os.path.join(self.output_path, 'post')
-            post_names = os.listdir(path)
-            list = []
-            for i in post_names:
-                full_path = os.path.join(path,i)
-                if full_path.split('.')[-1] == 'html':
-                    list.append(full_path)
-            return(list)
-        elif option == 'page':
-            path = self.output_path
-            page_list = self.config['Page']
-            list = []
-            for page_name in page_list:
-                if page_name[0] == '_':
-                    continue
-                full_path = os.path.join(path,page_name)
-                full_path = os.path.join(full_path,'index.html')
-                if os.path.exists(full_path):
-                    list.append(full_path)
-                else:
-                    print(utils.print_style(' !!Page ' + full_path + ' does not exist', 'red','bold'))
-            return list
-        else:
-            raise TypeError('option for get_list() is missing or incorrect')
+    def get_page_path_list(self):
+        path = config.output_path
+        page_list = config.page_name_list
+        page_path_list = []
+        for page_name in page_list:
+            if page_name[0] == '_':
+                continue
+            full_path = os.path.join(path,page_name)
+            full_path = os.path.join(full_path,'index.html')
+            if os.path.exists(full_path):
+                page_path_list.append(full_path)
+            else:
+                print(utils.print_style(' !!Page ' + full_path + ' does not exist', 'red','bold'))
+        return page_path_list
+
+    def get_post_path_list(self):
+        path = os.path.join(config.output_path, 'post')
+        post_names = os.listdir(path)
+        post_path_list = []
+        for i in post_names:
+            full_path = os.path.join(path,i)
+            if full_path.split('.')[-1] == 'html':
+                post_path_list.append(full_path)
+        return post_path_list

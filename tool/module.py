@@ -1,6 +1,5 @@
 import tool.utils as utils
 from itertools import groupby
-import maya
 
 def archive_module(group_by, post_list):
     if group_by == 'month':

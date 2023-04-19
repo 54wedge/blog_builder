@@ -1,14 +1,14 @@
 import yaml
 import maya
 import tool.utils as utils
-
+from tool.config import config
 
 class _Meta:
-    def __init__(self, config, path):
+    def __init__(self, path):
         html_soup = utils.html_open(path,'soup')
         try:
             self.raw_meta = html_soup.find_all('code',class_ = 'meta')[0].get_text()
-            if config['Config']['Hide_meta']:
+            if config.hide_meta:
                 html_soup.find_all('code',class_ = 'meta')[0].parent.decompose()
         except IndexError:      #no meta data found
             print(utils.print_style(' **No raw meta found in ' + path, 'yellow', 'bold'))
@@ -29,14 +29,14 @@ class _Meta:
         if 'Author' in meta:
             self.author = meta['Author']
         else:
-            self.author = config['Site']['Author']
+            self.author = config.site_author
             meta['Author'] = self.author
         if 'Date' in meta:
             self.maya = maya.parse(meta['Date'])
         else:
             self.maya = maya.MayaDT(utils.get_time(path,'modify'))
         self.date_epoch = self.maya.epoch          #for data comparason
-        self.date_human = self.maya.datetime().strftime(config['Site']['Time_style'])
+        self.date_human = self.maya.datetime().strftime(config.time_style)
         meta['Date'] = self.date_human
         if 'Category' in meta:
             self.category = meta['Category'].capitalize()

@@ -1,9 +1,6 @@
 import os
-import shutil
-import yaml
 import htmlmin
 from bs4 import BeautifulSoup as bs
-import sys
 
 class content_path:
     def __init__(self, content, path):
