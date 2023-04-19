@@ -10,10 +10,9 @@ from tool.config import config
 class _Builder:
     def __init__(self, path):
         self.initial()
-        self.post_path_list = self.get_post_path_list()
-        self.router = _Router(self.post_path_list)
         self.page_list = self.page_list()
         self.post_list = self.post_list()
+        self.router = _Router(self.post_list)
 
     def initial(self):
         if os.path.exists(config.output_path):

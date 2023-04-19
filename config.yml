@@ -4,11 +4,12 @@ Path:
   Template: ./template
 
 Site:
+  Home_page_title: Home
   Prefix: ./
   Author: 54wedge
   Home_size: 3
   Time_style: '%B %d. %Y'
-  Archive_group_by: month        # month / year
+  Archive_group_by: month        # month / year / none
 
 Content:
   Hide_meta: True

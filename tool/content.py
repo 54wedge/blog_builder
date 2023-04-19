@@ -25,7 +25,7 @@ class _Content:
 
     def build(self):
         template = _Template(self.type)
-        template.replace('{$Page_Title$}', self.meta.title)
+        template.replace('{@Page_Title@}', self.meta.title)
         template.replace('{&Body&}',str(self.meta.body))
         for key in self.meta.dict:
             if key == 'Category':
@@ -42,5 +42,5 @@ class _Content:
                     span_tag = module.tag_span(self.meta.tag)
                     template.replace('{&'+key+'&}', str(span_tag))
             else:
-                template.replace('{$'+key+'$}', self.meta.dict[key])
+                template.replace('{@'+key+'@}', self.meta.dict[key])
         return template.str()

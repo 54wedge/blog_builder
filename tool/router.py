@@ -5,26 +5,24 @@ from tool.config import config
 import tool.module as module
 
 class _Router():
-    def __init__(self, post_path_list):
-        self.post_path_list = post_path_list
-        self.home = _Home(post_path_list)
-        self.archive = _Archive(post_path_list)
-        self.category_list = _Category(post_path_list).list()
-        self.tag_list = _Tag(post_path_list).list()
+    def __init__(self, post_list):
+        self.post_list = post_list
+        self.home = _Home(post_list)
+        self.archive = _Archive(post_list)
+        self.category_list = _Category(post_list).list()
+        self.tag_list = _Tag(post_list).list()
 
 class _Home:
-    def __init__(self, post_path_list):
-        print(post_path_list)
-        self.post_list = post_path_list[0:config.home_size]
-        print(self.post_list)
+    def __init__(self, post_list):
+        self.post_list = post_list[0:config.home_size]
         self.path = utils.join_path(config.output_path, 'index.html')
         self.content = self.build()
 
     def build(self):
-        list_home = module.home_module(self.post_list)
+        list_home = module.home_mini_post_list(self.post_list)
         home_page = _Template('home')
-        home_page.replace('{$Page_Title$}', 'Home')
-        home_page.replace('{&Home_module&}',str(list_home))
+        home_page.replace('{@Page_Title@}', config.home_page_title)
+        home_page.replace('{&Home_mini_post_list&}',str(list_home))
         home_page.replace('../','./')
         return home_page.str()
 
@@ -35,10 +33,10 @@ class _Archive():
         self.content = self.build()
 
     def build(self):
-        list_archive = module.archive_module(config.archive_group, self.post_list)
+        list_archive = module.archive_post_list(self.post_list)
         archive_page = _Template('archive')
-        archive_page.replace('{$Page_Title$}', 'Archive')
-        archive_page.replace('{&Archive_module&}',str(list_archive))
+        archive_page.replace('{@Page_Title@}', 'Archive')
+        archive_page.replace('{&Archive_post_list&}',str(list_archive))
         return archive_page.str()
 
 class _Category:
@@ -54,8 +52,8 @@ class _Category:
     def build(self, category_list, category_name):
         list_category = module.post_module(category_list)
         category_page = _Template('category')
-        category_page.replace('{$Page_Title$}', category_name)
-        category_page.replace('{$Category$}', category_name)
+        category_page.replace('@Page_Title@}', category_name)
+        category_page.replace('{@Category@}', category_name)
         category_page.replace('{&Post_module&}',str(list_category))
         category_page.replace('../','../../')
         return category_page.str()
@@ -84,8 +82,8 @@ class _Tag:
     def build(self, tag_list, tag_name):
         list_tag = module.post_module(tag_list)
         tag_page = _Template('tag')
-        tag_page.replace('{$Page_Title$}', '#' + tag_name)
-        tag_page.replace('{$Tag$}', tag_name)
+        tag_page.replace('{@Page_Title@}', '#' + tag_name)
+        tag_page.replace('{@Tag@}', tag_name)
         tag_page.replace('{&Post_module&}',str(list_tag))
         tag_page.replace('../','../../')
         return tag_page.str()

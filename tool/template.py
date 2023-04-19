@@ -5,14 +5,13 @@ from tool.config import config
 class _Template():
     def __init__(self, type = None):
         self.type = type
-        self.page_name_list = config.page_name_list
 
         template_path = utils.join_path(config.template_path, 'template.html')
         template = utils.html_open(template_path)
 
-        list_nav = module.nav_module(self.page_name_list)
+        list_nav = module.nav_module()
         template = template.replace('{&Nav_module&}', str(list_nav))
-        template = template.replace('{$Base$}', config.site_prefix)
+        template = template.replace('{@Base@}', config.site_prefix)
 
         if type == 'page' or 'post' or 'archive' or 'category' or 'tag' or 'home':
             path = utils.join_path(config.template_path, self.type + '.html')

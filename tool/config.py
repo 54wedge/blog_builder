@@ -11,6 +11,7 @@ class _Config:
         self.output_path = tmp["Path"]["Output"]
         self.template_path = tmp["Path"]["Template"]
 
+        self.home_page_title = tmp["Site"]["Home_page_title"]
         self.site_prefix = tmp["Site"]["Prefix"]
         self.site_author = tmp["Site"]["Author"]
         self.home_size = tmp["Site"]["Home_size"]
