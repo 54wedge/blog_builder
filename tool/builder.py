@@ -1,9 +1,8 @@
 from tool.content import _Content
 from tool.router import _Router
+from tool.template import _Template
 import tool.utils as utils
-import sys
 import os
-import yaml
 import shutil
 from tool.config import config
 
@@ -28,7 +27,6 @@ class _Builder:
         for page in self.page_list:
             utils.safe_save(page.content, page.path)
             utils.nsprint(' --page '+ utils.sstyle(page.path,'green') + ' is built')
-            # utils.nsutils.nsprint(" --page "+ page.path + " is built")
 
     def build_post(self):
         utils.nsprint('Building posts......')
@@ -51,18 +49,22 @@ class _Builder:
     
     def page_list(self):
         path_list = self.get_page_path_list()
+        template = _Template()
+        template.page()
         content_list = []
         for path in path_list:
-            content = _Content(path, "page")
+            content = _Content(path, template)
             content_list.append(content)
         content_list.sort(key = lambda i:i.meta.date_epoch, reverse = True)
         return content_list
     
     def post_list(self):
         path_list = self.get_post_path_list()
+        template = _Template()
+        template.post()
         content_list = []
         for path in path_list:
-            content = _Content(path, "post")
+            content = _Content(path, template)
             content_list.append(content)
         content_list.sort(key = lambda i:i.meta.date_epoch, reverse = True)
         return content_list

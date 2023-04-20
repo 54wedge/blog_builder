@@ -21,7 +21,7 @@ def sstyle(string, *args):
         string = style_dict[arg] + string
     return string + style_dict['reset']
 
-def nsprint(string, color="white", styles=["none"], end = "\n"):
+def nsprint(string, color="white", styles=["none"], end = "\n", ignore = False):
     style_dict = {"none":"",'reset':'\033[00m', 'bold':'\033[01m', 'disable':'\033[02m',
         'underline':'\033[04m', 'reverse':'\033[07m', 'strikethrough':'\033[09m',
         'invisible':'\033[08m'}
@@ -34,7 +34,8 @@ def nsprint(string, color="white", styles=["none"], end = "\n"):
     for style in styles:
         string = style_dict[style] + string
     string = color_dict[color] + string
-    if "-s" not in sys.argv:      # -s stands for silence
+    string = string + style_dict["reset"]
+    if "-s" not in sys.argv or ignore != False:      # -s stands for silence
         print(string, end = end)
 
 def get_time(path,option = None):

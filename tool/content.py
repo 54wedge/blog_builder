@@ -1,5 +1,4 @@
 import tool.utils as utils
-from tool.template import _Template
 from tool.meta import _Meta
 import tool.module as module
 import os
@@ -15,18 +14,18 @@ def read_source(type = None):
     return content_list
 
 class _Content:
-    def __init__(self, path, type):
+    def __init__(self, path, template):
         self.path = path
-        self.type = type
+        self.template = template
+        self.type = template.style
         self.meta = _Meta(path)
         self.link = utils.a_href(self.meta.title, \
                                  os.path.join("..", path.split("/")[-2], path.split("/")[-1]))
         self.content = self.build()
 
     def build(self):
-        template = _Template(self.type)
-        template.replace('{@Page_Title@}', self.meta.title)
-        template.replace('{&Body&}',str(self.meta.body))
+        self.template.replace('{@Page_Title@}', self.meta.title)
+        self.template.replace('{&Body&}',str(self.meta.body))
         for key in self.meta.dict:
             if key == 'Category':
                 if self.type == 'page':
@@ -34,13 +33,13 @@ class _Content:
                 else:
                     category_path = utils.join_path('../category', self.meta.category, 'index.html')
                     category_link = utils.a_href(self.meta.category,category_path)
-                    template.replace('{&'+key+'&}', str(category_link))
+                    self.template.replace('{&'+key+'&}', str(category_link))
             elif key == 'Tag':
                 if self.type == 'page':
                     pass
                 else:
                     span_tag = module.tag_span(self.meta.tag)
-                    template.replace('{&'+key+'&}', str(span_tag))
+                    self.template.replace('{&'+key+'&}', str(span_tag))
             else:
-                template.replace('{@'+key+'@}', self.meta.dict[key])
-        return template.str()
+                self.template.replace('{@'+key+'@}', self.meta.dict[key])
+        return self.template.str()

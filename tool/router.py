@@ -16,31 +16,35 @@ class _Home:
     def __init__(self, post_list):
         self.post_list = post_list[0:config.home_size]
         self.path = utils.join_path(config.output_path, 'index.html')
+        self.template = _Template()
+        self.template.home()
         self.content = self.build()
 
     def build(self):
         list_home = module.home_mini_post_list(self.post_list)
-        home_page = _Template('home')
-        home_page.replace('{@Page_Title@}', config.home_page_title)
-        home_page.replace('{&Home_mini_post_list&}',str(list_home))
-        home_page.replace('../','./')
-        return home_page.str()
+        self.template.replace('{@Page_Title@}', config.home_page_title)
+        self.template.replace('{&Home_mini_post_list&}',str(list_home))
+        self.template.replace('../','./')
+        return self.template.str()
 
 class _Archive():
     def __init__(self, post_list):
         self.post_list = post_list
         self.path = utils.join_path(config.output_path, 'Archive/index.html')
+        self.template = _Template()
+        self.template.archive()
         self.content = self.build()
 
     def build(self):
         list_archive = module.archive_post_list(self.post_list)
-        archive_page = _Template('archive')
-        archive_page.replace('{@Page_Title@}', 'Archive')
-        archive_page.replace('{&Archive_post_list&}',str(list_archive))
-        return archive_page.str()
+        self.template.replace('{@Page_Title@}', 'Archive')
+        self.template.replace('{&Archive_post_list&}',str(list_archive))
+        return self.template.str()
 
 class _Category:
     def __init__(self, post_list):
+        self.template = _Template()
+        self.template.category()
         self.category_dict = {}
         for post in post_list:
             try:
@@ -51,12 +55,11 @@ class _Category:
 
     def build(self, category_list, category_name):
         list_category = module.post_module(category_list)
-        category_page = _Template('category')
-        category_page.replace('@Page_Title@}', category_name)
-        category_page.replace('{@Category@}', category_name)
-        category_page.replace('{&Post_module&}',str(list_category))
-        category_page.replace('../','../../')
-        return category_page.str()
+        self.template.replace('@Page_Title@}', category_name)
+        self.template.replace('{@Category@}', category_name)
+        self.template.replace('{&Post_module&}',str(list_category))
+        self.template.replace('../','../../')
+        return self.template.str()
 
     def list(self):
         list = []
@@ -70,6 +73,8 @@ class _Category:
 
 class _Tag:
     def __init__(self, post_list):
+        self.template = _Template()
+        self.template.tag()
         self.tag_dict = {}
         for post in post_list:
             for meta_tag in post.meta.tag:
@@ -81,12 +86,11 @@ class _Tag:
 
     def build(self, tag_list, tag_name):
         list_tag = module.post_module(tag_list)
-        tag_page = _Template('tag')
-        tag_page.replace('{@Page_Title@}', '#' + tag_name)
-        tag_page.replace('{@Tag@}', tag_name)
-        tag_page.replace('{&Post_module&}',str(list_tag))
-        tag_page.replace('../','../../')
-        return tag_page.str()
+        self.template.replace('{@Page_Title@}', '#' + tag_name)
+        self.template.replace('{@Tag@}', tag_name)
+        self.template.replace('{&Post_module&}',str(list_tag))
+        self.template.replace('../','../../')
+        return self.template.str()
 
     def list(self):
         list = []
