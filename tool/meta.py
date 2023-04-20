@@ -11,7 +11,7 @@ class _Meta:
             if config.hide_meta:
                 html_soup.find_all('code',class_ = 'meta')[0].parent.decompose()
         except IndexError:      #no meta data found
-            print(utils.print_style(' **No raw meta found in ' + path, 'yellow', 'bold'))
+            utils.nsprint(utils.sstyle(' **No raw meta found in ' + path, 'yellow', 'bold'))
             self.raw_meta = ''
         meta = yaml.safe_load(self.raw_meta)
         if meta is None:

@@ -24,29 +24,30 @@ class _Builder:
                         ignore=shutil.ignore_patterns('*.md', '*.txt', '.DS_Store'))
 
     def build_page(self):
-        print('Building pages......')
+        utils.nsprint('Building pages......')
         for page in self.page_list:
             utils.safe_save(page.content, page.path)
-            print(' --page '+ utils.print_style(page.path,'green') + ' is built')
+            utils.nsprint(' --page '+ utils.sstyle(page.path,'green') + ' is built')
+            # utils.nsutils.nsprint(" --page "+ page.path + " is built")
 
     def build_post(self):
-        print('Building posts......')
+        utils.nsprint('Building posts......')
         for post in self.post_list:
             utils.safe_save(post.content, post.path)
-            print(' --post ' + utils.print_style(post.path,'green') + ' is built')
+            utils.nsprint(' --post ' + utils.sstyle(post.path,'green') + ' is built')
 
     def build_router(self):
-        print('Building router......')
+        utils.nsprint('Building router......')
         utils.safe_save(self.router.home.content, self.router.home.path)
-        print(' --Home page ' + utils.print_style(self.router.home.path,'green') + ' is built')
+        utils.nsprint(' --Home page ' + utils.sstyle(self.router.home.path,'green') + ' is built')
         utils.safe_save(self.router.archive.content, self.router.archive.path,)
-        print(' --Archive page ' + utils.print_style(self.router.archive.path,'green') + ' is built')
+        utils.nsprint(' --Archive page ' + utils.sstyle(self.router.archive.path,'green') + ' is built')
         for category in self.router.category_list:
             utils.safe_save(category.content, category.path)
-            print(' --Category page ' + utils.print_style(category.path,'green') + ' is built')
+            utils.nsprint(' --Category page ' + utils.sstyle(category.path,'green') + ' is built')
         for tag in self.router.tag_list:
             utils.safe_save(tag.content, tag.path)
-            print(' --Tag page ' + utils.print_style(tag.path,'green') + ' is built')
+            utils.nsprint(' --Tag page ' + utils.sstyle(tag.path,'green') + ' is built')
     
     def page_list(self):
         path_list = self.get_page_path_list()
@@ -78,7 +79,7 @@ class _Builder:
             if os.path.exists(full_path):
                 page_path_list.append(full_path)
             else:
-                print(utils.print_style(' !!Page ' + full_path + ' does not exist', 'red','bold'))
+                utils.nsprint(utils.sstyle(' !!Page ' + full_path + ' does not exist', 'red','bold'))
         return page_path_list
 
     def get_post_path_list(self):

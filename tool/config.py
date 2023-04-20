@@ -1,6 +1,7 @@
 import os
 import sys
 import yaml
+import tool.utils as utils
 
 class _Config:
     def __init__(self, path):
@@ -30,5 +31,5 @@ else:
     config_path = os.path.abspath(config_path+"/../")
     config_path = os.path.join(config_path,"./config.yml")
     config_path = os.path.abspath(config_path)
-print("Looking for config file at " + config_path)
+utils.nsprint("Looking for config file at " + config_path)
 config = _Config(config_path)

@@ -54,7 +54,6 @@ def home_mini_post_list(post_path_list):
         new_div.append(new_p)
     else:
         for post_path in post_path_list:
-            print(post_path)
             new_a = post_path.link
             new_ul = utils.empty_soup.new_tag('ul')
             new_li = utils.empty_soup.new_tag('li')
