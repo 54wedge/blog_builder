@@ -3,11 +3,6 @@ import htmlmin
 from bs4 import BeautifulSoup as bs
 import sys
 
-class content_path:
-    def __init__(self, content, path):
-        self.content = content
-        self.path = path
-
 def sstyle(string, *args):
     style_dict = {'reset':'\033[00m', 'bold':'\033[01m', 'disable':'\033[02m',
         'underline':'\033[04m', 'reverse':'\033[07m', 'strikethrough':'\033[09m',

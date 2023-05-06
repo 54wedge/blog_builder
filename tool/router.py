@@ -1,16 +1,20 @@
 import tool.utils as utils
 from tool.template import _Template
-from tool.utils import content_path
 from tool.config import config
 import tool.module as module
+
+class content_path:
+    def __init__(self, content, path):
+        self.content = content
+        self.path = path
 
 class _Router():
     def __init__(self, post_list):
         self.post_list = post_list
-        self.home = _Home(post_list)
-        self.archive = _Archive(post_list)
-        self.category_list = _Category(post_list).category_list()
-        self.tag_list = _Tag(post_list).tag_list()
+        self.home_page = _Home(post_list)
+        self.archive_page = _Archive(post_list)
+        self.category_page_list = _Category(post_list).category_list()
+        self.tag_page_list = _Tag(post_list).tag_list()
 
 class _Home:
     def __init__(self, post_list):

@@ -36,16 +36,16 @@ class _Builder:
 
     def build_router(self):
         utils.nsprint('Building router......')
-        utils.safe_save(self.router.home.content, self.router.home.path)
-        utils.nsprint(' --Home page ' + utils.sstyle(self.router.home.path,'green') + ' is built')
-        utils.safe_save(self.router.archive.content, self.router.archive.path,)
-        utils.nsprint(' --Archive page ' + utils.sstyle(self.router.archive.path,'green') + ' is built')
-        for category in self.router.category_list:
-            utils.safe_save(category.content, category.path)
-            utils.nsprint(' --Category page ' + utils.sstyle(category.path,'green') + ' is built')
-        for tag in self.router.tag_list:
-            utils.safe_save(tag.content, tag.path)
-            utils.nsprint(' --Tag page ' + utils.sstyle(tag.path,'green') + ' is built')
+        utils.safe_save(self.router.home_page.content, self.router.home_page.path)
+        utils.nsprint(' --Home page ' + utils.sstyle(self.router.home_page.path,'green') + ' is built')
+        utils.safe_save(self.router.archive_page.content, self.router.archive_page.path,)
+        utils.nsprint(' --Archive page ' + utils.sstyle(self.router.archive_page.path,'green') + ' is built')
+        for category_page in self.router.category_page_list:
+            utils.safe_save(category_page.content, category_page.path)
+            utils.nsprint(' --Category page ' + utils.sstyle(category_page.path,'green') + ' is built')
+        for tag_page in self.router.tag_page_list:
+            utils.safe_save(tag_page.content, tag_page.path)
+            utils.nsprint(' --Tag page ' + utils.sstyle(tag_page.path,'green') + ' is built')
     
     def page_list(self):
         path_list = self.get_page_path_list()
