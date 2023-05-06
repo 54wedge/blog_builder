@@ -1,5 +1,6 @@
 import yaml
-import maya
+from datetime import datetime
+from dateutil import parser as dtparser
 import tool.utils as utils
 from tool.config import config
 
@@ -32,12 +33,12 @@ class _Meta:
             self.author = config.site_author
             meta['Author'] = self.author
         if 'Date' in meta:
-            self.maya = maya.parse(meta['Date'])
+            self.datetime = dtparser.parse(meta["Date"])
         else:
-            self.maya = maya.MayaDT(utils.get_time(path,'modify'))
-        self.date_epoch = self.maya.epoch          #for data comparason
-        self.date_human = self.maya.datetime().strftime(config.time_style)
-        meta['Date'] = self.date_human
+            self.datetime = datetime.fromtimestamp(utils.get_time(path,'modify'))
+        self.datetime_epoch = self.datetime.timestamp()          #for data comparason
+        self.datetime_human = self.datetime.strftime(config.time_style)
+        meta['Date'] = self.datetime_human
         if 'Category' in meta:
             self.category = meta['Category'].capitalize()
         else:

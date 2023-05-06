@@ -55,7 +55,7 @@ class _Builder:
         for path in path_list:
             content = _Content(path, template)
             content_list.append(content)
-        content_list.sort(key = lambda i:i.meta.date_epoch, reverse = True)
+        content_list.sort(key = lambda i:i.meta.datetime_epoch, reverse = True)
         return content_list
     
     def post_list(self):
@@ -66,7 +66,7 @@ class _Builder:
         for path in path_list:
             content = _Content(path, template)
             content_list.append(content)
-        content_list.sort(key = lambda i:i.meta.date_epoch, reverse = True)
+        content_list.sort(key = lambda i:i.meta.datetime_epoch, reverse = True)
         return content_list
     
     def get_page_path_list(self):

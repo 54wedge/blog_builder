@@ -21,7 +21,7 @@ def archive_post_list(post_path_list):
             new_ul.append(new_li)
         new_div.append(new_ul)
     else:
-        for key,group in groupby(post_path_list, key = lambda i:i.meta.maya.datetime().strftime(style_key)):
+        for key,group in groupby(post_path_list, key = lambda i:i.meta.datetime.strftime(style_key)):
             new_h2 = utils.empty_soup.new_tag('h2')
             new_h2.string = key
             new_div.append(new_h2)
