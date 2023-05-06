@@ -22,6 +22,7 @@ class _Content:
         self.link = utils.a_href(self.meta.title, \
                                  os.path.join("..", path.split("/")[-2], path.split("/")[-1]))
         self.content = self.build()
+        self.template.reset()
 
     def build(self):
         self.template.replace('{@Page_Title@}', self.meta.title)

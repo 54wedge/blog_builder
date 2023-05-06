@@ -9,8 +9,8 @@ class _Router():
         self.post_list = post_list
         self.home = _Home(post_list)
         self.archive = _Archive(post_list)
-        self.category_list = _Category(post_list).list()
-        self.tag_list = _Tag(post_list).list()
+        self.category_list = _Category(post_list).category_list()
+        self.tag_list = _Tag(post_list).tag_list()
 
 class _Home:
     def __init__(self, post_list):
@@ -53,7 +53,8 @@ class _Category:
                 self.category_dict[post.meta.category] = []
                 self.category_dict[post.meta.category].append(post)
 
-    def build(self, category_list, category_name):
+    def replace(self, category_name):
+        category_list = self.category_dict[category_name]
         list_category = module.post_module(category_list)
         self.template.replace('@Page_Title@}', category_name)
         self.template.replace('{@Category@}', category_name)
@@ -61,15 +62,15 @@ class _Category:
         self.template.replace('../','../../')
         return self.template.str()
 
-    def list(self):
-        list = []
+    def category_list(self):
+        category_list = []
         for category_name in self.category_dict.keys():
-            category_list = self.category_dict[category_name]
-            content = self.build(category_list, category_name)
+            content = self.replace(category_name)
+            self.template.reset()
             path = utils.join_path(config.output_path, 'category', category_name, 'index.html')
             struct = content_path(content, path)
-            list.append(struct)
-        return list
+            category_list.append(struct)
+        return category_list
 
 class _Tag:
     def __init__(self, post_list):
@@ -84,7 +85,8 @@ class _Tag:
                     self.tag_dict[meta_tag] = []
                     self.tag_dict[meta_tag].append(post)
 
-    def build(self, tag_list, tag_name):
+    def replace(self, tag_name):
+        tag_list = self.tag_dict[tag_name]
         list_tag = module.post_module(tag_list)
         self.template.replace('{@Page_Title@}', '#' + tag_name)
         self.template.replace('{@Tag@}', tag_name)
@@ -92,12 +94,12 @@ class _Tag:
         self.template.replace('../','../../')
         return self.template.str()
 
-    def list(self):
-        list = []
+    def tag_list(self):
+        tag_list = []
         for tag_name in self.tag_dict.keys():
-            tag_list = self.tag_dict[tag_name]
-            content = self.build(tag_list, tag_name)
+            content = self.replace(tag_name)
+            self.template.reset()
             path = utils.join_path(config.output_path, 'tag', tag_name, 'index.html')
             struct = content_path(content, path)
-            list.append(struct)
-        return list
+            tag_list.append(struct)
+        return tag_list

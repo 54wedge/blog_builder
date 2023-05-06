@@ -16,36 +16,42 @@ class _Template():
         path = utils.join_path(config.template_path, self.style + '.html')
         content = utils.html_open(path)
         self.template_str = self.template_str.replace('{&Content&}',str(content))
+        self.template_str_old = self.template_str
     
     def post(self):
         self.style = "post"
         path = utils.join_path(config.template_path, self.style + '.html')
         content = utils.html_open(path)
         self.template_str = self.template_str.replace('{&Content&}',str(content))
-    
+        self.template_str_old = self.template_str
+
     def home(self):
         self.style = "home"
         path = utils.join_path(config.template_path, self.style + '.html')
         content = utils.html_open(path)
         self.template_str = self.template_str.replace('{&Content&}',str(content))
+        self.template_str_old = self.template_str
 
     def archive(self):
         self.style = "archive"
         path = utils.join_path(config.template_path, self.style + '.html')
         content = utils.html_open(path)
         self.template_str = self.template_str.replace('{&Content&}',str(content))
+        self.template_str_old = self.template_str
 
     def category(self):
         self.style = "category"
         path = utils.join_path(config.template_path, self.style + '.html')
         content = utils.html_open(path)
         self.template_str = self.template_str.replace('{&Content&}',str(content))
+        self.template_str_old = self.template_str
 
     def tag(self):
         self.style = "tag"
         path = utils.join_path(config.template_path, self.style + '.html')
         content = utils.html_open(path)
         self.template_str = self.template_str.replace('{&Content&}',str(content))
+        self.template_str_old = self.template_str
 
     def replace(self, placeholder, string):
         if placeholder in self.template_str:
@@ -53,3 +59,7 @@ class _Template():
 
     def str(self):
         return self.template_str
+    
+    def reset(self):
+        self.template_str = self.template_str_old
+        
