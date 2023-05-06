@@ -1,20 +1,20 @@
-import yaml
+from yaml import safe_load as read_meta
 from datetime import datetime
 from dateutil import parser as dtparser
-import tool.utils as utils
+from tool.utils import html_open, sstyle, nsprint, get_time
 from tool.config import config
 
 class _Meta:
     def __init__(self, path):
-        html_soup = utils.html_open(path,'soup')
+        html_soup = html_open(path,'soup')
         try:
             self.raw_meta = html_soup.find_all('code',class_ = 'meta')[0].get_text()
             if config.hide_meta:
                 html_soup.find_all('code',class_ = 'meta')[0].parent.decompose()
         except IndexError:      #no meta data found
-            utils.nsprint(utils.sstyle(' **No raw meta found in ' + path, 'yellow', 'bold'))
+            nsprint(sstyle(' **No raw meta found in ' + path, 'yellow', 'bold'))
             self.raw_meta = ''
-        meta = yaml.safe_load(self.raw_meta)
+        meta = read_meta(self.raw_meta)
         if meta is None:
             meta = {}
         if 'Title' in meta:
@@ -35,7 +35,7 @@ class _Meta:
         if 'Date' in meta:
             self.datetime = dtparser.parse(meta["Date"])
         else:
-            self.datetime = datetime.fromtimestamp(utils.get_time(path,'modify'))
+            self.datetime = datetime.fromtimestamp(get_time(path,'modify'))
         self.datetime_epoch = self.datetime.timestamp()          #for data comparason
         self.datetime_human = self.datetime.strftime(config.time_style)
         meta['Date'] = self.datetime_human

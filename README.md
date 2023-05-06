@@ -9,12 +9,11 @@ A simple python script that copy the `<body>` tag in a html file and paste it in
 
 ### Dependency
 1. `bs4` for html parse
-2. `maya` for time parse
 3. `PyYAML` for meta data
 4. `htmlmin` for minify html file
 
 ### Get started
-1. `pip3 install bs4 maya PyYAML htmlmin`
+1. `pip3 install bs4 PyYAML htmlmin`
 2. `python3 build.py`
 
 ### Pages

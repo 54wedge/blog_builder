@@ -1,9 +1,10 @@
 from tool.content import _Content
 from tool.router import _Router
 from tool.template import _Template
-import tool.utils as utils
-import os
-import shutil
+from tool.utils import nsprint, sstyle, safe_save
+from os import path as ospath
+from os import listdir
+from shutil import rmtree, copytree, ignore_patterns
 from tool.config import config
 
 class _Builder:
@@ -14,38 +15,38 @@ class _Builder:
         self.router = _Router(self.post_list)
 
     def initial(self):
-        if os.path.exists(config.output_path):
-            shutil.rmtree(config.output_path)
-        shutil.copytree(config.input_path, config.output_path, \
-                        ignore=shutil.ignore_patterns('*.md', '*.txt', '*_ignore*', '.DS_Store'))
-        asset_path = os.path.join(config.template_path, 'asset')
-        shutil.copytree(asset_path,os.path.join(config.output_path, 'asset'),  \
-                        ignore=shutil.ignore_patterns('*.md', '*.txt', '.DS_Store'))
+        if ospath.exists(config.output_path):
+            rmtree(config.output_path)
+        copytree(config.input_path, config.output_path, \
+                        ignore=ignore_patterns('*.md', '*.txt', '*_ignore*', '.DS_Store'))
+        asset_path = ospath.join(config.template_path, 'asset')
+        copytree(asset_path, ospath.join(config.output_path, 'asset'),  \
+                        ignore=ignore_patterns('*.md', '*.txt', '.DS_Store'))
 
     def build_page(self):
-        utils.nsprint('Building pages......')
+        nsprint('Building pages......')
         for page in self.page_list:
-            utils.safe_save(page.content, page.path)
-            utils.nsprint(' --page '+ utils.sstyle(page.path,'green') + ' is built')
+            safe_save(page.content, page.path)
+            nsprint(' --page '+ sstyle(page.path,'green') + ' is built')
 
     def build_post(self):
-        utils.nsprint('Building posts......')
+        nsprint('Building posts......')
         for post in self.post_list:
-            utils.safe_save(post.content, post.path)
-            utils.nsprint(' --post ' + utils.sstyle(post.path,'green') + ' is built')
+            safe_save(post.content, post.path)
+            nsprint(' --post ' + sstyle(post.path,'green') + ' is built')
 
     def build_router(self):
-        utils.nsprint('Building router......')
-        utils.safe_save(self.router.home_page.content, self.router.home_page.path)
-        utils.nsprint(' --Home page ' + utils.sstyle(self.router.home_page.path,'green') + ' is built')
-        utils.safe_save(self.router.archive_page.content, self.router.archive_page.path,)
-        utils.nsprint(' --Archive page ' + utils.sstyle(self.router.archive_page.path,'green') + ' is built')
+        nsprint('Building router......')
+        safe_save(self.router.home_page.content, self.router.home_page.path)
+        nsprint(' --Home page ' + sstyle(self.router.home_page.path,'green') + ' is built')
+        safe_save(self.router.archive_page.content, self.router.archive_page.path,)
+        nsprint(' --Archive page ' + sstyle(self.router.archive_page.path,'green') + ' is built')
         for category_page in self.router.category_page_list:
-            utils.safe_save(category_page.content, category_page.path)
-            utils.nsprint(' --Category page ' + utils.sstyle(category_page.path,'green') + ' is built')
+            safe_save(category_page.content, category_page.path)
+            nsprint(' --Category page ' + sstyle(category_page.path,'green') + ' is built')
         for tag_page in self.router.tag_page_list:
-            utils.safe_save(tag_page.content, tag_page.path)
-            utils.nsprint(' --Tag page ' + utils.sstyle(tag_page.path,'green') + ' is built')
+            safe_save(tag_page.content, tag_page.path)
+            nsprint(' --Tag page ' + sstyle(tag_page.path,'green') + ' is built')
     
     def page_list(self):
         path_list = self.get_page_path_list()
@@ -76,20 +77,20 @@ class _Builder:
         for page_name in page_list:
             if page_name[0] == '_':
                 continue
-            full_path = os.path.join(path,page_name)
-            full_path = os.path.join(full_path,'index.html')
-            if os.path.exists(full_path):
+            full_path = ospath.join(path,page_name)
+            full_path = ospath.join(full_path,'index.html')
+            if ospath.exists(full_path):
                 page_path_list.append(full_path)
             else:
-                utils.nsprint(utils.sstyle(' !!Page ' + full_path + ' does not exist', 'red','bold'))
+                nsprint(sstyle(' !!Page ' + full_path + ' does not exist', 'red','bold'))
         return page_path_list
 
     def get_post_path_list(self):
-        path = os.path.join(config.output_path, 'post')
-        post_names = os.listdir(path)
+        path = ospath.join(config.output_path, 'post')
+        post_names = listdir(path)
         post_path_list = []
         for i in post_names:
-            full_path = os.path.join(path,i)
+            full_path = ospath.join(path,i)
             if full_path.split('.')[-1] == 'html':
                 post_path_list.append(full_path)
         return post_path_list

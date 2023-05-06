@@ -1,7 +1,7 @@
-import tool.utils as utils
+from tool.utils import join_path
 from tool.template import _Template
 from tool.config import config
-import tool.module as module
+from tool.module import home_mini_post_list, archive_post_list, post_module
 
 class content_path:
     def __init__(self, content, path):
@@ -19,13 +19,13 @@ class _Router():
 class _Home:
     def __init__(self, post_list):
         self.post_list = post_list[0:config.home_size]
-        self.path = utils.join_path(config.output_path, 'index.html')
+        self.path = join_path(config.output_path, 'index.html')
         self.template = _Template()
         self.template.home()
         self.content = self.build()
 
     def build(self):
-        list_home = module.home_mini_post_list(self.post_list)
+        list_home = home_mini_post_list(self.post_list)
         self.template.replace('{@Page_Title@}', config.home_page_title)
         self.template.replace('{&Home_mini_post_list&}',str(list_home))
         self.template.replace('../','./')
@@ -34,13 +34,13 @@ class _Home:
 class _Archive():
     def __init__(self, post_list):
         self.post_list = post_list
-        self.path = utils.join_path(config.output_path, 'Archive/index.html')
+        self.path = join_path(config.output_path, 'Archive/index.html')
         self.template = _Template()
         self.template.archive()
         self.content = self.build()
 
     def build(self):
-        list_archive = module.archive_post_list(self.post_list)
+        list_archive = archive_post_list(self.post_list)
         self.template.replace('{@Page_Title@}', 'Archive')
         self.template.replace('{&Archive_post_list&}',str(list_archive))
         return self.template.str()
@@ -59,7 +59,7 @@ class _Category:
 
     def replace(self, category_name):
         category_list = self.category_dict[category_name]
-        list_category = module.post_module(category_list)
+        list_category = post_module(category_list)
         self.template.replace('@Page_Title@}', category_name)
         self.template.replace('{@Category@}', category_name)
         self.template.replace('{&Post_module&}',str(list_category))
@@ -71,7 +71,7 @@ class _Category:
         for category_name in self.category_dict.keys():
             content = self.replace(category_name)
             self.template.reset()
-            path = utils.join_path(config.output_path, 'category', category_name, 'index.html')
+            path = join_path(config.output_path, 'category', category_name, 'index.html')
             struct = content_path(content, path)
             category_list.append(struct)
         return category_list
@@ -91,7 +91,7 @@ class _Tag:
 
     def replace(self, tag_name):
         tag_list = self.tag_dict[tag_name]
-        list_tag = module.post_module(tag_list)
+        list_tag = post_module(tag_list)
         self.template.replace('{@Page_Title@}', '#' + tag_name)
         self.template.replace('{@Tag@}', tag_name)
         self.template.replace('{&Post_module&}',str(list_tag))
@@ -103,7 +103,7 @@ class _Tag:
         for tag_name in self.tag_dict.keys():
             content = self.replace(tag_name)
             self.template.reset()
-            path = utils.join_path(config.output_path, 'tag', tag_name, 'index.html')
+            path = join_path(config.output_path, 'tag', tag_name, 'index.html')
             struct = content_path(content, path)
             tag_list.append(struct)
         return tag_list
