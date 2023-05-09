@@ -29,8 +29,11 @@ class _Content:
                 if self.type == 'page':
                     pass
                 else:
-                    span_tag = tag_span(self.meta.tag)
-                    self.template.replace('{&'+key+'&}', str(span_tag))
+                    if self.meta.tag == []:
+                        self.template.replace('{&'+key+'&}', "None")
+                    else:
+                        span_tag = tag_span(self.meta.tag)
+                        self.template.replace('{&'+key+'&}', str(span_tag))
             else:
                 self.template.replace('{@'+key+'@}', self.meta.dict[key])
         return self.template.str()
