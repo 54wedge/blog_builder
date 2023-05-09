@@ -1,5 +1,4 @@
-from tool.utils import a_href, join_path
-from tool.meta import _Meta
+from tool.meta import _Meta, empty_soup
 from tool.module import tag_span
 from os import path as ospath
 
@@ -9,8 +8,8 @@ class _Content:
         self.template = template
         self.type = template.style
         self.meta = _Meta(path)
-        self.link = a_href(self.meta.title, \
-                                 ospath.join("..", path.split("/")[-2], path.split("/")[-1]))
+        self.link = empty_soup.new_tag('a', href = ospath.join("..", path.split("/")[-2], path.split("/")[-1]))
+        self.link.string = self.meta.title
         self.content = self.build()
         self.template.reset()
 
@@ -22,8 +21,9 @@ class _Content:
                 if self.type == 'page':
                     pass
                 else:
-                    category_path = join_path('../category', self.meta.category, 'index.html')
-                    category_link = a_href(self.meta.category,category_path)
+                    category_path = ospath.join('../category', self.meta.category, 'index.html')
+                    category_link = empty_soup.new_tag('a',href = category_path)
+                    category_link.string = self.meta.category
                     self.template.replace('{&'+key+'&}', str(category_link))
             elif key == 'Tag':
                 if self.type == 'page':

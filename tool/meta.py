@@ -1,12 +1,16 @@
 from yaml import safe_load as read_meta
 from datetime import datetime
 from dateutil import parser as dtparser
-from tool.utils import html_open, sstyle, nsprint, get_time
+from tool.utils import nsprint, sstyle
 from tool.config import config
+from os import path as ospath
+from bs4 import BeautifulSoup as bs
 
 class _Meta:
     def __init__(self, path):
-        html_soup = html_open(path,'soup')
+        with open(path,'r') as html:
+            html = html.read()
+        html_soup = bs(html,'lxml')
         try:
             self.raw_meta = html_soup.find_all('code',class_ = 'meta')[0].get_text()
             if config.hide_meta:
@@ -35,7 +39,10 @@ class _Meta:
         if 'Date' in meta:
             self.datetime = dtparser.parse(meta["Date"])
         else:
-            self.datetime = datetime.fromtimestamp(get_time(path,'modify'))
+            if config.time_by == 'modify':
+                self.datetime = datetime.fromtimestamp(ospath.getmtime(path))
+            elif config.time_by == 'create':
+                self.datetime = datetime.fromtimestamp(ospath.getctime(path))
         self.datetime_epoch = self.datetime.timestamp()          #for data comparason
         self.datetime_human = self.datetime.strftime(config.time_style)
         meta['Date'] = self.datetime_human
@@ -54,3 +61,9 @@ class _Meta:
             meta['Tag'] = self.tag
         self.dict = meta
         self.body = html_soup.body
+
+def str_to_bs(html):
+    soup = bs(html,'lxml')
+    return soup
+
+empty_soup = bs('','lxml')

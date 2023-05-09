@@ -1,55 +1,62 @@
-from tool.utils import join_path, html_open
 from tool.module import nav_module
 from tool.config import config
+from os import path as ospath
 
 class _Template():
     def __init__(self):
-        template_path = join_path(config.template_path, 'template.html')
-        template_str = html_open(template_path)
+        template_path = ospath.join(config.template_path, 'template.html')
+        with open(template_path,'r') as html:
+            self.template_str = html.read()
 
         list_nav = nav_module()
-        template_str = template_str.replace('{&Nav_module&}', str(list_nav))
-        self.template_str = template_str.replace('{@Base@}', config.site_prefix)
+        self.template_str = self.template_str.replace('{&Nav_module&}', str(list_nav))
+        self.template_str = self.template_str.replace('{@Base@}', config.site_prefix)
         
     def page(self):
         self.style = "page"
-        path = join_path(config.template_path, self.style + '.html')
-        content = html_open(path)
+        path = ospath.join(config.template_path, self.style + '.html')
+        with open(path,'r') as html:
+            content = html.read()
         self.template_str = self.template_str.replace('{&Content&}',str(content))
         self.template_str_old = self.template_str
     
     def post(self):
         self.style = "post"
-        path = join_path(config.template_path, self.style + '.html')
-        content = html_open(path)
+        path = ospath.join(config.template_path, self.style + '.html')
+        with open(path,'r') as html:
+            content = html.read()
         self.template_str = self.template_str.replace('{&Content&}',str(content))
         self.template_str_old = self.template_str
 
     def home(self):
         self.style = "home"
-        path = join_path(config.template_path, self.style + '.html')
-        content = html_open(path)
+        path = ospath.join(config.template_path, self.style + '.html')
+        with open(path,'r') as html:
+            content = html.read()
         self.template_str = self.template_str.replace('{&Content&}',str(content))
-        self.template_str_old = self.template_str
+        # self.template_str_old = self.template_str
 
     def archive(self):
         self.style = "archive"
-        path = join_path(config.template_path, self.style + '.html')
-        content = html_open(path)
+        path = ospath.join(config.template_path, self.style + '.html')
+        with open(path,'r') as html:
+            content = html.read()
         self.template_str = self.template_str.replace('{&Content&}',str(content))
-        self.template_str_old = self.template_str
+        # self.template_str_old = self.template_str
 
     def category(self):
         self.style = "category"
-        path = join_path(config.template_path, self.style + '.html')
-        content = html_open(path)
+        path = ospath.join(config.template_path, self.style + '.html')
+        with open(path,'r') as html:
+            content = html.read()
         self.template_str = self.template_str.replace('{&Content&}',str(content))
         self.template_str_old = self.template_str
 
     def tag(self):
         self.style = "tag"
-        path = join_path(config.template_path, self.style + '.html')
-        content = html_open(path)
+        path = ospath.join(config.template_path, self.style + '.html')
+        with open(path,'r') as html:
+            content = html.read()
         self.template_str = self.template_str.replace('{&Content&}',str(content))
         self.template_str_old = self.template_str
 

@@ -1,22 +1,27 @@
-README
-### Introduction
+# README
+
+## Introduction
+
 A simple python script that copy the `<body>` tag in a html file and paste it into template html file then automatically generate navigation, archive and more.
 
-### Feature
+## Feature
+
 1. Take html file as input instead of Markdown file.
 2. Simple and straight-forward template system without learning new stuff like `Jinja`
 3. Build by amateur with the idea that even amateur should be able to understand what's going on during building
 
-### Dependency
-1. `bs4` for html parse
-3. `PyYAML` for meta data
-4. `htmlmin` for minify html file
+## Dependency
 
-### Get started
-1. `pip3 install bs4 PyYAML htmlmin`
+1. `bs4` for html parse
+2. `PyYAML` for meta data
+
+## Get started
+
+1. `pip3 install bs4 PyYAML`
 2. `python3 build.py`
 
-### Pages
+## Pages
+
 - Register `[Page_name]` in `config.yml` when adding a new page
 - Name rendered html as `index.html` and put it in a folder with `[Page_name]` folder
 - Put the `[Page_name]` folder in `/[Source_folder]`
@@ -25,12 +30,14 @@ A simple python script that copy the `<body>` tag in a html file and paste it in
 - Case matters
 - Include meta data in page
 
-### Posts
+## Posts
+
 - Put rendered html file in `/[Source_folder]/post`
 - `[html_name]` will be part of the permalink to the post
 - Include meta data in post
 
-### Sample file tree for source folder
+## Sample file tree for source folder
+
 ```
 /source folder
   |- /post
@@ -41,11 +48,14 @@ A simple python script that copy the `<body>` tag in a html file and paste it in
   |- /page_2
        |- index.html
 ```
+
 Note: You can put your local images anywhere inside `/[Source_folder]` as long as they are accessible by source html file. (You can see the image when you open the source html file)
 
-### Meta data
+## Meta data
+
 Create a code block and specify the language to `meta` in the markdown editor so that the meta data can be read by the script. The meta data block should follow be in `yaml` style and here is an example:
-```
+
+```yaml
 Title: [the title you want]
 Date: [the date you want]
 Tag:
@@ -53,6 +63,7 @@ Tag:
  - [second tag]
 More_meta: [more meta you need]
 ```
+
 The supported meta are below
 
 | name     | type   | optional | fallback | Note |
@@ -67,8 +78,10 @@ The supported meta are below
 
 Note: Missing the meta data block will give you a warning while missing meta data will not give you a warning
 
-### Template
-#### Template related
+## Template
+
+### Template related
+
 Can be found in `template.html`, `archive.html`, `category.html`, `home.html` and `tag.html`
 
 | Variable | Usage | Optional |
@@ -84,7 +97,8 @@ Can be found in `template.html`, `archive.html`, `category.html`, `home.html` an
 | {&Home_mini_post_list&} | Use for list of posts for home page | NO |
 | {&Archive_post_list&} | Use for list of posts for archive page | NO |
 
-#### User content related
+### User content related
+
 Can be found in `post.html` and `page.html`.
 These variables are defined in meta data
 
@@ -103,13 +117,7 @@ These variables are defined in meta data
 | {&Category&} | A link to Category page | Yes |
 | {&Tag&} | Links to Tag pages | Yes |
 
-### Performance
-different option in safe_saving() and time spent:
-str(100%) < minify(~300%) < prettify(~400%)
+## Credit
 
-### Known issue
-1. save prettified html will add extra blankspace in `<code>` tag. Use prettify option for debug.
-
-### Credit
 - The github flavor markdown stylesheet is obtained from [github-markdown-css](https://github.com/sindresorhus/github-markdown-css)
 - The nightmode of the github flavor markdown stylesheet is obtained from [iA-Writer-Templates](https://github.com/iainc/iA-Writer-Templates/blob/master/GitHub.iatemplate/Contents/Resources/github-markdown-night-mode.css) with modify

@@ -1,6 +1,7 @@
-from tool.utils import empty_soup, join_path, a_href, str_to_bs
+from tool.meta import empty_soup, str_to_bs
 from itertools import groupby
 from tool.config import config
+from os import path as ospath
 
 def archive_post_list(post_path_list):
     if config.archive_group == 'month':
@@ -73,18 +74,20 @@ def nav_module():
             path = '../index.html'
         elif page_name == '_Archive':
             page_name = 'Archive'
-            path = join_path('../', page_name, 'index.html')
+            path = ospath.join('../', page_name, 'index.html')
         else:
-            path = join_path('../', page_name, 'index.html')
-        new_a = a_href(page_name,path)
+            path = ospath.join('../', page_name, 'index.html')
+        new_a = empty_soup.new_tag('a',href = path)
+        new_a.string = page_name
         new_nav.append(new_a)
     return new_nav
 
 def tag_span(tag_list):
     new_span = empty_soup.new_tag('span',id = 'tag')
     for tag in tag_list:
-        tag_path = join_path('../tag', tag, 'index.html')
-        tag_link = a_href('#' + tag,tag_path)
+        tag_path = ospath.join('../tag', tag, 'index.html')
+        tag_link = empty_soup.new_tag('a',href = tag_path)
+        tag_link.string = '#' + tag
         new_span.append(tag_link)
         new_span.append(' ')
     return new_span

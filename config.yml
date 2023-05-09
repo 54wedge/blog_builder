@@ -13,7 +13,7 @@ Site:
 
 Content:
   Hide_meta: True
-  Save_style: str           # prettify / minify / str
+  Time_by: modify       # modify / create
 
 Page_list:
   - _Home

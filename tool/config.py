@@ -1,4 +1,5 @@
-from os import path, getcwd
+from os import path as ospath
+from os import getcwd
 from sys import argv as args
 from yaml import safe_load as read_config
 from tool.utils import nsprint
@@ -20,16 +21,16 @@ class _Config:
         self.archive_group = tmp["Site"]["Archive_group_by"]
 
         self.hide_meta = tmp["Content"]["Hide_meta"]
-        self.save_style = tmp["Content"]["Save_style"]
+        self.time_by = tmp["Content"]["Time_by"]
 
         self.page_name_list = tmp["Page_list"]
 
 if "-c" in args:
     config_path = args[args.index("-c")+1]
 else:
-    config_path = path.join(getcwd(),args[0])
-    config_path = path.abspath(config_path+"/../")
-    config_path = path.join(config_path,"./config.yml")
-    config_path = path.abspath(config_path)
+    config_path = ospath.join(getcwd(),args[0])
+    config_path = ospath.abspath(config_path+"/../")
+    config_path = ospath.join(config_path,"./config.yml")
+    config_path = ospath.abspath(config_path)
 nsprint("Looking for config file at " + config_path)
 config = _Config(config_path)
