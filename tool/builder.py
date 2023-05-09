@@ -39,6 +39,8 @@ class _Builder:
         nsprint('Building router......')
         self.save_html(self.router.home_page.content, self.router.home_page.path)
         nsprint(' --Home page ' + sstyle(self.router.home_page.path,'green') + ' is built')
+        self.save_html(self.router.notfound.content, self.router.notfound.path)
+        nsprint("404 page is built")
         self.save_html(self.router.archive_page.content, self.router.archive_page.path,)
         nsprint(' --Archive page ' + sstyle(self.router.archive_page.path,'green') + ' is built')
         for category_page in self.router.category_page_list:

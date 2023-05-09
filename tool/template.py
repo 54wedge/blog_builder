@@ -60,6 +60,12 @@ class _Template():
         self.template_str = self.template_str.replace('{&Content&}',str(content))
         self.template_str_old = self.template_str
 
+    def NotFound(self):
+        path = ospath.join(config.template_path, "404.html")
+        with open(path,'r') as html:
+            content = html.read()
+        self.template_str = self.template_str.replace('{&Content&}',str(content))
+
     def replace(self, placeholder, string):
         if placeholder in self.template_str:
             self.template_str = self.template_str.replace(placeholder, string)

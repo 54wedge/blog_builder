@@ -12,6 +12,7 @@ class _Router():
     def __init__(self, post_list):
         self.post_list = post_list
         self.home_page = _Home(post_list)
+        self.notfound = _NotFound()
         self.archive_page = _Archive(post_list)
         self.category_page_list = _Category(post_list).category_list()
         self.tag_page_list = _Tag(post_list).tag_list()
@@ -28,6 +29,17 @@ class _Home:
         list_home = home_mini_post_list(self.post_list)
         self.template.replace('{@Page_Title@}', config.home_page_title)
         self.template.replace('{&Home_mini_post_list&}',str(list_home))
+        self.template.replace('../','./')
+        return self.template.str()
+    
+class _NotFound:
+    def __init__(self):
+        self.path = ospath.join(config.output_path, '404.html')
+        self.template = _Template()
+        self.template.NotFound()
+        self.content = self.build()
+
+    def build(self):
         self.template.replace('../','./')
         return self.template.str()
 
