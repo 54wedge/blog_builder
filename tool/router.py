@@ -37,6 +37,7 @@ class _NotFound:
         self.path = ospath.join(config.output_path, '404.html')
         self.template = _Template()
         self.template.NotFound()
+        self.template.replace('{@Page_Title@}', "404")
         self.content = self.build()
 
     def build(self):

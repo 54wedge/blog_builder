@@ -15,13 +15,25 @@ class _Builder:
         self.router = _Router(self.post_list)
 
     def initial(self):
-        if ospath.exists(config.output_path):
-            rmtree(config.output_path)
-        copytree(config.input_path, config.output_path, \
-                        ignore=ignore_patterns('*.md', '*.txt', '*_ignore*', '.DS_Store'))
+        post_path_in = ospath.join(config.input_path, "post")
+        post_path_out = ospath.join(config.output_path, "post")
+        copytree(post_path_in, post_path_out, \
+                        ignore=ignore_patterns('*.md', '*.txt', '*_ignore*', '.DS_Store'), \
+                            dirs_exist_ok=True)
+        
+        for page_name in config.page_name_list:
+            if page_name[0] == "_":
+                continue
+            page_path_in = ospath.join(config.input_path, page_name)
+            page_path_out = ospath.join(config.output_path, page_name)
+            copytree(page_path_in, page_path_out, \
+                            ignore=ignore_patterns('*.md', '*.txt', '*_ignore*', '.DS_Store'), \
+                                dirs_exist_ok=True)
+
         asset_path = ospath.join(config.template_path, 'asset')
         copytree(asset_path, ospath.join(config.output_path, 'asset'),  \
-                        ignore=ignore_patterns('*.md', '*.txt', '.DS_Store'))
+                        ignore=ignore_patterns('*.md', '*.txt', '.DS_Store'), \
+                            dirs_exist_ok=True)
 
     def build_page(self):
         nsprint('Building pages......')
@@ -31,16 +43,19 @@ class _Builder:
 
     def build_post(self):
         nsprint('Building posts......')
+        if self.post_list == []:
+            nsprint(sstyle(" **No post found in " + config.input_path + "/post", "yellow", "bold"))
+
         for post in self.post_list:
             self.save_html(post.content, post.path)
             nsprint(' --post ' + sstyle(post.path,'green') + ' is built')
 
     def build_router(self):
-        nsprint('Building router......')
+        nsprint('Building router pages......')
         self.save_html(self.router.home_page.content, self.router.home_page.path)
         nsprint(' --Home page ' + sstyle(self.router.home_page.path,'green') + ' is built')
         self.save_html(self.router.notfound.content, self.router.notfound.path)
-        nsprint("404 page is built")
+        nsprint(" --404 page is built")
         self.save_html(self.router.archive_page.content, self.router.archive_page.path,)
         nsprint(' --Archive page ' + sstyle(self.router.archive_page.path,'green') + ' is built')
         for category_page in self.router.category_page_list:
